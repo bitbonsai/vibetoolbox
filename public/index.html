@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vibe Toolbox. Pick your tools, paste one command.</title>
+  <meta name="description" content="Open-source macOS setup for designers and PMs learning to code. Pick your tools, paste one command in the terminal, start building.">
+  <meta property="og:title" content="Vibe Toolbox">
+  <meta property="og:description" content="Pick your tools, paste one command, start vibecoding.">
+  <meta property="og:url" content="https://vibetoolbox.dev">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <a class="brand" href="/">
+      <span class="brand-prompt">❯_</span> vibetoolbox
+    </a>
+    <nav class="site-nav">
+      <a href="next-steps.html">Next steps</a>
+      <a href="https://github.com/bitbonsai/vibetoolbox" rel="noopener">GitHub</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="hero-kicker">// macOS setup for people learning to code</p>
+      <h1>
+        Pick your tools.<br>
+        Paste <em>one command.</em><br>
+        Start building.
+      </h1>
+      <p class="hero-sub">
+        A box of the good stuff: modern terminal, AI coding agents, editors,
+        and the small CLI comforts that make the command line feel like home.
+        Built for designers and PMs. Free and open source.
+      </p>
+      <div class="hero-presets" role="group" aria-label="Presets">
+        <span class="presets-label">Start from a preset:</span>
+        <button class="preset-btn" data-preset="essentials">Essentials</button>
+        <button class="preset-btn" data-preset="terminal-focus">Terminal focus</button>
+        <button class="preset-btn" data-preset="everything">Everything</button>
+        <button class="preset-btn preset-clear" data-preset="clear">Clear</button>
+      </div>
+      <p class="hero-hint">or pick tool by tool below. Your command updates as you go.</p>
+    </section>
+
+    <section class="picker" id="picker" aria-live="polite">
+      <noscript>
+        <p class="noscript-note">
+          The picker needs JavaScript. Without it, install with an explicit list:<br>
+          <code>curl -fsSL https://vibetoolbox.dev/install.sh | bash -s -- --with ghostty,starship,claude-code</code>
+        </p>
+      </noscript>
+      <!-- categories rendered by picker.js -->
+    </section>
+
+    <section class="how">
+      <h2>How it works</h2>
+      <ol class="how-steps">
+        <li>
+          <span class="how-num">1</span>
+          <p>Tick the tools you want. Dependencies come along automatically.</p>
+        </li>
+        <li>
+          <span class="how-num">2</span>
+          <p>Copy your command. It encodes your exact selection in a short link.</p>
+        </li>
+        <li>
+          <span class="how-num">3</span>
+          <p>Paste it in Terminal, press Enter, and answer the occasional password prompt. Everything else is automatic.</p>
+        </li>
+        <li>
+          <span class="how-num">4</span>
+          <p>Re-run the same command any time. It checks your setup and fixes only what is missing.</p>
+        </li>
+      </ol>
+      <p class="how-note">
+        A weekly background update keeps Homebrew packages, global packages, and
+        Claude Code fresh. Remove everything with
+        <code>install.sh --uninstall</code>. Tools stay, config goes.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      MIT licensed. Made by <a href="https://github.com/bitbonsai" rel="noopener">bitbonsai</a>.
+      Source on <a href="https://github.com/bitbonsai/vibetoolbox" rel="noopener">GitHub</a>.
+    </p>
+  </footer>
+
+  <div class="command-bar" id="command-bar">
+    <div class="command-bar-inner">
+      <div class="command-line">
+        <span class="command-prompt" aria-hidden="true">❯</span>
+        <code id="command-text">Pick at least one tool to get your command</code>
+      </div>
+      <div class="command-meta">
+        <span class="command-count" id="command-count">0 tools</span>
+        <button class="copy-btn" id="copy-btn" disabled>Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="picker.js"></script>
+</body>
+</html>

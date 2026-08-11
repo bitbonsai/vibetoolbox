@@ -1,0 +1,16 @@
+{
+  "name": "vibetoolbox",
+  "version": "1.0.0",
+  "description": "Pick your tools, paste one command, start vibecoding. macOS setup for designers and PMs learning to code.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch src/server.ts",
+    "start": "bun src/server.ts",
+    "build": "bash scripts/build.sh",
+    "test": "bash scripts/build.sh && bash -n public/install.sh && bun test"
+  },
+  "dependencies": {
+    "hono": "^4"
+  }
+}
