@@ -1,0 +1,20 @@
+services:
+  web:
+    build: .
+    restart: unless-stopped
+    environment:
+      SITE_URL: https://vibetoolbox.dev
+      VTB_DB_PATH: /data/vibetoolbox.sqlite
+    ports:
+      # SHIBUMI_PORT is set by shibumi-server per deployment; 9100 for local runs
+      - "127.0.0.1:${SHIBUMI_PORT:-9100}:8080"
+    volumes:
+      - data:/data
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+volumes:
+  data:
