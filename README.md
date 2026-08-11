@@ -37,7 +37,7 @@ both the website picker and the installer.
 ## How it works
 
 - **The installer** is plain bash, built from modules in `installer/` by
-  `scripts/build.sh`. No `set -e`; every step has explicit error handling and
+  `scripts/build.ts`. No `set -e`; every step has explicit error handling and
   non-critical failures warn instead of aborting. Piped-friendly: prompts read
   from `/dev/tty`.
 - **The server** (`src/server.ts`) is a small Bun + Hono app. The picker POSTs

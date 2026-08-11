@@ -7,8 +7,8 @@
   "scripts": {
     "dev": "bun --watch src/server.ts",
     "start": "bun src/server.ts",
-    "build": "bash scripts/build.sh",
-    "test": "bash scripts/build.sh && bash -n public/install.sh && bun test"
+    "build": "bun scripts/build.ts",
+    "test": "bun scripts/build.ts && bash -n public/install.sh && bun test"
   },
   "dependencies": {
     "hono": "^4"

@@ -322,7 +322,7 @@ check_autoupdate_agent() {
 }
 
 # =============================================================================
-# TOOL CATALOG (generated from catalog.json by scripts/build.sh — do not edit)
+# TOOL CATALOG (generated from catalog.json by scripts/build.ts — do not edit)
 # =============================================================================
 # Fields: id|kind|target|app|bin|name|requires
 
@@ -361,7 +361,7 @@ CATALOG=(
 # =============================================================================
 # SELECTION
 # =============================================================================
-# CATALOG is generated from catalog.json by scripts/build.sh (catalog.sh).
+# CATALOG is generated from catalog.json by scripts/build.ts (catalog.sh).
 # Each entry: "id|kind|target|app|bin|name|requires"
 # Selection sources, in priority order:
 #   1. VTB_SELECTION  — baked in by the vibetoolbox.dev server (/i/<slug> URLs)

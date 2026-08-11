@@ -17,7 +17,7 @@ toolkit; everything company-specific was removed.
 ```
 vibetoolbox/
 ├── catalog.json          # SINGLE SOURCE OF TRUTH: tools, categories, presets
-├── installer/            # bash modules, concatenated by scripts/build.sh
+├── installer/            # bash modules, concatenated by scripts/build.ts
 │   ├── header.sh         # shebang + VTB_SELECTION placeholder (server-injected)
 │   ├── common.sh         # colors, helpers, checks, VERSION, SITE_URL
 │   ├── catalog.sh        # GENERATED from catalog.json - do not edit
@@ -32,7 +32,7 @@ vibetoolbox/
 │   ├── github-cli.sh     # gh auth login (only when gh selected)
 │   ├── shell.sh          # env.zsh + aliases.zsh, ALL runtime-guarded
 │   └── main.sh           # arg parsing, status scan, linear flow
-├── scripts/build.sh      # jq: catalog.json → catalog.sh; concat → public/install.sh
+├── scripts/build.ts      # bun: catalog.json → catalog.sh; concat → public/install.sh
 ├── public/               # static site + built install.sh + catalog.json copy
 │   ├── index.html        # hero + picker + sticky command bar
 │   ├── picker.js         # renders catalog, URL hash sync, POST /api/select

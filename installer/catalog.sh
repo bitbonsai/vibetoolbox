@@ -1,5 +1,5 @@
 # =============================================================================
-# TOOL CATALOG (generated from catalog.json by scripts/build.sh — do not edit)
+# TOOL CATALOG (generated from catalog.json by scripts/build.ts — do not edit)
 # =============================================================================
 # Fields: id|kind|target|app|bin|name|requires
 
