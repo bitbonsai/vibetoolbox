@@ -8,81 +8,97 @@
   <meta property="og:title" content="Vibe Toolbox">
   <meta property="og:description" content="Pick your tools, paste one command, start vibecoding.">
   <meta property="og:url" content="https://vibetoolbox.dev">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fbcc17' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='4 17 10 11 4 5'/><line x1='12' x2='20' y1='19' y2='19'/></svg>">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('vtb-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark')}catch(_){}</script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="ambient"></div>
 
   <header class="site-header">
-    <a class="brand" href="/">
-      <span class="brand-prompt">❯_</span> vibetoolbox
-    </a>
-    <nav class="site-nav">
-      <a href="next-steps.html">Next steps</a>
-      <a href="https://github.com/bitbonsai/vibetoolbox" rel="noopener">GitHub</a>
-    </nav>
+    <div class="nav-container">
+      <a class="brand" href="/">
+        <span class="brand-prompt">❯_</span> vibetoolbox
+      </a>
+      <nav class="site-nav">
+        <a href="/" class="active">Picker</a>
+        <a href="next-steps.html">Next steps</a>
+        <a href="https://github.com/bitbonsai/vibetoolbox" rel="noopener">GitHub</a>
+        <button class="theme-toggle" type="button" aria-label="Switch theme">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </nav>
+    </div>
   </header>
 
   <main>
     <section class="hero">
-      <p class="hero-kicker">// macOS setup for people learning to code</p>
-      <h1>
-        Pick your tools.<br>
-        Paste <em>one command.</em><br>
-        Start building.
-      </h1>
-      <p class="hero-sub">
-        A box of the good stuff: modern terminal, AI coding agents, editors,
-        and the small CLI comforts that make the command line feel like home.
-        Built for designers and PMs. Free and open source.
-      </p>
-      <div class="hero-presets" role="group" aria-label="Presets">
-        <span class="presets-label">Start from a preset:</span>
-        <button class="preset-btn" data-preset="essentials">Essentials</button>
-        <button class="preset-btn" data-preset="terminal-focus">Terminal focus</button>
-        <button class="preset-btn" data-preset="everything">Everything</button>
-        <button class="preset-btn preset-clear" data-preset="clear">Clear</button>
+      <div class="container">
+        <p class="hero-kicker">macOS setup for people learning to code</p>
+        <h1>
+          Pick your tools.<br>
+          Paste <em>one command.</em>
+        </h1>
+        <p class="hero-sub">
+          A box of the good stuff: modern terminal, AI coding agents, editors,
+          and the small CLI comforts that make the command line feel like home.
+          Built for designers and PMs. Free and open source.
+        </p>
+        <div class="hero-presets" role="group" aria-label="Presets">
+          <span class="presets-label">Start from a preset:</span>
+          <button class="preset-btn" data-preset="essentials">Essentials</button>
+          <button class="preset-btn" data-preset="terminal-focus">Terminal focus</button>
+          <button class="preset-btn" data-preset="everything">Everything</button>
+          <button class="preset-btn preset-clear" data-preset="clear">Clear</button>
+        </div>
+        <p class="hero-hint">or pick tool by tool below. Your command updates as you go.</p>
       </div>
-      <p class="hero-hint">or pick tool by tool below. Your command updates as you go.</p>
     </section>
 
-    <section class="picker" id="picker" aria-live="polite">
-      <noscript>
-        <p class="noscript-note">
-          The picker needs JavaScript. Without it, install with an explicit list:<br>
-          <code>curl -fsSL https://vibetoolbox.dev/install.sh | bash -s -- --with ghostty,starship,claude-code</code>
-        </p>
-      </noscript>
-      <!-- categories rendered by picker.js -->
+    <section class="picker-section">
+      <div class="container picker" id="picker" aria-live="polite">
+        <noscript>
+          <p class="noscript-note">
+            The picker needs JavaScript. Without it, install with an explicit list:<br>
+            <code>curl -fsSL https://vibetoolbox.dev/install.sh | bash -s -- --with ghostty,starship,claude-code</code>
+          </p>
+        </noscript>
+        <!-- categories rendered by picker.js -->
+      </div>
     </section>
 
     <section class="how">
-      <h2>How it works</h2>
-      <ol class="how-steps">
-        <li>
-          <span class="how-num">1</span>
-          <p>Tick the tools you want. Dependencies come along automatically.</p>
-        </li>
-        <li>
-          <span class="how-num">2</span>
-          <p>Copy your command. It encodes your exact selection in a short link.</p>
-        </li>
-        <li>
-          <span class="how-num">3</span>
-          <p>Paste it in Terminal, press Enter, and answer the occasional password prompt. Everything else is automatic.</p>
-        </li>
-        <li>
-          <span class="how-num">4</span>
-          <p>Re-run the same command any time. It checks your setup and fixes only what is missing.</p>
-        </li>
-      </ol>
-      <p class="how-note">
-        A weekly background update keeps Homebrew packages, global packages, and
-        Claude Code fresh. Remove everything with
-        <code>install.sh --uninstall</code>. Tools stay, config goes.
-      </p>
+      <div class="container">
+        <div class="section-header">
+          <p class="section-eyebrow">How it works</p>
+          <h2 class="section-title">Four steps, one paste</h2>
+          <p class="section-description">The command encodes your exact selection. The terminal does the rest.</p>
+        </div>
+        <ol class="how-steps">
+          <li class="step-card">
+            <span class="how-num">1</span>
+            <p>Tick the tools you want. Dependencies come along automatically.</p>
+          </li>
+          <li class="step-card">
+            <span class="how-num">2</span>
+            <p>Copy your command. It encodes your exact selection in a short link.</p>
+          </li>
+          <li class="step-card">
+            <span class="how-num">3</span>
+            <p>Paste it in Terminal, press Enter, and answer the occasional password prompt. Everything else is automatic.</p>
+          </li>
+          <li class="step-card">
+            <span class="how-num">4</span>
+            <p>Re-run the same command any time. It checks your setup and fixes only what is missing.</p>
+          </li>
+        </ol>
+        <p class="how-note">
+          A weekly background update keeps Homebrew packages, global packages, and
+          Claude Code fresh. Remove everything with
+          <code>install.sh --uninstall</code>. Tools stay, config goes.
+        </p>
+      </div>
     </section>
   </main>
 
@@ -107,5 +123,16 @@
   </div>
 
   <script src="picker.js"></script>
+  <script>
+    (function () {
+      var btn = document.querySelector(".theme-toggle");
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
+        document.documentElement.dataset.theme = next;
+        try { localStorage.setItem("vtb-theme", next); } catch (_) {}
+      });
+    })();
+  </script>
 </body>
 </html>

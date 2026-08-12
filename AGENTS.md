@@ -36,7 +36,7 @@ vibetoolbox/
 ├── public/               # static site + built install.sh + catalog.json copy
 │   ├── index.html        # hero + picker + sticky command bar
 │   ├── picker.js         # renders catalog, URL hash sync, POST /api/select
-│   ├── styles.css        # phosphor-amber terminal aesthetic (JetBrains Mono + Instrument Serif)
+│   ├── styles.css        # glassmorphic dark/light theme, purple ambient (system-ui + SF Mono)
 │   └── next-steps.html   # post-install landing page
 ├── src/server.ts         # Bun + Hono + bun:sqlite
 └── tests/install.test.ts # bun test: script behavior + server API
