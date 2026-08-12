@@ -466,10 +466,12 @@ async function followStatus(config: ClientConfig, target: string, commit: string
       "env", "SHIBUMI_SKIP_UPDATE_CHECK=1", SERVER_CLI, "status", config.appId, "--commit", commit, "--json",
     ], { allowFailure: true });
     if (result.exitCode === 0 && result.stdout.trim() && result.stdout.trim() !== "null") {
-      const status = JSON.parse(result.stdout) as { state?: string; stage?: string; message?: string; url?: string };
-      if (status.stage && status.stage !== lastStage) {
+      const status = JSON.parse(result.stdout) as { state?: string; stage?: string; message?: string; output?: string; url?: string };
+      if (status.stage && (status.stage !== lastStage || status.output)) {
         lastStage = status.stage;
-        progress.message(status.stage === "shipped" ? "Deployment complete" : `${status.stage}…`);
+        progress.message(status.stage === "shipped"
+          ? "Deployment complete"
+          : status.output ? `${status.stage}: ${status.output}` : `${status.stage}…`);
       }
       if (status.state === "succeeded") {
         progress.stop(config.cutoverRequired
