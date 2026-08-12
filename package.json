@@ -8,9 +8,14 @@
     "dev": "bun --watch src/server.ts",
     "start": "bun src/server.ts",
     "build": "bun scripts/build.ts",
-    "test": "bun scripts/build.ts && bash -n public/install.sh && bun test"
+    "test": "bun scripts/build.ts && bash -n public/install.sh && bun test",
+    "ship": "bun scripts/ship.ts",
+    "ship:setup": "bun scripts/ship.ts --setup"
   },
   "dependencies": {
     "hono": "^4"
+  },
+  "devDependencies": {
+    "@clack/prompts": "^0.7.0"
   }
 }

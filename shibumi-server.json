@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "provider": "shibumi-server",
+  "server": {
+    "hostname": "alpha.wolffserver.com"
+  },
+  "domain": "vibetoolbox.dev",
+  "appId": "vibetoolbox-dev",
+  "repository": "github:bitbonsai/vibetoolbox",
+  "branch": "main",
+  "webhookUrl": "https://vibetoolbox.dev/hooks/github/vibetoolbox-dev",
+  "service": "web",
+  "healthPath": "/healthz",
+  "cutoverRequired": false
+}
