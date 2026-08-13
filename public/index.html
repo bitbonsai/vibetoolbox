@@ -58,7 +58,7 @@
             </span>
           </template>
         </div>
-        <code class="cart-command" x-show="command" :class="{ copied: copied }" x-text="command" @click="copy" role="button" tabindex="0" @keydown.enter.prevent="copy" aria-label="Copy install command"></code>
+        <code class="cart-command" x-show="command" :class="{ copied: copied }" x-html="hl(command)" @click="copy" role="button" tabindex="0" @keydown.enter.prevent="copy" aria-label="Copy install command"></code>
         <p class="cart-pending" x-show="!command">Minting your short link&hellip;</p>
       </div>
     </template>

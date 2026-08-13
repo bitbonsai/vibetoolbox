@@ -25,6 +25,8 @@
     --accent-contrast: #14092b;
     --surface-solid: #101014;
     --green: #4ade80;
+    --orange: #fb923c;
+    --blue: #38bdf8;
     --mono: ui-monospace, 'SF Mono', Menlo, 'Courier New', monospace;
     --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
@@ -383,7 +385,7 @@ main,
     font-family: var(--mono);
     font-size: 0.75rem;
     line-height: 1.6;
-    color: var(--green);
+    color: var(--text);
     background: rgba(0, 0, 0, 0.45);
     border: 1px solid var(--border);
     border-radius: 0.625rem;
@@ -719,7 +721,7 @@ h1 em {
 .tool-modal-try {
     font-family: var(--mono);
     font-size: 0.8125rem;
-    color: var(--green);
+    color: var(--text);
     background: rgba(0, 0, 0, 0.45);
     border: 1px solid var(--border);
     border-radius: 0.625rem;
@@ -1454,7 +1456,7 @@ kbd {
     font-family: var(--mono);
     font-size: 0.8125rem;
     line-height: 1.7;
-    color: var(--green);
+    color: var(--text);
     background: none;
     border: none;
     padding: 0;
@@ -1503,7 +1505,7 @@ kbd {
 
 .docs-layout {
     display: grid;
-    grid-template-columns: 13rem 1fr;
+    grid-template-columns: 13rem minmax(0, 1fr);
     gap: 4rem;
     align-items: start;
 }
@@ -1548,7 +1550,7 @@ kbd {
 
 @media (max-width: 880px) {
     .docs-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: 2rem;
     }
 
@@ -1566,6 +1568,13 @@ kbd {
         font-size: 0.8125rem;
     }
 }
+
+/* Shell syntax tokens (build.ts highlights static blocks, picker.js dynamic) */
+.tok-cmd { color: var(--green); }
+.tok-flag { color: var(--orange); }
+.tok-url { color: var(--blue); }
+.tok-pipe { color: var(--text-3); }
+.tok-comment { color: var(--text-3); font-style: italic; }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {

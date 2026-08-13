@@ -106,12 +106,53 @@ async function renderPage(html: string): Promise<string> {
   return html;
 }
 
+// Shell syntax highlighting for static <pre><code> blocks (the dynamic
+// ones use the same tokenizer in picker.js)
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const decodeHtml = (s: string) =>
+  s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+
+function highlightLine(line: string): string {
+  let comment = "";
+  const ci = line.indexOf("#");
+  if (ci === 0 || (ci > 0 && line[ci - 1] === " ")) {
+    comment = line.slice(ci);
+    line = line.slice(0, ci);
+  }
+  let expectCmd = true;
+  const out = line.split(/(\s+)/).map((tok) => {
+    if (!tok.trim()) return escapeHtml(tok);
+    const e = escapeHtml(tok);
+    if (tok === "|" || tok === "&&" || tok === ";") { expectCmd = true; return `<span class="tok-pipe">${e}</span>`; }
+    if (/^https?:\/\//.test(tok)) { expectCmd = false; return `<span class="tok-url">${e}</span>`; }
+    if (/^-/.test(tok)) { expectCmd = false; return `<span class="tok-flag">${e}</span>`; }
+    if (expectCmd) { expectCmd = false; return `<span class="tok-cmd">${e}</span>`; }
+    return e;
+  });
+  if (comment) out.push(`<span class="tok-comment">${escapeHtml(comment)}</span>`);
+  return out.join("");
+}
+
+const highlightShell = (text: string) =>
+  text.split("\n").map(highlightLine).join("\n");
+
+function highlightPage(html: string): string {
+  return html.replace(
+    /(<pre[^>]*><code[^>]*>)([\s\S]*?)(<\/code><\/pre>)/g,
+    (_, open, body, close) =>
+      body.includes("<span") || body.trim() === ""
+        ? open + body + close
+        : open + highlightShell(decodeHtml(body)) + close,
+  );
+}
+
 const pageNames = (await readdir(PAGES_DIR)).filter((n) => n.endsWith(".html"));
 for (const name of pageNames) {
   const source = await Bun.file(join(PAGES_DIR, name)).text();
   const rendered =
     "<!-- GENERATED from site/pages/" + name + " by scripts/build.ts - do not edit -->\n" +
-    (await renderPage(source));
+    highlightPage(await renderPage(source));
   await Bun.write(join(ROOT, "public", name), rendered);
 }
 

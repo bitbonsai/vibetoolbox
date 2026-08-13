@@ -58,6 +58,36 @@
 
   var FALLBACK_ICON = lucide("#86868b", '<polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/>');
 
+  /* Shell syntax highlighting (same tokenizer as scripts/build.ts) */
+  function escHtml(s) {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function hlLine(line) {
+    var comment = "";
+    var ci = line.indexOf("#");
+    if (ci === 0 || (ci > 0 && line[ci - 1] === " ")) {
+      comment = line.slice(ci);
+      line = line.slice(0, ci);
+    }
+    var expectCmd = true;
+    var out = line.split(/(\s+)/).map(function (tok) {
+      if (!tok.trim()) return escHtml(tok);
+      var e = escHtml(tok);
+      if (tok === "|" || tok === "&&" || tok === ";") { expectCmd = true; return '<span class="tok-pipe">' + e + "</span>"; }
+      if (/^https?:\/\//.test(tok)) { expectCmd = false; return '<span class="tok-url">' + e + "</span>"; }
+      if (/^-/.test(tok)) { expectCmd = false; return '<span class="tok-flag">' + e + "</span>"; }
+      if (expectCmd) { expectCmd = false; return '<span class="tok-cmd">' + e + "</span>"; }
+      return e;
+    });
+    if (comment) out.push('<span class="tok-comment">' + escHtml(comment) + "</span>");
+    return out.join("");
+  }
+
+  function highlightShell(text) {
+    return String(text == null ? "" : text).split("\n").map(hlLine).join("\n");
+  }
+
   document.addEventListener("alpine:init", function () {
     // Read-only catalog for tools.html
     Alpine.data("toolsPage", function () {
@@ -69,6 +99,9 @@
         },
         iconFor(id) {
           return ICONS[id] || FALLBACK_ICON;
+        },
+        hl(text) {
+          return highlightShell(text);
         },
       };
     });
@@ -158,6 +191,10 @@
         nameOf(id) {
           var tool = this.toolById(id);
           return tool ? tool.name : id;
+        },
+
+        hl(text) {
+          return highlightShell(text);
         },
 
         get selectedSorted() {
