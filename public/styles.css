@@ -664,15 +664,18 @@ h1 em {
 /* Tool detail dialog */
 .tool-modal-head {
     display: flex;
-    align-items: center;
     gap: 0.75rem;
     margin-bottom: 1rem;
 }
 
-.tool-modal-head h2 {
+/* .modal h2 sets margin-bottom and wins on order; reset it here with a
+   more specific selector so the icon and title align */
+.modal .tool-modal-head h2 {
     font-size: 1.3125rem;
     font-weight: 700;
     letter-spacing: -0.02em;
+    margin: 0;
+    line-height: 28px;
 }
 
 .tool-modal-head .tool-icon svg,

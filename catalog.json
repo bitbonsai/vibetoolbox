@@ -210,7 +210,7 @@
       "url": "https://github.com/stablyai/orca",
       "desc": "Desktop cockpit for running fleets of coding agents in parallel.",
       "more": "A desktop cockpit for running fleets of coding agents in parallel. Overkill on day one, exactly right the week you have five agents across three repos.",
-      "why": "Past a few parallel agents, a purpose-built cockpit beats squinting at terminal panes."
+      "why": "Some people prefer a window with buttons to a wall of terminal panes. Orca is the GUI way to run and watch several agents at once."
     },
     {
       "id": "ccpeek",
@@ -238,7 +238,7 @@
       "url": "https://github.com/JuliusBrussee/caveman",
       "desc": "Claude Code plugin: ultra-compressed replies, ~75% fewer tokens.",
       "more": "A Claude Code plugin that compresses replies to caveman-speak, cutting roughly 75% of output tokens. Same technical content, far fewer words, lower bills.",
-      "why": "Token bills grow quietly. Cutting three quarters of output tokens with the technical content intact is a free lunch."
+      "why": "Cutting three quarters of output tokens is a free lunch for your bill. The terser replies are also quicker to read, so working with the agent feels more direct."
     },
     {
       "id": "agent-browser",
