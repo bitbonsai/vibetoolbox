@@ -9,6 +9,7 @@ COPY catalog.json ./
 COPY installer ./installer
 COPY scripts ./scripts
 COPY public ./public
+COPY site ./site
 COPY src ./src
 
 RUN bun scripts/build.ts
