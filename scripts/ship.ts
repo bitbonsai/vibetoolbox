@@ -22,7 +22,7 @@ const SSH_TARGET = /^(?!-)[A-Za-z0-9_.@:-]+$/;
 const COMMIT = /^[a-f0-9]{40}$/;
 const SERVER_CLI = "~/.local/bin/shibumi-server";
 const LATEST_SOURCE = "https://shibumistack.dev/ship/latest.ts";
-const CURRENT_SOURCE = "https://shibumistack.dev/ship/v15.ts";
+const CURRENT_SOURCE = "https://shibumistack.dev/ship/v16.ts";
 let sshControlDirectory: string | undefined;
 let sshControlTarget: string | undefined;
 const accent = (value: string) => process.stdout.isTTY && !("NO_COLOR" in process.env) && process.env.TERM !== "dumb"
@@ -47,6 +47,15 @@ interface Result {
   exitCode: number;
   stdout: string;
   stderr: string;
+}
+
+interface DeployStatus {
+  commit?: string;
+  state?: string;
+  stage?: string;
+  message?: string;
+  output?: string;
+  url?: string;
 }
 
 function explain(title: string, message: string): void {
@@ -104,6 +113,10 @@ async function offerSetupCommit(): Promise<"none" | "committed" | "declined"> {
 // collapse to the same server app ID.
 export function appIdForDomain(domain: string): string {
   return domain.replaceAll("-", "--").replaceAll(".", "-");
+}
+
+export function canFollowDeployment(status: DeployStatus | undefined, commit: string): boolean {
+  return status?.commit === commit && ["accepted", "running", "succeeded"].includes(status.state ?? "");
 }
 
 export function repositoryFromRemote(remote: string): string {
@@ -483,7 +496,7 @@ async function followStatus(config: ClientConfig, target: string, commit: string
       "env", "SHIBUMI_SKIP_UPDATE_CHECK=1", SERVER_CLI, "status", config.appId, "--commit", commit, "--json",
     ], { allowFailure: true });
     if (result.exitCode === 0 && result.stdout.trim() && result.stdout.trim() !== "null") {
-      const status = JSON.parse(result.stdout) as { state?: string; stage?: string; message?: string; output?: string; url?: string };
+      const status = JSON.parse(result.stdout) as DeployStatus;
       if (status.stage && (status.stage !== lastStage || (status.output ?? "") !== lastOutput)) {
         lastStage = status.stage;
         lastOutput = status.output ?? "";
@@ -566,9 +579,21 @@ export async function runShip(): Promise<void> {
     const commit = await git("rev-parse", "HEAD");
     if (!COMMIT.test(commit)) throw new Error("cannot determine shipped commit");
     if (ahead > 0) await run(["git", "push", "origin", result.config.branch], { inherit: true });
-    else await ssh(result.target, [
-      "env", "SHIBUMI_SKIP_UPDATE_CHECK=1", SERVER_CLI, "redeploy", result.config.appId, commit,
-    ]);
+    else {
+      const redeploy = await ssh(result.target, [
+        "env", "SHIBUMI_SKIP_UPDATE_CHECK=1", SERVER_CLI, "redeploy", result.config.appId, commit,
+      ], { allowFailure: true });
+      if (redeploy.exitCode !== 0) {
+        const current = await ssh(result.target, [
+          "env", "SHIBUMI_SKIP_UPDATE_CHECK=1", SERVER_CLI, "status", result.config.appId, "--commit", commit, "--json",
+        ], { allowFailure: true });
+        const status = current.exitCode === 0 && current.stdout.trim() && current.stdout.trim() !== "null"
+          ? JSON.parse(current.stdout) as DeployStatus
+          : undefined;
+        if (!canFollowDeployment(status, commit)) throw new Error(redeploy.stderr.trim() || "redeploy request failed");
+        log.info("Deployment already running for this commit. Following its progress.");
+      }
+    }
     await followStatus(result.config, result.target, commit);
     const changed = await completeCutover(result.config, result.target);
     outro(changed
