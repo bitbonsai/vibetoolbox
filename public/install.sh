@@ -324,38 +324,44 @@ check_autoupdate_agent() {
 # =============================================================================
 # TOOL CATALOG (generated from catalog.json by scripts/build.ts — do not edit)
 # =============================================================================
-# Fields: id|kind|target|app|bin|name|requires
+# Fields: id|kind|target|app|bin|name|requires|post
 
 CATALOG=(
-    "ghostty|cask|ghostty|Ghostty||Ghostty|"
-    "nerd-font|cask|font-jetbrains-mono-nerd-font|||JetBrains Mono Nerd Font|"
-    "starship|brew|starship|||Starship|"
-    "claude-code|curl|https://claude.ai/install.sh||claude|Claude Code|"
-    "codex|brew|codex|||Codex CLI|"
-    "pi|bun|@earendil-works/pi-coding-agent||pi|Pi|bun"
-    "opencode|bun|opencode-ai||opencode|OpenCode|bun"
-    "crush|bun|@charmland/crush||crush|Crush|bun"
-    "herdr|brew|herdr|||Herdr|"
-    "orca|cask|stablyai/orca/orca|Orca||Orca|"
-    "ccpeek|brew|ahmedelgabri/tap/ccpeek||ccpeek|ccpeek|"
-    "caveman|plugin|JuliusBrussee/caveman|||Caveman|claude-code"
-    "zed|cask|zed|Zed||Zed|"
-    "cursor|cask|cursor|Cursor||Cursor|"
-    "vscode|cask|visual-studio-code|Visual Studio Code||Visual Studio Code|"
-    "git|brew|git|||Git|"
-    "gh|brew|gh|||GitHub CLI|"
-    "lazygit|brew|lazygit|||lazygit|"
-    "git-delta|brew|git-delta||delta|delta|"
-    "eza|brew|eza|||eza|"
-    "bat|brew|bat|||bat|"
-    "zoxide|brew|zoxide|||zoxide|"
-    "tree|brew|tree|||tree|"
-    "fzf|brew|fzf|||fzf|"
-    "ripgrep|brew|ripgrep||rg|ripgrep|"
-    "jq|brew|jq|||jq|"
-    "trash-cli|bun|trash-cli||trash|trash-cli|bun"
-    "node|brew|node|||Node.js|"
-    "bun|brew|bun|||Bun|"
+    "ghostty|cask|ghostty|Ghostty||Ghostty||"
+    "nerd-font|cask|font-jetbrains-mono-nerd-font|||JetBrains Mono Nerd Font||"
+    "starship|brew|starship|||Starship||"
+    "claude-code|curl|https://claude.ai/install.sh||claude|Claude Code||"
+    "codex|brew|codex|||Codex CLI||"
+    "pi|bun|@earendil-works/pi-coding-agent||pi|Pi|bun|"
+    "opencode|bun|opencode-ai||opencode|OpenCode|bun|"
+    "crush|bun|@charmland/crush||crush|Crush|bun|"
+    "herdr|brew|herdr|||Herdr||"
+    "orca|cask|stablyai/orca/orca|Orca||Orca||"
+    "ccpeek|brew|ahmedelgabri/tap/ccpeek||ccpeek|ccpeek||"
+    "caveman|plugin|JuliusBrussee/caveman|||Caveman|claude-code|"
+    "agent-browser|bun|agent-browser||agent-browser|Agent Browser|bun|agent-browser install"
+    "zed|cask|zed|Zed||Zed||"
+    "cursor|cask|cursor|Cursor||Cursor||"
+    "vscode|cask|visual-studio-code|Visual Studio Code||Visual Studio Code||"
+    "git|brew|git|||Git||"
+    "gh|brew|gh|||GitHub CLI||"
+    "lazygit|brew|lazygit|||lazygit||"
+    "git-delta|brew|git-delta||delta|delta||"
+    "eza|brew|eza|||eza||"
+    "bat|brew|bat|||bat||"
+    "zoxide|brew|zoxide|||zoxide||"
+    "tree|brew|tree|||tree||"
+    "fzf|brew|fzf|||fzf||"
+    "ripgrep|brew|ripgrep||rg|ripgrep||"
+    "fd|brew|fd|||fd||"
+    "btop|brew|btop|||btop||"
+    "mkcert|brew|mkcert|||mkcert||"
+    "jq|brew|jq|||jq||"
+    "trash-cli|bun|trash-cli||trash|trash-cli|bun|"
+    "node|brew|node|||Node.js||"
+    "bun|brew|bun|||Bun||"
+    "shottr|cask|shottr|Shottr.app||Shottr||"
+    "handy|cask|handy|Handy.app||Handy||"
 )
 
 # =============================================================================
@@ -688,11 +694,12 @@ _ensure_tap() {
 
 _install_tool() {
     local id="$1"
-    local kind target bin name
+    local kind target bin name post
     kind="$(catalog_field "$id" 2)"
     target="$(catalog_field "$id" 3)"
     bin="$(catalog_field "$id" 5)"
     name="$(catalog_field "$id" 6)"
+    post="$(catalog_field "$id" 8)"
 
     print_step "Installing ${name}..."
 
@@ -725,6 +732,11 @@ _install_tool() {
             fi
             ;;
     esac
+
+    # Optional post-install step from the catalog (e.g. agent-browser install)
+    if [[ -n "$post" ]] && _tool_installed "$id"; then
+        bash -c "$post" </dev/null &>/dev/null || true
+    fi
 
     if _tool_installed "$id"; then
         print_success "$name"

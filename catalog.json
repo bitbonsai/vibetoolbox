@@ -1,28 +1,81 @@
 {
   "version": "1.0",
   "categories": [
-    { "id": "terminal", "name": "Terminal" },
-    { "id": "ai", "name": "AI Coding" },
-    { "id": "editors", "name": "Editors" },
-    { "id": "git", "name": "Git & GitHub" },
-    { "id": "cli", "name": "CLI Comforts" },
-    { "id": "runtimes", "name": "Runtimes" }
+    {
+      "id": "terminal",
+      "name": "Terminal"
+    },
+    {
+      "id": "ai",
+      "name": "AI Coding"
+    },
+    {
+      "id": "editors",
+      "name": "Editors"
+    },
+    {
+      "id": "git",
+      "name": "Git & GitHub"
+    },
+    {
+      "id": "cli",
+      "name": "CLI Comforts"
+    },
+    {
+      "id": "runtimes",
+      "name": "Runtimes"
+    },
+    {
+      "id": "apps",
+      "name": "Mac apps"
+    }
   ],
   "presets": {
     "essentials": [
-      "ghostty", "nerd-font", "starship",
+      "ghostty",
+      "nerd-font",
+      "starship",
       "claude-code",
       "zed",
-      "git", "gh",
-      "eza", "bat", "zoxide", "tree", "fzf", "ripgrep", "jq", "trash-cli",
-      "node", "bun"
+      "git",
+      "gh",
+      "eza",
+      "bat",
+      "zoxide",
+      "tree",
+      "fzf",
+      "ripgrep",
+      "jq",
+      "trash-cli",
+      "node",
+      "bun"
     ],
-    "terminal-focus": [
-      "ghostty", "nerd-font", "starship",
-      "claude-code", "herdr",
-      "git", "gh", "lazygit", "git-delta",
-      "eza", "bat", "zoxide", "tree", "fzf", "ripgrep", "jq", "trash-cli",
-      "node", "bun"
+    "recommended": [
+      "ghostty",
+      "nerd-font",
+      "starship",
+      "claude-code",
+      "pi",
+      "opencode",
+      "herdr",
+      "caveman",
+      "zed",
+      "git",
+      "gh",
+      "lazygit",
+      "git-delta",
+      "eza",
+      "bat",
+      "zoxide",
+      "tree",
+      "fzf",
+      "ripgrep",
+      "jq",
+      "trash-cli",
+      "fd",
+      "btop",
+      "node",
+      "bun"
     ]
   },
   "tools": [
@@ -34,7 +87,9 @@
       "target": "ghostty",
       "app": "Ghostty",
       "url": "https://ghostty.org",
-      "desc": "Fast, GPU-accelerated terminal. The home for everything else here."
+      "desc": "Fast, GPU-accelerated terminal. The home for everything else here.",
+      "more": "A terminal is where you talk to your Mac and where coding agents live. Ghostty is fast, native, and arrives preconfigured with a good theme, font, and keybindings, so it feels friendly from the first launch.",
+      "why": "Terminals all look alike until you use a good one. Ghostty is the first in years that feels genuinely native on a Mac, built by Mitchell Hashimoto, who has taste."
     },
     {
       "id": "nerd-font",
@@ -44,7 +99,9 @@
       "target": "font-jetbrains-mono-nerd-font",
       "app": "",
       "url": "https://www.nerdfonts.com",
-      "desc": "Monospace font with all the icons your prompt and file listings need."
+      "desc": "Monospace font with all the icons your prompt and file listings need.",
+      "more": "A monospace font patched with thousands of icons that terminal tools use for file types, git status, and prompts. Without it, modern CLI tools show broken squares instead of symbols.",
+      "why": "Half of all 'my terminal looks broken' reports are a missing patched font. Installing it up front deletes an entire class of confusion."
     },
     {
       "id": "starship",
@@ -53,7 +110,9 @@
       "kind": "brew",
       "target": "starship",
       "url": "https://starship.rs",
-      "desc": "Minimal, fast prompt that shows git branch and status at a glance."
+      "desc": "Minimal, fast prompt that shows git branch and status at a glance.",
+      "more": "The prompt is the line your terminal prints before every command. Starship makes it useful: current folder, git branch, and how long the last command took, with zero setup on your part.",
+      "why": "Prompt frameworks ship a hundred options you will never touch. Starship gives the four things you actually need and stays out of the way."
     },
     {
       "id": "claude-code",
@@ -63,7 +122,10 @@
       "target": "https://claude.ai/install.sh",
       "bin": "claude",
       "url": "https://claude.com/claude-code",
-      "desc": "Anthropic's coding agent for the terminal. Needs a Claude subscription or API key."
+      "desc": "Anthropic's coding agent for the terminal. Needs a Claude subscription or API key.",
+      "more": "Anthropic's agent reads your files, writes code, and runs commands right in the terminal. Describe what you want in plain language and watch it work. Needs a Claude subscription or API key.",
+      "try": "c",
+      "why": "The strongest coding agent right now, and the one this toolbox is built around. If you install only one agent, make it this one."
     },
     {
       "id": "codex",
@@ -72,7 +134,10 @@
       "kind": "brew",
       "target": "codex",
       "url": "https://github.com/openai/codex",
-      "desc": "OpenAI's coding agent. Needs a ChatGPT subscription or API key."
+      "desc": "OpenAI's coding agent. Needs a ChatGPT subscription or API key.",
+      "more": "OpenAI's coding agent for the terminal, sibling to Claude Code. Sign in with a ChatGPT plan and it plans, edits, and runs code in your project.",
+      "try": "codex",
+      "why": "Competition keeps agents honest. If your subscription is ChatGPT, this is your Claude Code."
     },
     {
       "id": "pi",
@@ -81,9 +146,14 @@
       "kind": "bun",
       "target": "@earendil-works/pi-coding-agent",
       "bin": "pi",
-      "requires": ["bun"],
+      "requires": [
+        "bun"
+      ],
       "url": "https://pi.dev",
-      "desc": "Minimal coding agent by Mario Zechner. Bring any model provider."
+      "desc": "Minimal coding agent by Mario Zechner. Bring any model provider.",
+      "more": "A deliberately minimal coding agent by Mario Zechner. Bring any model provider via API key, read all of its code in an afternoon, and know exactly what your agent is doing.",
+      "try": "pi",
+      "why": "Most agents are black boxes. Pi is small enough to read in an afternoon, which makes it the best way to understand what agents actually do."
     },
     {
       "id": "opencode",
@@ -92,9 +162,14 @@
       "kind": "bun",
       "target": "opencode-ai",
       "bin": "opencode",
-      "requires": ["bun"],
+      "requires": [
+        "bun"
+      ],
       "url": "https://opencode.ai",
-      "desc": "Open-source terminal coding agent. Works with any model, has its own plans too."
+      "desc": "Open-source terminal coding agent. Works with any model, has its own plans too.",
+      "more": "Open-source terminal coding agent that works with any model, including its own subscription plans if you want one bill. A strong pick for agentic coding without a Claude or ChatGPT subscription.",
+      "try": "opencode",
+      "why": "The escape hatch from subscription lock-in. Models come and go; an agent that speaks to all of them ages well."
     },
     {
       "id": "crush",
@@ -103,9 +178,14 @@
       "kind": "bun",
       "target": "@charmland/crush",
       "bin": "crush",
-      "requires": ["bun"],
+      "requires": [
+        "bun"
+      ],
       "url": "https://github.com/charmbracelet/crush",
-      "desc": "Charm's glamorous coding agent for the terminal."
+      "desc": "Charm's glamorous coding agent for the terminal.",
+      "more": "Charm's glamorous coding agent, from the people who make the prettiest terminal tools around. Works with many providers and makes the terminal feel a lot less gray.",
+      "try": "crush",
+      "why": "Looks matter in tools you stare at all day. Charm has made the terminal delightful for years, and Crush carries that into agents."
     },
     {
       "id": "herdr",
@@ -114,7 +194,10 @@
       "kind": "brew",
       "target": "herdr",
       "url": "https://herdr.dev",
-      "desc": "Agent multiplexer. Run and watch several coding agents in one terminal."
+      "desc": "Agent multiplexer. Run and watch several coding agents in one terminal.",
+      "more": "Run several coding agents side by side in one terminal and watch them all work. Made for the moment you graduate from one agent to a small crew.",
+      "try": "herdr",
+      "why": "One agent working is nice. Three agents working while you review is the real unlock, and Herdr makes that manageable instead of chaotic."
     },
     {
       "id": "orca",
@@ -125,7 +208,9 @@
       "tap": "stablyai/orca",
       "app": "Orca",
       "url": "https://github.com/stablyai/orca",
-      "desc": "Desktop cockpit for running fleets of coding agents in parallel."
+      "desc": "Desktop cockpit for running fleets of coding agents in parallel.",
+      "more": "A desktop cockpit for running fleets of coding agents in parallel. Overkill on day one, exactly right the week you have five agents across three repos.",
+      "why": "Past a few parallel agents, a purpose-built cockpit beats squinting at terminal panes."
     },
     {
       "id": "ccpeek",
@@ -136,7 +221,10 @@
       "tap": "ahmedelgabri/tap",
       "bin": "ccpeek",
       "url": "https://github.com/ahmedelgabri/ccpeek",
-      "desc": "Browse your Claude Code session history locally."
+      "desc": "Browse your Claude Code session history locally.",
+      "more": "Browse your Claude Code session history locally: what you asked, what it did, and what it cost. Handy for retracing yesterday's steps.",
+      "try": "ccpeek",
+      "why": "Sessions vanish from memory fast. Answering 'what did the agent change yesterday and what did it cost' is worth the tiny install."
     },
     {
       "id": "caveman",
@@ -144,9 +232,30 @@
       "category": "ai",
       "kind": "plugin",
       "target": "JuliusBrussee/caveman",
-      "requires": ["claude-code"],
+      "requires": [
+        "claude-code"
+      ],
       "url": "https://github.com/JuliusBrussee/caveman",
-      "desc": "Claude Code plugin: ultra-compressed replies, ~75% fewer tokens."
+      "desc": "Claude Code plugin: ultra-compressed replies, ~75% fewer tokens.",
+      "more": "A Claude Code plugin that compresses replies to caveman-speak, cutting roughly 75% of output tokens. Same technical content, far fewer words, lower bills.",
+      "why": "Token bills grow quietly. Cutting three quarters of output tokens with the technical content intact is a free lunch."
+    },
+    {
+      "id": "agent-browser",
+      "name": "Agent Browser",
+      "category": "ai",
+      "kind": "bun",
+      "target": "agent-browser",
+      "bin": "agent-browser",
+      "requires": [
+        "bun"
+      ],
+      "post": "agent-browser install",
+      "url": "https://github.com/vercel-labs/agent-browser",
+      "desc": "Browser automation CLI built for AI agents. Click, fill, screenshot.",
+      "more": "Gives your coding agent a real browser it can drive: open pages, click, fill forms, take screenshots. The one-time browser download runs automatically after install.",
+      "try": "agent-browser open https://example.com",
+      "why": "An agent that can see and click your app finds bugs your tests miss. This is the lightest way to hand any agent a browser."
     },
     {
       "id": "zed",
@@ -156,7 +265,10 @@
       "target": "zed",
       "app": "Zed",
       "url": "https://zed.dev",
-      "desc": "Fast, clean code editor with built-in AI. Great first editor."
+      "desc": "Fast, clean code editor with built-in AI. Great first editor.",
+      "more": "A fast native editor with first-class AI features and a clean, quiet interface. Great for reading and editing what your agent wrote.",
+      "try": "zed .",
+      "why": "Fast enough that you never wait for it, with AI that feels built in rather than bolted on. A great default for reviewing agent-written code."
     },
     {
       "id": "cursor",
@@ -166,7 +278,10 @@
       "target": "cursor",
       "app": "Cursor",
       "url": "https://cursor.com",
-      "desc": "VS Code fork built around AI editing. Needs a subscription for the good parts."
+      "desc": "VS Code fork built around AI editing. Needs a subscription for the good parts.",
+      "more": "The most popular AI-first code editor, built on the VS Code foundation. Chat with your codebase and tab-complete whole blocks when you want a GUI around your agent.",
+      "try": "cursor .",
+      "why": "The safest bet if you want the editor the whole internet writes tutorials for, with AI turned up to the max."
     },
     {
       "id": "vscode",
@@ -176,7 +291,10 @@
       "target": "visual-studio-code",
       "app": "Visual Studio Code",
       "url": "https://code.visualstudio.com",
-      "desc": "The classic. Free, huge extension ecosystem."
+      "desc": "The classic. Free, huge extension ecosystem.",
+      "more": "The world's default code editor: free, endlessly extensible, documented everywhere. If a tutorial shows an editor, it is probably this one.",
+      "try": "code .",
+      "why": "Boring in the best way. When something breaks, the answer already exists, and every extension supports it first."
     },
     {
       "id": "git",
@@ -185,7 +303,10 @@
       "kind": "brew",
       "target": "git",
       "url": "https://git-scm.com",
-      "desc": "Version control. Everything else assumes you have it."
+      "desc": "Version control. Everything else assumes you have it.",
+      "more": "The version control system underneath everything. Every commit is a save point you can return to when an experiment goes sideways.",
+      "try": "git status",
+      "why": "Not optional. Agents make many changes fast; without checkpoints you are one bad prompt away from losing an afternoon."
     },
     {
       "id": "gh",
@@ -194,7 +315,10 @@
       "kind": "brew",
       "target": "gh",
       "url": "https://cli.github.com",
-      "desc": "GitHub from the terminal: auth, repos, pull requests."
+      "desc": "GitHub from the terminal: auth, repos, pull requests.",
+      "more": "GitHub's official CLI: create repos, open pull requests, and check CI without leaving the terminal. Coding agents use it too, so signing in once unlocks a lot.",
+      "try": "gh auth login",
+      "why": "Lets agents open PRs and read CI results, which turns GitHub from a website into part of your terminal."
     },
     {
       "id": "lazygit",
@@ -203,7 +327,10 @@
       "kind": "brew",
       "target": "lazygit",
       "url": "https://github.com/jesseduffield/lazygit",
-      "desc": "Visual git in the terminal. Stage, commit, and browse history without memorizing commands."
+      "desc": "Visual git in the terminal. Stage, commit, and browse history without memorizing commands.",
+      "more": "A visual git interface in your terminal: stage, commit, branch, and undo with single keys. Git without memorizing git.",
+      "try": "lg",
+      "why": "The fastest way to build git intuition: you watch the state change as you press keys. The undo key alone justifies it."
     },
     {
       "id": "git-delta",
@@ -213,7 +340,9 @@
       "target": "git-delta",
       "bin": "delta",
       "url": "https://dandavison.github.io/delta/",
-      "desc": "Syntax-highlighted, side-by-side diffs for git."
+      "desc": "Syntax-highlighted, side-by-side diffs for git.",
+      "more": "Makes git diffs readable with syntax highlighting, side-by-side view, and word-level changes. You will read a lot of diffs once agents write your code; this makes it pleasant.",
+      "why": "Reviewing agent diffs in raw git output is punishment. Delta turns review into reading."
     },
     {
       "id": "eza",
@@ -222,7 +351,10 @@
       "kind": "brew",
       "target": "eza",
       "url": "https://eza.rocks",
-      "desc": "Modern ls: colors, icons, git status in file listings."
+      "desc": "Modern ls: colors, icons, git status in file listings.",
+      "more": "A modern replacement for ls with colors, icons, and a tree view. The aliases ls, lsa, and lt come preconfigured.",
+      "try": "lsa",
+      "why": "You list files hundreds of times a day. Colors and icons compound into real speed at that frequency."
     },
     {
       "id": "bat",
@@ -231,7 +363,10 @@
       "kind": "brew",
       "target": "bat",
       "url": "https://github.com/sharkdp/bat",
-      "desc": "cat with syntax highlighting and line numbers."
+      "desc": "cat with syntax highlighting and line numbers.",
+      "more": "cat with wings: prints files with syntax highlighting, line numbers, and git markers. Reading config files in the terminal stops hurting.",
+      "try": "bat ~/.zshrc",
+      "why": "Syntax highlighting on every file you peek at, thousands of times a year. Small upgrade, constant payoff."
     },
     {
       "id": "zoxide",
@@ -240,7 +375,10 @@
       "kind": "brew",
       "target": "zoxide",
       "url": "https://github.com/ajeetdsouza/zoxide",
-      "desc": "Smarter cd. Jump to any directory you have visited by typing a fragment."
+      "desc": "Smarter cd. Jump to any directory you have visited by typing a fragment.",
+      "more": "A smarter cd that learns the folders you visit. After a day, z proj jumps you to ~/dev/my-project from anywhere.",
+      "try": "z dev",
+      "why": "cd ../../../projects/thing is a tax. zoxide refunds it on every jump."
     },
     {
       "id": "tree",
@@ -249,7 +387,10 @@
       "kind": "brew",
       "target": "tree",
       "url": "https://oldmanprogrammer.net/source.php?dir=projects/tree",
-      "desc": "Print directory structures as a tree."
+      "desc": "Print directory structures as a tree.",
+      "more": "Prints a folder as an indented tree, the fastest way to show an agent (or a human) how a project is laid out.",
+      "try": "tree -L 2",
+      "why": "Agents ask for project structure constantly. tree -L 2 answers in one line."
     },
     {
       "id": "fzf",
@@ -258,7 +399,10 @@
       "kind": "brew",
       "target": "fzf",
       "url": "https://github.com/junegunn/fzf",
-      "desc": "Fuzzy finder for files, history, anything."
+      "desc": "Fuzzy finder for files, history, anything.",
+      "more": "Fuzzy finder for anything: type a few letters, get the file, command, or branch you meant. The ff alias searches files with a live preview.",
+      "try": "ff",
+      "why": "Once fuzzy-finding is in your muscle memory, every list on your machine becomes searchable. It rewires how you use a terminal."
     },
     {
       "id": "ripgrep",
@@ -268,7 +412,46 @@
       "target": "ripgrep",
       "bin": "rg",
       "url": "https://github.com/BurntSushi/ripgrep",
-      "desc": "grep, but fast and friendly. AI agents love it too."
+      "desc": "grep, but fast and friendly. AI agents love it too.",
+      "more": "Searches code at absurd speed and respects .gitignore. The default search tool of nearly every coding agent, and just as useful for humans.",
+      "try": "rg TODO",
+      "why": "Your agent already uses rg under the hood. Having it yourself means checking the agent's work at the same speed."
+    },
+    {
+      "id": "fd",
+      "name": "fd",
+      "category": "cli",
+      "kind": "brew",
+      "target": "fd",
+      "url": "https://github.com/sharkdp/fd",
+      "desc": "Find files fast, with syntax a human can remember.",
+      "more": "find with syntax a human can remember: fd report finds every file with report in the name. Fast, colorized, and it skips what git ignores.",
+      "try": "fd .md",
+      "why": "find has scared people for forty years. fd is the version you can teach in one sentence."
+    },
+    {
+      "id": "btop",
+      "name": "btop",
+      "category": "cli",
+      "kind": "brew",
+      "target": "btop",
+      "url": "https://github.com/aristocratos/btop",
+      "desc": "Gorgeous system monitor: CPU, memory, and what is eating them.",
+      "more": "A live dashboard of your Mac in the terminal: CPU, memory, network, and which process is eating everything. Beautiful and weirdly addictive.",
+      "try": "btop",
+      "why": "When the fans spin up, this answers 'what is doing that' in five seconds, and looks great doing it."
+    },
+    {
+      "id": "mkcert",
+      "name": "mkcert",
+      "category": "cli",
+      "kind": "brew",
+      "target": "mkcert",
+      "url": "https://github.com/FiloSottile/mkcert",
+      "desc": "Locally trusted HTTPS certificates with zero configuration.",
+      "more": "One command gives you locally trusted HTTPS certificates, with no config and no browser warnings. Useful the day a project insists on https://localhost.",
+      "try": "mkcert -install",
+      "why": "The https://localhost problem appears once per project and wastes an hour each time unless this is already installed."
     },
     {
       "id": "jq",
@@ -277,7 +460,10 @@
       "kind": "brew",
       "target": "jq",
       "url": "https://jqlang.org",
-      "desc": "Slice and pretty-print JSON from the command line."
+      "desc": "Slice and pretty-print JSON from the command line.",
+      "more": "Slices, filters, and pretty-prints JSON on the command line. APIs speak JSON; jq makes their answers readable.",
+      "try": "echo '{\"ok\":true}' | jq",
+      "why": "Every API answer, config dump, and agent log is JSON. Ten minutes of jq pays itself back weekly."
     },
     {
       "id": "trash-cli",
@@ -286,9 +472,14 @@
       "kind": "bun",
       "target": "trash-cli",
       "bin": "trash",
-      "requires": ["bun"],
+      "requires": [
+        "bun"
+      ],
       "url": "https://github.com/sindresorhus/trash-cli",
-      "desc": "Delete to the Trash instead of rm's point of no return."
+      "desc": "Delete to the Trash instead of rm's point of no return.",
+      "more": "Deletes files to the macOS Trash instead of into the void, so mistakes stay recoverable.",
+      "try": "trash old-file.txt",
+      "why": "Someone, human or agent, will eventually delete the wrong file. With the Trash in the loop that is a two-second fix instead of a disaster."
     },
     {
       "id": "node",
@@ -297,7 +488,9 @@
       "kind": "brew",
       "target": "node",
       "url": "https://nodejs.org",
-      "desc": "JavaScript runtime. Many tools and MCP servers need it."
+      "desc": "JavaScript runtime. Many tools and MCP servers need it.",
+      "more": "The JavaScript runtime most of the web runs on. Many tools, MCP servers, and tutorials assume it exists; now it does.",
+      "why": "Too much of the ecosystem assumes Node exists to skip it, including many MCP servers your agents will want."
     },
     {
       "id": "bun",
@@ -306,7 +499,33 @@
       "kind": "brew",
       "target": "bun",
       "url": "https://bun.sh",
-      "desc": "Fast JavaScript runtime and package manager."
+      "desc": "Fast JavaScript runtime and package manager.",
+      "more": "A fast all-in-one JavaScript runtime and package manager. Several tools in this box install through it, and bun i is npm install at double speed.",
+      "why": "Dramatically faster installs, and it replaces three separate JavaScript tools. This toolbox uses it for its own installs."
+    },
+    {
+      "id": "shottr",
+      "name": "Shottr",
+      "category": "apps",
+      "kind": "cask",
+      "target": "shottr",
+      "app": "Shottr.app",
+      "url": "https://shottr.cc",
+      "desc": "Pixel-accurate screenshots with annotations, OCR, and rulers. Free.",
+      "more": "Pixel-accurate screenshots with annotations, rulers, OCR, and scrolling capture. Free, tiny, and made for people who care how pixels look.",
+      "why": "Screenshots are how you show an agent what looks wrong. Shottr makes them precise, annotated, and instant."
+    },
+    {
+      "id": "handy",
+      "name": "Handy",
+      "category": "apps",
+      "kind": "cask",
+      "target": "handy",
+      "app": "Handy.app",
+      "url": "https://handy.computer",
+      "desc": "Free, open-source voice dictation. Talk instead of type, anywhere.",
+      "more": "Free, open-source voice dictation for your whole Mac. Hold a key, talk, release, and your words land in any app, including your terminal and your agent.",
+      "why": "Talking is faster than typing prompts. Free, local, and open source, which is rare for dictation apps."
     }
   ]
 }

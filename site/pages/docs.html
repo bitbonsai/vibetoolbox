@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- @include head.html title="Docs. Vibe Toolbox" desc="How Vibe Toolbox works: the install command, presets, weekly updates, shell additions, and how to uninstall." path="/docs.html" -->
+</head>
+<body class="steps-page">
+  <div class="ambient"></div>
+
+  <!-- @include nav-simple.html -->
+
+  <main>
+    <section class="hero docs-hero">
+      <div class="container">
+        <p class="hero-pill">Documentation</p>
+        <h1>How it all <em>works.</em></h1>
+        <p class="hero-sub">The install command, what it touches, and how to change your mind later.</p>
+      </div>
+    </section>
+
+    <div class="container docs-layout">
+      <aside class="docs-sidebar" aria-label="Docs sections">
+        <a href="#install-command">The install command</a>
+        <a href="#presets">Presets</a>
+        <a href="#selection">How selection works</a>
+        <a href="#updates">Updates</a>
+        <a href="#shell">Shell additions</a>
+        <a href="#uninstall">Uninstall</a>
+        <a href="#troubleshooting">Troubleshooting</a>
+      </aside>
+
+      <div class="steps docs-content">
+        <section id="install-command">
+          <h2>The install command</h2>
+          <p>Every selection you make in the <a href="/">picker</a> becomes one command:</p>
+          <pre><code>curl -fsSL https://vibetoolbox.dev/i/&lt;id&gt; | bash</code></pre>
+          <p>The short id is derived from your exact tool list, so the same selection always produces the same link. You can also skip the picker and name tools directly:</p>
+          <pre><code>curl -fsSL https://vibetoolbox.dev/install.sh | bash -s -- --with ghostty,starship,claude-code
+curl -fsSL https://vibetoolbox.dev/install.sh | bash -s -- --all</code></pre>
+          <p>The script needs bash, which every Mac ships with. It installs Xcode Command Line Tools and Homebrew first when they are missing; those two are the only hard requirements. Everything else installs in dependency order and a failed tool never aborts the run, it lands in a warning summary at the end.</p>
+        </section>
+
+        <section id="presets">
+          <h2>Presets</h2>
+          <p>Three starting points, all editable before you copy anything:</p>
+          <ul>
+            <li><strong>Essentials.</strong> Terminal, Claude Code, an editor, git tooling, and the core CLI comforts.</li>
+            <li><strong>Recommended.</strong> Essentials plus more agents, git helpers, and power tools. What we actually run.</li>
+            <li><strong>Everything.</strong> The whole catalog.</li>
+          </ul>
+          <p>Ticking a tool that depends on another pulls the dependency in automatically. Your toolbox in the nav always shows the full final list.</p>
+        </section>
+
+        <section id="selection">
+          <h2>How selection works</h2>
+          <p>The installer resolves what to install in this order:</p>
+          <ul>
+            <li>A selection baked into a short link (<code>/i/&lt;id&gt;</code>) wins.</li>
+            <li>Explicit flags come next: <code>--with tool1,tool2</code> or <code>--all</code>.</li>
+            <li>With neither, it reuses the selection saved from your last run.</li>
+          </ul>
+          <p>Your selection persists in <code>~/.config/vibetoolbox/config</code>, so re-running a bare <code>install.sh</code> repairs your existing setup instead of asking again. Unknown tool ids print a warning and are skipped.</p>
+        </section>
+
+        <section id="updates">
+          <h2>Updates</h2>
+          <p>A background job runs weekly (Mondays at 10:00) and keeps Homebrew packages, global packages, and Claude Code fresh. It logs to <code>~/.vibetoolbox-update.log</code>.</p>
+          <p>Run it manually any time with the <code>update</code> alias. Re-running your install command is also always safe: it checks what is present, fixes what is missing, and changes nothing else.</p>
+        </section>
+
+        <section id="shell">
+          <h2>Shell additions</h2>
+          <p>The installer adds two small files to your zsh config: one for environment setup and one for aliases. Every alias is guarded, meaning it only activates when the tool behind it is installed, so any selection produces a working shell.</p>
+          <p>The full alias list lives on the <a href="/next-steps">next steps</a> page. The one worth knowing early: <code>c</code> starts Claude Code with its safer auto permission mode.</p>
+        </section>
+
+        <section id="uninstall">
+          <h2>Uninstall</h2>
+          <pre><code>curl -fsSL https://vibetoolbox.dev/install.sh | bash -s -- --uninstall</code></pre>
+          <p>This removes the toolbox configuration, the weekly update job, and the shell additions. The tools themselves and your projects stay exactly where they are; remove individual tools with <code>brew uninstall &lt;name&gt;</code> when you want them gone too.</p>
+        </section>
+
+        <section id="troubleshooting">
+          <h2>Troubleshooting</h2>
+          <ul>
+            <li><strong>New aliases missing?</strong> Shell config loads in new windows. Open a fresh terminal.</li>
+            <li><strong>Something failed mid-install?</strong> Re-run the same command. It is a health check that finishes what broke.</li>
+            <li><strong>Password prompt looks frozen?</strong> Typing stays invisible on purpose. Type it and press Return.</li>
+            <li><strong>Still stuck?</strong> <a href="https://github.com/bitbonsai/vibetoolbox/issues" rel="noopener">Open an issue</a> with the tail of your install output.</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- @include footer.html -->
+</body>
+</html>

@@ -33,14 +33,16 @@ vibetoolbox/
 │   ├── shell.sh          # env.zsh + aliases.zsh, ALL runtime-guarded
 │   └── main.sh           # arg parsing, status scan, linear flow
 ├── scripts/build.ts      # bun: catalog.json → catalog.sh; concat → public/install.sh
+├── site/                 # HTML sources: pages/*.html + partials/*.html
+│   ├── pages/            # index, tools, about, next-steps (edit HTML HERE)
+│   └── partials/         # head (SEO/OG vars), navs, footer, scripts
 ├── public/               # static site + built install.sh + catalog copies
-│   ├── index.html        # hero + Alpine picker + nav cart (toolbox panel)
-│   ├── picker.js         # Alpine component: catalog render, hash sync, cart, POST /api/select
-│   ├── catalog.js        # GENERATED window.VTB_CATALOG (no fetch pop-in) - do not edit
+│   ├── *.html            # GENERATED from site/pages by build.ts - do not edit
+│   ├── picker.js         # Alpine components: picker (hash sync, cart, guide) + toolsPage
+│   ├── catalog.js        # GENERATED window.VTB_CATALOG + version (no fetch pop-in)
 │   ├── alpine.min.js     # vendored Alpine 3
 │   ├── img/              # tool brand SVGs (rest use inline Lucide in picker.js)
-│   ├── styles.css        # dark glassy theme, rem typescale, 8pt grid (system-ui + mono)
-│   └── next-steps.html   # post-install landing page
+│   └── styles.css        # dark glassy theme, rem typescale, 8pt grid (system-ui + mono)
 ├── src/server.ts         # Bun + Hono + bun:sqlite
 └── tests/install.test.ts # bun test: script behavior + server API
 ```
@@ -73,9 +75,11 @@ vibetoolbox/
 
 ## Patterns
 
-- Edit `installer/` modules or `catalog.json`, then `bun run test` (builds,
-  syntax-checks, tests). Never edit `public/install.sh` or
-  `installer/catalog.sh` by hand.
+- Edit `installer/` modules, `catalog.json`, or `site/`, then `bun run test`
+  (builds, syntax-checks, tests). Never edit `public/install.sh`,
+  `installer/catalog.sh`, `public/catalog.js`, or `public/*.html` by hand.
+- Version source of truth is `package.json`; build injects it into
+  `catalog.js` (site pill) and the `VERSION=` line of `install.sh`.
 - New tool = one `catalog.json` entry (id, name, category, kind, target,
   app/bin as needed, requires, url, desc). Picker and installer pick it up on
   build.

@@ -37,6 +37,10 @@
     "crush": lucide("#f472b6", '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>'),
     "orca": lucide("#0ea5e9", '<path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>'),
     "ccpeek": lucide("#86868b", '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>'),
+    "agent-browser": lucide("#a78bfa", '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>'),
+    "mkcert": lucide("#fbcc17", '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>'),
+    "shottr": lucide("#0ea5e9", '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>'),
+    "handy": brand("handy.png"),
     "caveman": lucide("#fb923c", '<path d="m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/>'),
     "lazygit": lucide("#4ade80", '<circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/>'),
     "git-delta": lucide("#c084fc", '<path d="M12 3v14"/><path d="M5 10h14"/><path d="M5 21h14"/>'),
@@ -46,6 +50,8 @@
     "tree": lucide("#4ade80", '<path d="M20 10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2.5a1 1 0 0 1-.8-.4l-.9-1.2A1 1 0 0 0 15 3h-2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z"/><path d="M20 21a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-2.9a1 1 0 0 1-.88-.55l-.42-.85a1 1 0 0 0-.92-.6H13a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z"/><path d="M3 5a2 2 0 0 0 2 2h3"/><path d="M3 3v13a2 2 0 0 0 2 2h3"/>'),
     "fzf": lucide("#fbcc17", '<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>'),
     "ripgrep": lucide("#0ea5e9", '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'),
+    "fd": lucide("#fb923c", '<path d="M10.7 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v4.1"/><circle cx="17" cy="17" r="3"/><path d="m21 21-1.5-1.5"/>'),
+    "btop": lucide("#4ade80", '<path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>'),
     "jq": lucide("#c084fc", '<path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/>'),
     "trash-cli": lucide("#86868b", '<path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>'),
   };
@@ -53,6 +59,20 @@
   var FALLBACK_ICON = lucide("#86868b", '<polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/>');
 
   document.addEventListener("alpine:init", function () {
+    // Read-only catalog for tools.html
+    Alpine.data("toolsPage", function () {
+      return {
+        catalog: window.VTB_CATALOG || { categories: [], tools: [] },
+        detail: null,
+        toolsFor(catId) {
+          return this.catalog.tools.filter(function (t) { return t.category === catId; });
+        },
+        iconFor(id) {
+          return ICONS[id] || FALLBACK_ICON;
+        },
+      };
+    });
+
     Alpine.data("picker", function () {
       return {
         catalog: window.VTB_CATALOG || { categories: [], tools: [], presets: {} },
@@ -63,16 +83,32 @@
         activePreset: "",
         activeSection: "top",
         debounceTimer: null,
+        tip: null,
+        guideOpen: false,
+        guideDontShow: false,
+        cartBump: false,
+        bumpTimer: null,
 
         init() {
           var hash = location.hash.replace(/^#/, "");
           if (hash) {
             this.setSelection(hash.split(","));
+            this.detectPreset();
           } else {
             this.applyPreset("essentials");
           }
-          // Track which section the viewport is on for the dot rail
+          // Bump the toolbox icon whenever the selection changes so users
+          // notice where their command lives
           var self = this;
+          this.$watch("selected", function () {
+            self.cartBump = false;
+            clearTimeout(self.bumpTimer);
+            requestAnimationFrame(function () {
+              self.cartBump = true;
+              self.bumpTimer = setTimeout(function () { self.cartBump = false; }, 600);
+            });
+          });
+          // Track which section the viewport is on for the dot rail
           this.$nextTick(function () {
             var observer = new IntersectionObserver(function (entries) {
               entries.forEach(function (entry) {
@@ -151,7 +187,7 @@
           this.afterChange();
         },
 
-        setSelection(ids) {
+        expandIds(ids) {
           var valid = ids.filter(function (id) { return this.toolById(id); }, this);
           // Expand dependencies until stable
           var changed = true;
@@ -164,8 +200,28 @@
               });
             }, this);
           }
-          this.selected = valid;
+          return valid;
+        },
+
+        setSelection(ids) {
+          this.selected = this.expandIds(ids);
           this.afterChange();
+        },
+
+        detectPreset() {
+          var current = this.selectedSorted.join(",");
+          if (!current) return;
+          if (current === this.catalog.tools.map(function (t) { return t.id; }).sort().join(",")) {
+            this.activePreset = "everything";
+            return;
+          }
+          var presets = this.catalog.presets || {};
+          for (var name in presets) {
+            if (current === this.expandIds(presets[name].slice()).sort().join(",")) {
+              this.activePreset = name;
+              return;
+            }
+          }
         },
 
         applyPreset(name) {
@@ -197,18 +253,16 @@
         },
 
         updateCommand() {
+          clearTimeout(this.debounceTimer);
           if (!this.selected.length) {
             this.command = "";
             return;
           }
-          // Fallback command works immediately; the short link replaces it
-          // when the API answers.
+          // Short link only; the long --with command is a last resort when
+          // the API is unreachable.
           var ids = this.selectedSorted;
           var self = this;
-          this.command =
-            "curl -fsSL " + location.origin + "/install.sh | bash -s -- --with " + ids.join(",");
-
-          clearTimeout(this.debounceTimer);
+          this.command = "";
           this.debounceTimer = setTimeout(function () {
             fetch("/api/select", {
               method: "POST",
@@ -217,12 +271,16 @@
             })
               .then(function (r) { return r.ok ? r.json() : null; })
               .then(function (data) {
-                if (data && data.command && ids.join(",") === self.selectedSorted.join(",")) {
-                  self.command = data.command;
-                }
+                if (ids.join(",") !== self.selectedSorted.join(",")) return;
+                self.command = (data && data.command) ||
+                  "curl -fsSL " + location.origin + "/install.sh | bash -s -- --with " + ids.join(",");
               })
-              .catch(function () { /* fallback command already shown */ });
-          }, 350);
+              .catch(function () {
+                if (ids.join(",") !== self.selectedSorted.join(",")) return;
+                self.command =
+                  "curl -fsSL " + location.origin + "/install.sh | bash -s -- --with " + ids.join(",");
+              });
+          }, 250);
         },
 
         copy() {
@@ -230,8 +288,36 @@
           var self = this;
           navigator.clipboard.writeText(this.command).then(function () {
             self.copied = true;
-            setTimeout(function () { self.copied = false; }, 2200);
+            setTimeout(function () { self.copied = false; }, 4000);
+            var dismissed = false;
+            try { dismissed = !!localStorage.getItem("vtb-guide-dismissed"); } catch (_) {}
+            if (!dismissed) {
+              self.guideOpen = true;
+              self.$nextTick(function () { self.$refs.guideOk.focus(); });
+            }
           });
+        },
+
+        closeGuide() {
+          if (this.guideDontShow) {
+            try { localStorage.setItem("vtb-guide-dismissed", "1"); } catch (_) {}
+          }
+          this.guideOpen = false;
+        },
+
+        showTip(id, e) {
+          var tool = this.toolById(id);
+          if (!tool) return;
+          var rect = e.currentTarget.getBoundingClientRect();
+          // Anchor below the chip, centered, clamped to the viewport so
+          // right-edge chips don't push the tooltip offscreen.
+          var half = 128; // tooltip max-width 16rem / 2
+          var x = Math.min(Math.max(rect.left + rect.width / 2, half + 8), window.innerWidth - half - 8);
+          this.tip = { text: tool.desc, x: x, y: rect.bottom + 8 };
+        },
+
+        hideTip() {
+          this.tip = null;
         },
       };
     });

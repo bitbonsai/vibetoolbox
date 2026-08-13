@@ -1,59 +1,96 @@
+<!-- GENERATED from site/pages/index.html by scripts/build.ts - do not edit -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vibe Toolbox. Pick your tools, paste one command.</title>
-  <meta name="description" content="Open-source macOS setup. Pick your tools, paste one command in the terminal, start building.">
-  <meta property="og:title" content="Vibe Toolbox">
-  <meta property="og:description" content="Pick your tools, paste one command, start vibecoding.">
-  <meta property="og:url" content="https://vibetoolbox.dev">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a78bfa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z'/><path d='M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12'/><path d='M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17'/></svg>">
-  <link rel="stylesheet" href="styles.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibe Toolbox. Pick your tools, paste one command.</title>
+<meta name="description" content="Open-source macOS setup. Pick your tools, paste one command in the terminal, start building.">
+<link rel="canonical" href="https://vibetoolbox.dev/">
+<meta property="og:site_name" content="Vibe Toolbox">
+<meta property="og:title" content="Vibe Toolbox. Pick your tools, paste one command.">
+<meta property="og:description" content="Open-source macOS setup. Pick your tools, paste one command in the terminal, start building.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vibetoolbox.dev/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vibe Toolbox. Pick your tools, paste one command.">
+<meta name="twitter:description" content="Open-source macOS setup. Pick your tools, paste one command in the terminal, start building.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a78bfa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z'/><path d='M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12'/><path d='M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17'/></svg>">
+<link rel="stylesheet" href="styles.css">
   <script src="catalog.js" defer></script>
-  <script src="picker.js" defer></script>
-  <script src="alpine.min.js" defer></script>
+<script src="picker.js" defer></script>
+<script src="alpine.min.js" defer></script>
 </head>
 <body x-data="picker">
   <div class="ambient"></div>
 
   <header class="site-header">
-    <div class="nav-container">
+  <div class="nav-container">
+    <div class="brand-group">
       <a class="brand" href="/">
         <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>
         vibetoolbox
       </a>
-      <nav class="site-nav">
-        <button class="nav-cta" type="button" @click="copy" :disabled="!selected.length" :class="{ copied: copied }" x-text="copied ? 'Copied!' : 'Copy install command'"></button>
-        <button class="cart-btn" type="button" @click="cartOpen = !cartOpen" :aria-expanded="cartOpen" aria-label="Your toolbox">
-          <!-- Toolbox icon by Salman Azzumardi, Noun Project -->
-          <svg viewBox="10 14 80 72" fill="currentColor" aria-hidden="true"><path d="m20.438 28.121c-4.2891 0-7.7422 3.4531-7.7422 7.7422v18.004h9.9414v-2.7461c0-1.375 1.1289-2.5039 2.5039-2.5039h2.1289c1.375 0 2.5039 1.1289 2.5039 2.5039v2.7461h6.4844c0.39844-7.2344 6.4062-12.992 13.738-12.992 7.3359 0 13.34 5.7578 13.742 12.992h6.4922v-2.7461c0-1.375 1.1289-2.5039 2.5039-2.5039h2.1289c1.375 0 2.5039 1.1289 2.5039 2.5039v2.7461h9.9414v-18.004c0-4.2891-3.4492-7.7422-7.7422-7.7422h-15.926c-3.1562 0-3.6641 5.3164-6.8203 5.3164h-13.641c-3.1523-0.082031-3.6641-5.3164-6.8203-5.3164zm17.336 26.512c0 2.3906 0.69531 4.6133 1.8789 6.4961l3.4883-3.4883c0.097656-0.097656 0.12891-0.27344 0.082031-0.39844-0.97266-2.5664-0.42578-5.5742 1.6406-7.6406 1.8945-1.8945 4.6641-2.5664 7.1875-1.793 0.41406 0.125 0.48828 0.52344 0.18359 0.82812l-3.8633 3.8633c-0.21484 0.21484-0.30469 0.51953-0.25 0.81641l0.42578 2.2227c0.054687 0.28906 0.27734 0.50781 0.5625 0.5625l2.2227 0.42578c0.29688 0.058594 0.60156-0.039063 0.8125-0.25l3.8672-3.8672c0.30469-0.30469 0.69922-0.23047 0.82422 0.17969l-0.015626-0.011719c0.76953 2.5195 0.09375 5.293-1.7969 7.1875-2.0664 2.0703-5.0742 2.6172-7.6406 1.6406-0.125-0.046875-0.3125-0.003906-0.40234 0.082031l-3.4883 3.4883c1.8828 1.1836 4.1055 1.8789 6.4961 1.8789 6.7617 0 12.227-5.4648 12.227-12.227 0-6.7617-5.4648-12.227-12.227-12.227s-12.227 5.4648-12.227 12.223zm-12.633-4.4805c-0.55078 0-0.96875 0.41797-0.96875 0.96875v7.0312c0 0.55078 0.41797 0.96875 0.96875 0.96875h2.1289c0.55078 0 0.96875-0.41797 0.96875-0.96875v-7.0312c0-0.55078-0.41797-0.96875-0.96875-0.96875zm47.594 0c-0.55078 0-0.96875 0.41797-0.96875 0.96875v7.0312c0 0.55078 0.41797 0.96875 0.96875 0.96875h2.1289c0.55078 0 0.96875-0.41797 0.96875-0.96875v-7.0312c0-0.55078-0.41797-0.96875-0.96875-0.96875zm-60.039 5.25v18.004c0 4.2891 3.4531 7.7422 7.7422 7.7422h59.129c4.293 0 7.7422-3.4531 7.7422-7.7422v-18.004h-9.9414v2.7461c0 1.375-1.1289 2.5039-2.5039 2.5039h-2.1289c-1.375 0-2.5039-1.1289-2.5039-2.5039v-2.7461h-6.4922c-0.39844 7.2344-6.4062 12.992-13.738 12.992-7.3359 0-13.344-5.7578-13.742-12.992l-6.4844 0.003906v2.7461c0 1.375-1.1289 2.5039-2.5039 2.5039h-2.1289c-1.375 0-2.5039-1.1289-2.5039-2.5039v-2.7461z"/><path d="m39.695 18.844c-1.7422 0-3.0742 1.0234-3.9414 2.1602-0.86719 1.1328-1.4062 2.4648-1.4062 3.918v5.6953c0 0.50781 0.20312 0.99609 0.5625 1.3555 0.35938 0.36328 0.84766 0.5625 1.3594 0.5625 0.50781 0 0.99609-0.19922 1.3555-0.5625 0.35938-0.35938 0.5625-0.84766 0.5625-1.3555v-5.6953c0-0.34375 0.23828-1.0898 0.61719-1.5859 0.37891-0.49609 0.76172-0.65234 0.89062-0.65234h20.609c0.12891 0 0.51172 0.15625 0.89062 0.65234 0.37891 0.49609 0.61719 1.2422 0.61719 1.5859v5.6953c0 0.50781 0.20312 0.99609 0.5625 1.3555 0.35938 0.36328 0.84766 0.5625 1.3594 0.5625 0.50781 0 0.99609-0.19922 1.3555-0.5625 0.35938-0.35938 0.5625-0.84766 0.5625-1.3555v-5.6953c0-1.4531-0.53906-2.7812-1.4062-3.918-0.86719-1.1328-2.1992-2.1602-3.9414-2.1602z"/></svg>
-          <span class="cart-badge" x-cloak x-show="selected.length" x-text="selected.length"></span>
-        </button>
-      </nav>
+      <span class="brand-version" x-text="'v' + (catalog.version || '1.0.0')"></span>
     </div>
+    <nav class="site-nav">
+      <button class="nav-cta" type="button" @click="copy" :disabled="!command" :class="{ copied: copied }" x-text="copied ? 'Copied. Now paste on your terminal' : 'Copy install command'"></button>
+      <button class="cart-btn" type="button" @click="cartOpen = !cartOpen" :aria-expanded="cartOpen" :class="{ bump: cartBump }" aria-label="Your toolbox">
+        <!-- Toolbox icon by Salman Azzumardi, Noun Project -->
+        <svg viewBox="10 14 80 72" fill="currentColor" aria-hidden="true"><path d="m20.438 28.121c-4.2891 0-7.7422 3.4531-7.7422 7.7422v18.004h9.9414v-2.7461c0-1.375 1.1289-2.5039 2.5039-2.5039h2.1289c1.375 0 2.5039 1.1289 2.5039 2.5039v2.7461h6.4844c0.39844-7.2344 6.4062-12.992 13.738-12.992 7.3359 0 13.34 5.7578 13.742 12.992h6.4922v-2.7461c0-1.375 1.1289-2.5039 2.5039-2.5039h2.1289c1.375 0 2.5039 1.1289 2.5039 2.5039v2.7461h9.9414v-18.004c0-4.2891-3.4492-7.7422-7.7422-7.7422h-15.926c-3.1562 0-3.6641 5.3164-6.8203 5.3164h-13.641c-3.1523-0.082031-3.6641-5.3164-6.8203-5.3164zm17.336 26.512c0 2.3906 0.69531 4.6133 1.8789 6.4961l3.4883-3.4883c0.097656-0.097656 0.12891-0.27344 0.082031-0.39844-0.97266-2.5664-0.42578-5.5742 1.6406-7.6406 1.8945-1.8945 4.6641-2.5664 7.1875-1.793 0.41406 0.125 0.48828 0.52344 0.18359 0.82812l-3.8633 3.8633c-0.21484 0.21484-0.30469 0.51953-0.25 0.81641l0.42578 2.2227c0.054687 0.28906 0.27734 0.50781 0.5625 0.5625l2.2227 0.42578c0.29688 0.058594 0.60156-0.039063 0.8125-0.25l3.8672-3.8672c0.30469-0.30469 0.69922-0.23047 0.82422 0.17969l-0.015626-0.011719c0.76953 2.5195 0.09375 5.293-1.7969 7.1875-2.0664 2.0703-5.0742 2.6172-7.6406 1.6406-0.125-0.046875-0.3125-0.003906-0.40234 0.082031l-3.4883 3.4883c1.8828 1.1836 4.1055 1.8789 6.4961 1.8789 6.7617 0 12.227-5.4648 12.227-12.227 0-6.7617-5.4648-12.227-12.227-12.227s-12.227 5.4648-12.227 12.223zm-12.633-4.4805c-0.55078 0-0.96875 0.41797-0.96875 0.96875v7.0312c0 0.55078 0.41797 0.96875 0.96875 0.96875h2.1289c0.55078 0 0.96875-0.41797 0.96875-0.96875v-7.0312c0-0.55078-0.41797-0.96875-0.96875-0.96875zm47.594 0c-0.55078 0-0.96875 0.41797-0.96875 0.96875v7.0312c0 0.55078 0.41797 0.96875 0.96875 0.96875h2.1289c0.55078 0 0.96875-0.41797 0.96875-0.96875v-7.0312c0-0.55078-0.41797-0.96875-0.96875-0.96875zm-60.039 5.25v18.004c0 4.2891 3.4531 7.7422 7.7422 7.7422h59.129c4.293 0 7.7422-3.4531 7.7422-7.7422v-18.004h-9.9414v2.7461c0 1.375-1.1289 2.5039-2.5039 2.5039h-2.1289c-1.375 0-2.5039-1.1289-2.5039-2.5039v-2.7461h-6.4922c-0.39844 7.2344-6.4062 12.992-13.738 12.992-7.3359 0-13.344-5.7578-13.742-12.992l-6.4844 0.003906v2.7461c0 1.375-1.1289 2.5039-2.5039 2.5039h-2.1289c-1.375 0-2.5039-1.1289-2.5039-2.5039v-2.7461z"/><path d="m39.695 18.844c-1.7422 0-3.0742 1.0234-3.9414 2.1602-0.86719 1.1328-1.4062 2.4648-1.4062 3.918v5.6953c0 0.50781 0.20312 0.99609 0.5625 1.3555 0.35938 0.36328 0.84766 0.5625 1.3594 0.5625 0.50781 0 0.99609-0.19922 1.3555-0.5625 0.35938-0.35938 0.5625-0.84766 0.5625-1.3555v-5.6953c0-0.34375 0.23828-1.0898 0.61719-1.5859 0.37891-0.49609 0.76172-0.65234 0.89062-0.65234h20.609c0.12891 0 0.51172 0.15625 0.89062 0.65234 0.37891 0.49609 0.61719 1.2422 0.61719 1.5859v5.6953c0 0.50781 0.20312 0.99609 0.5625 1.3555 0.35938 0.36328 0.84766 0.5625 1.3594 0.5625 0.50781 0 0.99609-0.19922 1.3555-0.5625 0.35938-0.35938 0.5625-0.84766 0.5625-1.3555v-5.6953c0-1.4531-0.53906-2.7812-1.4062-3.918-0.86719-1.1328-2.1992-2.1602-3.9414-2.1602z"/></svg>
+        <span class="cart-badge" x-cloak x-show="selected.length" x-text="selected.length"></span>
+      </button>
+    </nav>
+  </div>
 
-    <div class="cart-panel" x-cloak x-show="cartOpen" @click.outside="cartOpen = false" @keydown.escape.window="cartOpen = false" x-transition.opacity.duration.150ms>
-        <template x-if="!selected.length">
-          <p class="cart-empty">Your toolbox is empty. Tick tools below or start from a preset.</p>
-        </template>
-        <template x-if="selected.length">
-          <div>
-            <p class="cart-title">Your toolbox <span x-text="'· ' + selected.length + (selected.length === 1 ? ' tool' : ' tools')"></span></p>
-            <div class="cart-items">
-              <template x-for="id in selectedSorted" :key="id">
-                <span class="cart-chip">
-                  <span x-text="nameOf(id)"></span>
-                  <button type="button" @click="remove(id)" :aria-label="'Remove ' + nameOf(id)">&times;</button>
-                </span>
-              </template>
-            </div>
-            <code class="cart-command" x-text="command"></code>
-            <button class="copy-btn" type="button" @click="copy" :class="{ copied: copied }" x-text="copied ? 'Copied. Paste in Terminal and press Enter' : 'Copy install command'"></button>
-          </div>
-        </template>
+  <div class="cart-panel" x-cloak x-show="cartOpen" @click.outside="cartOpen = false" @keydown.escape.window="cartOpen && (cartOpen = false)" x-transition.opacity.duration.150ms>
+    <template x-if="!selected.length">
+      <p class="cart-empty">Your toolbox is empty. Tick tools below or start from a preset.</p>
+    </template>
+    <template x-if="selected.length">
+      <div>
+        <p class="cart-title">Your toolbox <span x-text="'· ' + selected.length + (selected.length === 1 ? ' tool' : ' tools')"></span></p>
+        <div class="cart-items">
+          <template x-for="id in selectedSorted" :key="id">
+            <span class="cart-chip" @mouseenter="showTip(id, $event)" @mouseleave="hideTip" @focusin="showTip(id, $event)" @focusout="hideTip">
+              <span x-text="nameOf(id)"></span>
+              <button type="button" @click="remove(id)" :aria-label="'Remove ' + nameOf(id)">&times;</button>
+            </span>
+          </template>
+        </div>
+        <code class="cart-command" x-show="command" :class="{ copied: copied }" x-text="command" @click="copy" role="button" tabindex="0" @keydown.enter.prevent="copy" aria-label="Copy install command"></code>
+        <p class="cart-pending" x-show="!command">Minting your short link&hellip;</p>
+      </div>
+    </template>
+  </div>
+</header>
+
+  <div class="tooltip" x-cloak x-show="tip" :style="tip && ('left:' + tip.x + 'px; top:' + tip.y + 'px')" x-text="tip && tip.text" role="tooltip"></div>
+
+  <div class="modal-backdrop" x-cloak x-show="guideOpen" @click.self="closeGuide" @keydown.escape.window="guideOpen && closeGuide()" x-transition.opacity.duration.150ms>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="guide-title">
+      <h2 id="guide-title">Copied. Now paste it in your terminal</h2>
+      <ol class="guide-steps">
+        <li>
+          <strong>Open Terminal.</strong>
+          Press <kbd>⌘</kbd><kbd>space</kbd>, type <em>terminal</em>, press Return.
+        </li>
+        <li>
+          <strong>Paste and run.</strong>
+          Press <kbd>⌘</kbd><kbd>V</kbd>, then Return. The install starts right away.
+        </li>
+        <li>
+          <strong>Let it work.</strong>
+          Password prompts are normal and your typing stays invisible. It takes a
+          few minutes and only installs what you picked.
+        </li>
+      </ol>
+      <label class="guide-dismiss">
+        <input type="checkbox" x-model="guideDontShow"> Don't show this again
+      </label>
+      <button class="copy-btn" type="button" @click="closeGuide" x-ref="guideOk">Got it</button>
     </div>
-  </header>
+  </div>
 
   <nav class="dot-nav" aria-label="Jump to section">
     <template x-for="s in sections" :key="s.id">
@@ -83,24 +120,23 @@
             </g>
           </svg>
         </div>
-        <p class="hero-pill"><span class="hero-pill-version" x-text="'v' + (catalog.version || '1.0.0')"></span> Free and open source</p>
+        <p class="hero-pill">Free and open source</p>
         <h1>
           Pick your tools.<br>
           Paste <em>one command.</em>
         </h1>
         <p class="hero-sub">
-          A box of the good stuff: modern terminal, AI coding agents, editors,
-          and the small CLI comforts that make the command line feel like home.
-          Your Mac, ready in minutes.
+          A modern terminal, AI coding agents, editors, and the comforts that
+          make the command line feel like home. Ready in minutes.
         </p>
         <p class="presets-label">Start from a preset</p>
         <div class="hero-presets" role="group" aria-label="Presets">
           <button class="preset-btn" type="button" :class="{ active: activePreset === 'essentials' }" @click="applyPreset('essentials')">Essentials</button>
-          <button class="preset-btn" type="button" :class="{ active: activePreset === 'terminal-focus' }" @click="applyPreset('terminal-focus')">Terminal focus</button>
+          <button class="preset-btn" type="button" :class="{ active: activePreset === 'recommended' }" @click="applyPreset('recommended')">Recommended</button>
           <button class="preset-btn" type="button" :class="{ active: activePreset === 'everything' }" @click="applyPreset('everything')">Everything</button>
           <button class="preset-btn preset-clear" type="button" @click="applyPreset('clear')">Clear</button>
         </div>
-        <p class="hero-hint">or pick tool by tool below. Your command builds in the toolbox, top right.</p>
+        <p class="hero-hint">or pick tools one by one. The toolbox up top keeps your command ready.</p>
       </div>
     </section>
 
@@ -140,7 +176,7 @@
     <section class="how" id="how" data-section>
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title">Four steps, one paste</h2>
+          <h2 class="section-title">Three steps, one paste</h2>
           <p class="section-description">The command encodes your exact selection. The terminal does the rest.</p>
         </div>
         <ol class="how-steps">
@@ -154,31 +190,32 @@
           </li>
           <li class="step-card">
             <span class="how-num">3</span>
-            <p>Paste it in Terminal, press Enter, and answer the occasional password prompt. Everything else is automatic.</p>
-          </li>
-          <li class="step-card">
-            <span class="how-num">4</span>
-            <p>Re-run the same command any time. It checks your setup and fixes only what is missing.</p>
+            <p>Paste it in Terminal and press Enter. Everything else is automatic, and re-running the same command any time is safe: it only fixes what is missing.</p>
           </li>
         </ol>
         <p class="how-note">
-          A weekly background update keeps Homebrew packages, global packages, and
-          Claude Code fresh. Remove everything with
-          <code>install.sh --uninstall</code>. Tools stay, config goes.
+          Updates itself weekly. Details in the <a href="/docs">docs</a>.
         </p>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p>
-      MIT licensed. Made with
-      <svg class="footer-heart" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" role="img"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg><span class="sr-only">love</span>
-      by <a href="https://github.com/bitbonsai" rel="noopener">bitbonsai</a>
-      <a class="footer-github" href="https://github.com/bitbonsai/vibetoolbox" rel="noopener" aria-label="Source on GitHub">
-        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg>
-      </a>
-    </p>
-  </footer>
+  <nav class="footer-nav" aria-label="Site">
+    <a href="/">Picker</a>
+    <a href="/tools">Tools</a>
+    <a href="/about">About</a>
+    <a href="/docs">Docs</a>
+    <a href="/next-steps">Next steps</a>
+  </nav>
+  <p>
+    MIT licensed. Made with
+    <svg class="footer-heart" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" role="img"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg><span class="sr-only">love</span>
+    by <a href="https://github.com/bitbonsai" rel="noopener">bitbonsai</a>
+    <a class="footer-github" href="https://github.com/bitbonsai/vibetoolbox" rel="noopener" aria-label="Source on GitHub">
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg>
+    </a>
+  </p>
+</footer>
 </body>
 </html>

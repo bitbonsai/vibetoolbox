@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- @include head.html title="Tools. Vibe Toolbox" desc="Every tool in the Vibe Toolbox catalog: terminals, AI coding agents, editors, git helpers, and CLI comforts." path="/tools.html" -->
+  <!-- @include scripts.html -->
+</head>
+<body class="steps-page" x-data="toolsPage">
+  <div class="ambient"></div>
+
+  <!-- @include nav-simple.html -->
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <p class="hero-pill">The full catalog</p>
+        <h1>Every tool <em>in the box.</em></h1>
+        <p class="hero-sub">
+          What each one does and where it comes from. Pick the ones you want
+          in the <a href="/">picker</a>, and your command installs exactly that set.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container picker">
+        <template x-for="cat in catalog.categories" :key="cat.id">
+          <div class="category" x-show="toolsFor(cat.id).length">
+            <div class="category-header">
+              <h2 x-text="cat.name"></h2>
+              <span class="cat-count" x-text="toolsFor(cat.id).length + ' tools'"></span>
+            </div>
+            <div class="tool-grid">
+              <template x-for="tool in toolsFor(cat.id)" :key="tool.id">
+                <div class="tool-card tool-card-static" @click="detail = tool" @keydown.enter="detail = tool" tabindex="0" role="button" :aria-label="'About ' + tool.name">
+                  <span class="tool-card-top">
+                    <span class="tool-icon" x-html="iconFor(tool.id)"></span>
+                    <span class="tool-name" x-text="tool.name" :title="tool.name"></span>
+                  </span>
+                  <p class="tool-desc" x-text="tool.desc"></p>
+                  <span class="tool-actions">
+                    <button class="tool-action" type="button" @click.stop="detail = tool">Details</button>
+                    <a class="tool-action" :href="tool.url" rel="noopener" target="_blank" @click.stop>Website &#8599;</a>
+                  </span>
+                </div>
+              </template>
+            </div>
+          </div>
+        </template>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" x-cloak x-show="detail" @click.self="detail = null" @keydown.escape.window="detail = null" x-transition.opacity.duration.150ms>
+    <div class="modal tool-modal" role="dialog" aria-modal="true" :aria-label="detail && detail.name">
+      <template x-if="detail">
+        <div>
+          <div class="tool-modal-head">
+            <span class="tool-icon" x-html="iconFor(detail.id)"></span>
+            <h2 x-text="detail.name"></h2>
+          </div>
+          <p class="tool-modal-more" x-text="detail.more || detail.desc"></p>
+          <p class="tool-modal-why" x-show="detail.why"><strong>Why it's in the box.</strong> <span x-text="detail.why"></span></p>
+          <pre class="tool-modal-try" x-show="detail.try"><code x-text="detail.try"></code></pre>
+          <span class="tool-badge" x-show="detail.requires && detail.requires.length" x-text="'installs with ' + (detail.requires || []).join(', ')"></span>
+          <div class="tool-modal-actions">
+            <a class="copy-btn" :href="detail.url" rel="noopener" target="_blank">Visit website &#8599;</a>
+            <button class="preset-btn" type="button" @click="detail = null">Close</button>
+          </div>
+        </div>
+      </template>
+    </div>
+  </div>
+
+  <!-- @include footer.html -->
+</body>
+</html>

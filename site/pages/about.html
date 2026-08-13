@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- @include head.html title="About. Vibe Toolbox" desc="Why Vibe Toolbox exists: one command that sets up a Mac for building with AI coding agents, with nothing installed that you did not pick." path="/about.html" -->
+</head>
+<body class="steps-page">
+  <div class="ambient"></div>
+
+  <!-- @include nav-simple.html -->
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <p class="hero-pill">Why this exists</p>
+        <h1>Hours of setup, <em>gone.</em></h1>
+        <p class="hero-sub">
+          Setting up a Mac for agentic coding by hand takes hours, and you will
+          forget something. This bootstraps you in minutes.
+        </p>
+      </div>
+    </section>
+
+    <div class="steps">
+      <section>
+        <h2>The problem</h2>
+        <p>A working setup means a terminal, Homebrew, runtimes, git, an agent, editors, and a dozen small tools, each with its own install steps and config. Do it manually and it eats your afternoon; miss one PATH line and half of it silently breaks. That is true whether you are a designer, a PM, or a developer unboxing a new machine.</p>
+        <p>Vibe Toolbox compresses all of it into one pasted command. Pick what you want on the website, paste, and start working right away.</p>
+      </section>
+
+      <section>
+        <h2>You choose everything</h2>
+        <p>Nothing installs behind your back. The picker builds a command that encodes your exact selection in a short link. The same selection always produces the same link, so you can share it with a teammate and they get the same setup.</p>
+        <p>Dependencies come along automatically. Pick a tool that needs Bun and Bun joins the list, visible in your toolbox before you copy anything.</p>
+      </section>
+
+      <section>
+        <h2>Idempotent by design</h2>
+        <p>Re-running your command is always safe. Anything already installed is detected and skipped, never reinstalled or overwritten. It fixes what is missing and touches nothing else, which makes the same command your installer, your repair tool, and your onboarding link for the next machine.</p>
+        <p>Defaults stay safe too: shell aliases are guarded so any subset produces a working terminal, and the <code>c</code> shortcut starts Claude Code with its safer auto permission mode rather than full bypass.</p>
+      </section>
+
+      <section>
+        <h2>Easy to undo</h2>
+        <p>Run your command with <code>--uninstall</code> and the toolbox removes only its configuration, its update job, and its shell additions. The tools themselves and your projects stay where they are.</p>
+      </section>
+
+      <section>
+        <h2>Practical over clever</h2>
+        <p>The whole point is removing obstacles between you and agentic coding tools. No framework, no account, no daemon watching you. Plain bash you can read before you run it, MIT licensed, in <a href="https://github.com/bitbonsai/vibetoolbox" rel="noopener">one repository on GitHub</a>. Simple to start, easy to keep, fun to use.</p>
+      </section>
+    </div>
+  </main>
+
+  <!-- @include footer.html -->
+</body>
+</html>

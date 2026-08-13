@@ -94,6 +94,11 @@ app.get("/i/:slug", async (c) => {
 
 app.get("/healthz", (c) => c.text("ok"));
 
+// Clean URLs: /docs -> public/docs.html etc.
+for (const page of ["tools", "about", "docs", "next-steps"]) {
+  app.get(`/${page}`, serveStatic({ path: `./public/${page}.html` }));
+}
+
 app.use("/*", serveStatic({ root: "./public" }));
 
 function siteUrl(reqUrl: string): string {

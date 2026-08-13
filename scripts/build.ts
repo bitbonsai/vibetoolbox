@@ -1,8 +1,10 @@
-// Build script: generates installer/catalog.sh from catalog.json, then
-// concatenates installer/*.sh modules into public/install.sh
+// Build script: generates installer/catalog.sh from catalog.json,
+// concatenates installer/*.sh modules into public/install.sh, and renders
+// site/pages/*.html (with site/partials includes) into public/*.html
 // Usage: bun scripts/build.ts
 
 import { join } from "path";
+import { readdir } from "node:fs/promises";
 
 const ROOT = join(import.meta.dir, "..");
 const INSTALLER_DIR = join(ROOT, "installer");
@@ -16,14 +18,14 @@ catalog.version = pkg.version;
 
 // --- Generate installer/catalog.sh from catalog.json ---
 const rows = catalog.tools.map(
-  (t: { id: string; kind: string; target: string; app?: string; bin?: string; name: string; requires?: string[] }) =>
-    `    "${[t.id, t.kind, t.target, t.app ?? "", t.bin ?? "", t.name, (t.requires ?? []).join(",")].join("|")}"`,
+  (t: { id: string; kind: string; target: string; app?: string; bin?: string; name: string; requires?: string[]; post?: string }) =>
+    `    "${[t.id, t.kind, t.target, t.app ?? "", t.bin ?? "", t.name, (t.requires ?? []).join(","), t.post ?? ""].join("|")}"`,
 );
 
 const catalogSh = `# =============================================================================
 # TOOL CATALOG (generated from catalog.json by scripts/build.ts — do not edit)
 # =============================================================================
-# Fields: id|kind|target|app|bin|name|requires
+# Fields: id|kind|target|app|bin|name|requires|post
 
 CATALOG=(
 ${rows.join("\n")}
@@ -77,6 +79,42 @@ for (const module of MODULES) {
 }
 await Bun.write(OUTPUT, parts.join("\n"));
 
+// --- Render site/pages/*.html with site/partials includes ---
+// Include syntax: <!-- @include name.html key="value" ... -->
+// Partials use {{key}} placeholders; unknown keys render empty.
+const PAGES_DIR = join(ROOT, "site", "pages");
+const PARTIALS_DIR = join(ROOT, "site", "partials");
+const INCLUDE_RE = /<!--\s*@include\s+(\S+?)((?:\s+\w+="[^"]*")*)\s*-->/g;
+
+async function renderPage(html: string): Promise<string> {
+  const matches = [...html.matchAll(INCLUDE_RE)];
+  for (const m of matches) {
+    const partialFile = Bun.file(join(PARTIALS_DIR, m[1]));
+    if (!(await partialFile.exists())) {
+      console.error(`ERROR: Missing partial: ${m[1]}`);
+      process.exit(1);
+    }
+    const vars: Record<string, string> = {};
+    for (const [, key, value] of m[2].matchAll(/(\w+)="([^"]*)"/g)) {
+      vars[key] = value;
+    }
+    const partial = (await partialFile.text())
+      .replace(/\{\{(\w+)\}\}/g, (_, key) => vars[key] ?? "")
+      .trimEnd();
+    html = html.replace(m[0], partial);
+  }
+  return html;
+}
+
+const pageNames = (await readdir(PAGES_DIR)).filter((n) => n.endsWith(".html"));
+for (const name of pageNames) {
+  const source = await Bun.file(join(PAGES_DIR, name)).text();
+  const rendered =
+    "<!-- GENERATED from site/pages/" + name + " by scripts/build.ts - do not edit -->\n" +
+    (await renderPage(source));
+  await Bun.write(join(ROOT, "public", name), rendered);
+}
+
 console.log(
-  `Built public/install.sh from ${MODULES.length} modules (${catalog.tools.length} tools in catalog)`,
+  `Built public/install.sh from ${MODULES.length} modules (${catalog.tools.length} tools in catalog); rendered ${pageNames.length} pages`,
 );

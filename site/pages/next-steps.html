@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- @include head.html title="Next steps. Vibe Toolbox" desc="Your Mac is set up. Here is what to do in your first ten minutes." path="/next-steps.html" -->
+</head>
+<body class="steps-page">
+  <div class="ambient"></div>
+
+  <!-- @include nav-simple.html -->
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <p class="hero-pill">You made it</p>
+        <h1>Your Mac is <em>ready.</em></h1>
+        <p class="hero-sub">Ten minutes of orientation and you are off. Everything below assumes a fresh Ghostty window.</p>
+      </div>
+    </section>
+
+    <div class="steps">
+      <section>
+        <h2>1. Open a fresh terminal</h2>
+        <p>Your shell config only loads in new windows. Open Ghostty (or your terminal of choice) and you should see the Starship prompt: a clean line with your folder and git branch. Try:</p>
+        <pre><code>ls        # pretty file listing with icons (eza)
+z dev     # jump to ~/dev from anywhere (zoxide)
+lt        # tree view of the current folder</code></pre>
+      </section>
+
+      <section>
+        <h2>2. Connect your AI agent</h2>
+        <p>The agents you installed need an account to think with. Three routes:</p>
+        <ul>
+          <li><strong>You already have a subscription.</strong> Claude Pro or Max unlocks Claude Code: run <code>claude</code> and sign in. A ChatGPT plan unlocks Codex: run <code>codex</code> and sign in.</li>
+          <li><strong>No subscription, one bill.</strong> OpenCode offers its own plans with model access included: run <code>opencode</code> and follow the sign-up.</li>
+          <li><strong>All models, pay per use.</strong> Create an <a href="https://openrouter.ai" rel="noopener">OpenRouter</a> key. Pi, Crush, and OpenCode all accept it, and you can switch models freely.</li>
+        </ul>
+        <p>Whichever you picked, the alias <code>c</code> starts Claude Code with sensible permissions when it is installed.</p>
+      </section>
+
+      <section>
+        <h2>3. Make your first thing</h2>
+        <pre><code>cd ~/dev
+mkdir my-first-site && cd my-first-site
+c         # or opencode, codex, pi, crush</code></pre>
+        <p>Then just describe what you want: "make me a single-page site about my dog, dark theme, big type." Watch it work. Ask for changes. That loop is the whole game.</p>
+      </section>
+
+      <section>
+        <h2>4. Cheatsheet</h2>
+        <table>
+          <tr><th>Type</th><th>Get</th></tr>
+          <tr><td><code>c</code></td><td>Claude Code, auto permissions</td></tr>
+          <tr><td><code>gs</code> / <code>gaa</code> / <code>gcm "msg"</code> / <code>gp</code></td><td>git status, add all, commit, push</td></tr>
+          <tr><td><code>lg</code></td><td>lazygit, visual git (if installed)</td></tr>
+          <tr><td><code>ls</code> / <code>lsa</code> / <code>lt</code></td><td>listings and trees via eza</td></tr>
+          <tr><td><code>z somefolder</code></td><td>jump to a folder you have visited</td></tr>
+          <tr><td><code>ff</code></td><td>fuzzy-find files with preview</td></tr>
+          <tr><td><code>update</code></td><td>run the weekly updater now</td></tr>
+          <tr><td><code>zreload</code></td><td>reload shell config</td></tr>
+        </table>
+      </section>
+
+      <section>
+        <h2>5. Good to know</h2>
+        <ul>
+          <li>Re-run your install command any time. It is a system check that fixes only what is missing.</li>
+          <li>Updates run weekly (Mondays, 10:00) in the background. Log: <code>~/.vibetoolbox-update.log</code></li>
+          <li>Want more tools later? Go back to the <a href="/">picker</a>, adjust, paste the new command.</li>
+          <li>Remove the toolbox config with <code>--uninstall</code>. Your tools and projects stay.</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <!-- @include footer.html -->
+</body>
+</html>

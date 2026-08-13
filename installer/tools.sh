@@ -36,11 +36,12 @@ _ensure_tap() {
 
 _install_tool() {
     local id="$1"
-    local kind target bin name
+    local kind target bin name post
     kind="$(catalog_field "$id" 2)"
     target="$(catalog_field "$id" 3)"
     bin="$(catalog_field "$id" 5)"
     name="$(catalog_field "$id" 6)"
+    post="$(catalog_field "$id" 8)"
 
     print_step "Installing ${name}..."
 
@@ -73,6 +74,11 @@ _install_tool() {
             fi
             ;;
     esac
+
+    # Optional post-install step from the catalog (e.g. agent-browser install)
+    if [[ -n "$post" ]] && _tool_installed "$id"; then
+        bash -c "$post" </dev/null &>/dev/null || true
+    fi
 
     if _tool_installed "$id"; then
         print_success "$name"

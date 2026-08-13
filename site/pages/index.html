@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- @include head.html title="Vibe Toolbox. Pick your tools, paste one command." desc="Open-source macOS setup. Pick your tools, paste one command in the terminal, start building." path="/" -->
+  <!-- @include scripts.html -->
+</head>
+<body x-data="picker">
+  <div class="ambient"></div>
+
+  <!-- @include nav-app.html -->
+
+  <div class="tooltip" x-cloak x-show="tip" :style="tip && ('left:' + tip.x + 'px; top:' + tip.y + 'px')" x-text="tip && tip.text" role="tooltip"></div>
+
+  <div class="modal-backdrop" x-cloak x-show="guideOpen" @click.self="closeGuide" @keydown.escape.window="guideOpen && closeGuide()" x-transition.opacity.duration.150ms>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="guide-title">
+      <h2 id="guide-title">Copied. Now paste it in your terminal</h2>
+      <ol class="guide-steps">
+        <li>
+          <strong>Open Terminal.</strong>
+          Press <kbd>⌘</kbd><kbd>space</kbd>, type <em>terminal</em>, press Return.
+        </li>
+        <li>
+          <strong>Paste and run.</strong>
+          Press <kbd>⌘</kbd><kbd>V</kbd>, then Return. The install starts right away.
+        </li>
+        <li>
+          <strong>Let it work.</strong>
+          Password prompts are normal and your typing stays invisible. It takes a
+          few minutes and only installs what you picked.
+        </li>
+      </ol>
+      <label class="guide-dismiss">
+        <input type="checkbox" x-model="guideDontShow"> Don't show this again
+      </label>
+      <button class="copy-btn" type="button" @click="closeGuide" x-ref="guideOk">Got it</button>
+    </div>
+  </div>
+
+  <nav class="dot-nav" aria-label="Jump to section">
+    <template x-for="s in sections" :key="s.id">
+      <a :href="'#' + s.id" class="dot" :class="{ active: activeSection === s.id }" :aria-current="activeSection === s.id ? 'true' : false" @click.prevent="jump(s.id)">
+        <span class="dot-label" x-text="s.name"></span>
+      </a>
+    </template>
+  </nav>
+
+  <main>
+    <section class="hero" id="top" data-section>
+      <div class="container hero-inner">
+        <div class="hero-logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
+            <defs>
+              <linearGradient id="vtb-shine" x1="0" y1="0" x2="1" y2="0.25">
+                <stop offset="0" stop-color="rgba(167, 139, 250, 0.03)"/>
+                <stop offset="0.5" stop-color="rgba(221, 214, 254, 0.13)"/>
+                <stop offset="1" stop-color="rgba(167, 139, 250, 0.03)"/>
+                <animateTransform attributeName="gradientTransform" type="translate" from="-1.2 0" to="1.2 0" dur="4.5s" repeatCount="indefinite"/>
+              </linearGradient>
+            </defs>
+            <g stroke="url(#vtb-shine)">
+              <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/>
+              <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/>
+              <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>
+            </g>
+          </svg>
+        </div>
+        <p class="hero-pill">Free and open source</p>
+        <h1>
+          Pick your tools.<br>
+          Paste <em>one command.</em>
+        </h1>
+        <p class="hero-sub">
+          A modern terminal, AI coding agents, editors, and the comforts that
+          make the command line feel like home. Ready in minutes.
+        </p>
+        <p class="presets-label">Start from a preset</p>
+        <div class="hero-presets" role="group" aria-label="Presets">
+          <button class="preset-btn" type="button" :class="{ active: activePreset === 'essentials' }" @click="applyPreset('essentials')">Essentials</button>
+          <button class="preset-btn" type="button" :class="{ active: activePreset === 'recommended' }" @click="applyPreset('recommended')">Recommended</button>
+          <button class="preset-btn" type="button" :class="{ active: activePreset === 'everything' }" @click="applyPreset('everything')">Everything</button>
+          <button class="preset-btn preset-clear" type="button" @click="applyPreset('clear')">Clear</button>
+        </div>
+        <p class="hero-hint">or pick tools one by one. The toolbox up top keeps your command ready.</p>
+      </div>
+    </section>
+
+    <section class="picker-section">
+      <div class="container picker" id="picker">
+        <noscript>
+          <p class="noscript-note">
+            The picker needs JavaScript. Without it, install with an explicit list:<br>
+            <code>curl -fsSL https://vibetoolbox.dev/install.sh | bash -s -- --with ghostty,starship,claude-code</code>
+          </p>
+        </noscript>
+        <template x-for="cat in catalog.categories" :key="cat.id">
+          <div class="category" :id="'cat-' + cat.id" data-section x-show="toolsFor(cat.id).length">
+            <div class="category-header">
+              <h2 x-text="cat.name"></h2>
+              <span class="cat-count" x-text="countLabel(cat.id)"></span>
+            </div>
+            <div class="tool-grid">
+              <template x-for="tool in toolsFor(cat.id)" :key="tool.id">
+                <label class="tool-card" :class="{ selected: isSelected(tool.id) }">
+                  <input type="checkbox" :value="tool.id" :checked="isSelected(tool.id)" @change="toggle(tool, $event.target.checked)">
+                  <span class="tool-card-top">
+                    <span class="tool-icon" x-html="iconFor(tool.id)"></span>
+                    <span class="tool-name" x-text="tool.name" :title="tool.name"></span>
+                    <span class="tool-check" aria-hidden="true"></span>
+                  </span>
+                  <p class="tool-desc" x-text="tool.desc"></p>
+                  <span class="tool-badge" x-show="tool.requires && tool.requires.length" x-text="'needs ' + (tool.requires || []).join(', ')"></span>
+                </label>
+              </template>
+            </div>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <section class="how" id="how" data-section>
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Three steps, one paste</h2>
+          <p class="section-description">The command encodes your exact selection. The terminal does the rest.</p>
+        </div>
+        <ol class="how-steps">
+          <li class="step-card">
+            <span class="how-num">1</span>
+            <p>Tick the tools you want. Dependencies come along automatically.</p>
+          </li>
+          <li class="step-card">
+            <span class="how-num">2</span>
+            <p>Copy your command from the toolbox. It encodes your exact selection in a short link.</p>
+          </li>
+          <li class="step-card">
+            <span class="how-num">3</span>
+            <p>Paste it in Terminal and press Enter. Everything else is automatic, and re-running the same command any time is safe: it only fixes what is missing.</p>
+          </li>
+        </ol>
+        <p class="how-note">
+          Updates itself weekly. Details in the <a href="/docs">docs</a>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- @include footer.html -->
+</body>
+</html>

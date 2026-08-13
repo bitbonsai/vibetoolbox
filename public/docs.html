@@ -1,0 +1,143 @@
+<!-- GENERATED from site/pages/docs.html by scripts/build.ts - do not edit -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docs. Vibe Toolbox</title>
+<meta name="description" content="How Vibe Toolbox works: the install command, presets, weekly updates, shell additions, and how to uninstall.">
+<link rel="canonical" href="https://vibetoolbox.dev/docs.html">
+<meta property="og:site_name" content="Vibe Toolbox">
+<meta property="og:title" content="Docs. Vibe Toolbox">
+<meta property="og:description" content="How Vibe Toolbox works: the install command, presets, weekly updates, shell additions, and how to uninstall.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vibetoolbox.dev/docs.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docs. Vibe Toolbox">
+<meta name="twitter:description" content="How Vibe Toolbox works: the install command, presets, weekly updates, shell additions, and how to uninstall.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a78bfa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z'/><path d='M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12'/><path d='M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17'/></svg>">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="steps-page">
+  <div class="ambient"></div>
+
+  <header class="site-header">
+  <div class="nav-container">
+    <div class="brand-group">
+      <a class="brand" href="/">
+        <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>
+        vibetoolbox
+      </a>
+    </div>
+    <nav class="site-nav">
+      <a href="/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+        <span>Picker</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+  <main>
+    <section class="hero docs-hero">
+      <div class="container">
+        <p class="hero-pill">Documentation</p>
+        <h1>How it all <em>works.</em></h1>
+        <p class="hero-sub">The install command, what it touches, and how to change your mind later.</p>
+      </div>
+    </section>
+
+    <div class="container docs-layout">
+      <aside class="docs-sidebar" aria-label="Docs sections">
+        <a href="#install-command">The install command</a>
+        <a href="#presets">Presets</a>
+        <a href="#selection">How selection works</a>
+        <a href="#updates">Updates</a>
+        <a href="#shell">Shell additions</a>
+        <a href="#uninstall">Uninstall</a>
+        <a href="#troubleshooting">Troubleshooting</a>
+      </aside>
+
+      <div class="steps docs-content">
+        <section id="install-command">
+          <h2>The install command</h2>
+          <p>Every selection you make in the <a href="/">picker</a> becomes one command:</p>
+          <pre><code>curl -fsSL https://vibetoolbox.dev/i/&lt;id&gt; | bash</code></pre>
+          <p>The short id is derived from your exact tool list, so the same selection always produces the same link. You can also skip the picker and name tools directly:</p>
+          <pre><code>curl -fsSL https://vibetoolbox.dev/install.sh | bash -s -- --with ghostty,starship,claude-code
+curl -fsSL https://vibetoolbox.dev/install.sh | bash -s -- --all</code></pre>
+          <p>The script needs bash, which every Mac ships with. It installs Xcode Command Line Tools and Homebrew first when they are missing; those two are the only hard requirements. Everything else installs in dependency order and a failed tool never aborts the run, it lands in a warning summary at the end.</p>
+        </section>
+
+        <section id="presets">
+          <h2>Presets</h2>
+          <p>Three starting points, all editable before you copy anything:</p>
+          <ul>
+            <li><strong>Essentials.</strong> Terminal, Claude Code, an editor, git tooling, and the core CLI comforts.</li>
+            <li><strong>Recommended.</strong> Essentials plus more agents, git helpers, and power tools. What we actually run.</li>
+            <li><strong>Everything.</strong> The whole catalog.</li>
+          </ul>
+          <p>Ticking a tool that depends on another pulls the dependency in automatically. Your toolbox in the nav always shows the full final list.</p>
+        </section>
+
+        <section id="selection">
+          <h2>How selection works</h2>
+          <p>The installer resolves what to install in this order:</p>
+          <ul>
+            <li>A selection baked into a short link (<code>/i/&lt;id&gt;</code>) wins.</li>
+            <li>Explicit flags come next: <code>--with tool1,tool2</code> or <code>--all</code>.</li>
+            <li>With neither, it reuses the selection saved from your last run.</li>
+          </ul>
+          <p>Your selection persists in <code>~/.config/vibetoolbox/config</code>, so re-running a bare <code>install.sh</code> repairs your existing setup instead of asking again. Unknown tool ids print a warning and are skipped.</p>
+        </section>
+
+        <section id="updates">
+          <h2>Updates</h2>
+          <p>A background job runs weekly (Mondays at 10:00) and keeps Homebrew packages, global packages, and Claude Code fresh. It logs to <code>~/.vibetoolbox-update.log</code>.</p>
+          <p>Run it manually any time with the <code>update</code> alias. Re-running your install command is also always safe: it checks what is present, fixes what is missing, and changes nothing else.</p>
+        </section>
+
+        <section id="shell">
+          <h2>Shell additions</h2>
+          <p>The installer adds two small files to your zsh config: one for environment setup and one for aliases. Every alias is guarded, meaning it only activates when the tool behind it is installed, so any selection produces a working shell.</p>
+          <p>The full alias list lives on the <a href="/next-steps">next steps</a> page. The one worth knowing early: <code>c</code> starts Claude Code with its safer auto permission mode.</p>
+        </section>
+
+        <section id="uninstall">
+          <h2>Uninstall</h2>
+          <pre><code>curl -fsSL https://vibetoolbox.dev/install.sh | bash -s -- --uninstall</code></pre>
+          <p>This removes the toolbox configuration, the weekly update job, and the shell additions. The tools themselves and your projects stay exactly where they are; remove individual tools with <code>brew uninstall &lt;name&gt;</code> when you want them gone too.</p>
+        </section>
+
+        <section id="troubleshooting">
+          <h2>Troubleshooting</h2>
+          <ul>
+            <li><strong>New aliases missing?</strong> Shell config loads in new windows. Open a fresh terminal.</li>
+            <li><strong>Something failed mid-install?</strong> Re-run the same command. It is a health check that finishes what broke.</li>
+            <li><strong>Password prompt looks frozen?</strong> Typing stays invisible on purpose. Type it and press Return.</li>
+            <li><strong>Still stuck?</strong> <a href="https://github.com/bitbonsai/vibetoolbox/issues" rel="noopener">Open an issue</a> with the tail of your install output.</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+  <nav class="footer-nav" aria-label="Site">
+    <a href="/">Picker</a>
+    <a href="/tools">Tools</a>
+    <a href="/about">About</a>
+    <a href="/docs">Docs</a>
+    <a href="/next-steps">Next steps</a>
+  </nav>
+  <p>
+    MIT licensed. Made with
+    <svg class="footer-heart" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" role="img"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg><span class="sr-only">love</span>
+    by <a href="https://github.com/bitbonsai" rel="noopener">bitbonsai</a>
+    <a class="footer-github" href="https://github.com/bitbonsai/vibetoolbox" rel="noopener" aria-label="Source on GitHub">
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg>
+    </a>
+  </p>
+</footer>
+</body>
+</html>
