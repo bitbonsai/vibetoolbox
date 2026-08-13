@@ -22,7 +22,7 @@ const SSH_TARGET = /^(?!-)[A-Za-z0-9_.@:-]+$/;
 const COMMIT = /^[a-f0-9]{40}$/;
 const SERVER_CLI = "~/.local/bin/shibumi-server";
 const LATEST_SOURCE = "https://shibumistack.dev/ship/latest.ts";
-const CURRENT_SOURCE = "https://shibumistack.dev/ship/v17.ts";
+const CURRENT_SOURCE = "https://shibumistack.dev/ship/v18.ts";
 let sshControlDirectory: string | undefined;
 let sshControlTarget: string | undefined;
 const accent = (value: string) => process.stdout.isTTY && !("NO_COLOR" in process.env) && process.env.TERM !== "dumb"
@@ -57,6 +57,12 @@ interface DeployStatus {
   output?: string;
   url?: string;
   queuedCommit?: string;
+}
+
+interface HistoryEntry {
+  commit?: string;
+  state?: string;
+  stage?: string;
 }
 
 function explain(title: string, message: string): void {
@@ -114,6 +120,10 @@ async function offerSetupCommit(): Promise<"none" | "committed" | "declined"> {
 // collapse to the same server app ID.
 export function appIdForDomain(domain: string): string {
   return domain.replaceAll("-", "--").replaceAll(".", "-");
+}
+
+export function terminalHistory(entries: HistoryEntry[], commit: string): HistoryEntry | undefined {
+  return entries.findLast((entry) => entry.commit === commit && ["succeeded", "failed"].includes(entry.state ?? ""));
 }
 
 export function canFollowDeployment(status: DeployStatus | undefined, commit: string): boolean {
@@ -519,7 +529,25 @@ async function followStatus(config: ClientConfig, target: string, commit: string
         progress.stop(`Deployment failed during ${status.stage ?? "unknown"}`, 1);
         throw new Error([status.message ?? "deployment failed", status.output].filter(Boolean).join("\n"));
       }
-    } else if (sawQueued) {
+    } else if (lastStage) {
+      const history = await ssh(target, [
+        "env", "SHIBUMI_SKIP_UPDATE_CHECK=1", SERVER_CLI, "history", config.appId, "--json",
+      ], { allowFailure: true });
+      if (history.exitCode === 0 && history.stdout.trim()) {
+        const terminal = terminalHistory(JSON.parse(history.stdout) as HistoryEntry[], commit);
+        if (terminal?.state === "succeeded") {
+          progress.stop(config.cutoverRequired
+            ? `New upstream healthy at 127.0.0.1 (Caddy cutover pending)`
+            : `Shipped https://${config.domain}`);
+          return;
+        }
+        if (terminal?.state === "failed") {
+          progress.stop(`Deployment failed during ${terminal.stage ?? "unknown"}`, 1);
+          throw new Error(`deployment failed during ${terminal.stage ?? "unknown"}.\n\nNext: run ssh ${target} shibumi-server history ${config.appId}.`);
+        }
+      }
+    }
+    if (sawQueued) {
       const current = await ssh(target, [
         "env", "SHIBUMI_SKIP_UPDATE_CHECK=1", SERVER_CLI, "status", config.appId, "--json",
       ], { allowFailure: true });
