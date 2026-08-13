@@ -282,11 +282,18 @@
 
         updateHash() {
           var ids = this.selectedSorted;
-          if (ids.length) {
+          // Default Essentials selection keeps a clean URL: an empty hash
+          // applies the same preset on load, so the state round-trips
+          if (ids.length && ids.join(",") !== this.essentialsIds()) {
             history.replaceState(null, "", "#" + ids.join(","));
           } else {
             history.replaceState(null, "", location.pathname);
           }
+        },
+
+        essentialsIds() {
+          var preset = (this.catalog.presets && this.catalog.presets.essentials) || [];
+          return this.expandIds(preset.slice()).sort().join(",");
         },
 
         updateCommand() {
