@@ -225,6 +225,47 @@ STARSHIP_EOF
         track_ok "Starship config"
     fi
 
+    # Handy: default push-to-talk on right command. Seeded only when no
+    # settings exist; Handy merges missing keys with its own defaults.
+    if selection_has "handy"; then
+        local handy_store="$HOME/Library/Application Support/com.pais.handy/settings_store.json"
+        if [[ ! -f "$handy_store" ]]; then
+            mkdir -p "$(dirname "$handy_store")"
+            cat > "$handy_store" << 'HANDY_EOF'
+{
+  "settings": {
+    "bindings": {
+      "transcribe": {
+        "current_binding": "command_right",
+        "default_binding": "option+space",
+        "id": "transcribe",
+        "name": "Transcribe"
+      }
+    }
+  }
+}
+HANDY_EOF
+            print_success "Handy config ${DIM}(push-to-talk: right cmd)${NC}"
+            log "OK: Handy settings seeded"
+            track_ok "Handy config"
+        fi
+    fi
+
+    # Zed: font defaults matching the Nerd Font (only when no settings exist)
+    if selection_has "zed" && [[ ! -f "$HOME/.config/zed/settings.json" ]]; then
+        mkdir -p "$HOME/.config/zed"
+        cat > "$HOME/.config/zed/settings.json" << 'ZED_EOF'
+{
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_size": 15,
+  "ui_font_size": 15
+}
+ZED_EOF
+        print_success "Zed config ${DIM}(Nerd Font)${NC}"
+        log "OK: Zed settings written"
+        track_ok "Zed config"
+    fi
+
     # Create ~/dev directory
     if [[ ! -d "$HOME/dev" ]]; then
         mkdir -p "$HOME/dev"

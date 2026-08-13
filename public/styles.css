@@ -113,10 +113,9 @@ main,
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    background: rgba(10, 10, 14, 0.6);
+    background: rgba(10, 10, 14, 0.45);
     backdrop-filter: blur(1rem);
     -webkit-backdrop-filter: blur(1rem);
-    border: 1px solid var(--border);
     border-radius: 1rem;
     padding: 0.5rem 1rem;
 }
