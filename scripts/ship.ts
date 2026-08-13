@@ -22,7 +22,7 @@ const SSH_TARGET = /^(?!-)[A-Za-z0-9_.@:-]+$/;
 const COMMIT = /^[a-f0-9]{40}$/;
 const SERVER_CLI = "~/.local/bin/shibumi-server";
 const LATEST_SOURCE = "https://shibumistack.dev/ship/latest.ts";
-const CURRENT_SOURCE = "https://shibumistack.dev/ship/v14.ts";
+const CURRENT_SOURCE = "https://shibumistack.dev/ship/v15.ts";
 let sshControlDirectory: string | undefined;
 let sshControlTarget: string | undefined;
 const accent = (value: string) => process.stdout.isTTY && !("NO_COLOR" in process.env) && process.env.TERM !== "dumb"
@@ -468,6 +468,10 @@ async function preflight(config: ClientConfig): Promise<number> {
 // deployment from being reported as success for current ship.
 async function followStatus(config: ClientConfig, target: string, commit: string): Promise<void> {
   const progress = spinner();
+  const fit = (value: string) => {
+    const width = Math.max(24, (process.stdout.columns ?? 80) - 8);
+    return value.length > width ? `${value.slice(0, width - 1)}…` : value;
+  };
   progress.start("Waiting for webhook");
   const startedAt = Date.now();
   const deadline = startedAt + 12 * 60_000;
@@ -485,7 +489,7 @@ async function followStatus(config: ClientConfig, target: string, commit: string
         lastOutput = status.output ?? "";
         progress.message(status.stage === "shipped"
           ? "Deployment complete"
-          : status.output ? `${status.stage}: ${status.output}` : `${status.stage}…`);
+          : status.output ? fit(`${status.stage}: ${status.output}`) : `${status.stage}…`);
       }
       if (status.state === "succeeded") {
         progress.stop(config.cutoverRequired
