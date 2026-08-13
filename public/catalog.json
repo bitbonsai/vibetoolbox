@@ -266,9 +266,9 @@
       "app": "Zed",
       "url": "https://zed.dev",
       "desc": "Fast, clean code editor with built-in AI. Great first editor.",
-      "more": "A fast native editor with first-class AI features and a clean, quiet interface. Great for reading and editing what your agent wrote.",
+      "more": "A fast native editor with a clean, quiet interface. It opens instantly, stays responsive in big projects, and is great for reading and editing what your agent wrote.",
       "try": "zed .",
-      "why": "Fast enough that you never wait for it, with AI that feels built in rather than bolted on. A great default for reviewing agent-written code."
+      "why": "A nice option if you prefer an editor over the terminal. Where it really shines is speed and getting out of your way: it never makes you wait and never nags."
     },
     {
       "id": "cursor",
