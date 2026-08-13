@@ -2,70 +2,75 @@
 <html lang="en">
 <head>
   <!-- @include head.html title="Next steps. Vibe Toolbox" desc="Your Mac is set up. Here is what to do in your first ten minutes." path="/next-steps.html" -->
+  <!-- @include scripts.html -->
 </head>
 <body class="steps-page">
   <div class="ambient"></div>
 
   <!-- @include nav-simple.html -->
 
-  <main>
+  <main x-data="nextSteps">
     <section class="hero">
       <div class="container">
         <div class="success-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
         <h1>Your Mac is <em>ready.</em></h1>
-        <p class="hero-sub">Ten minutes of orientation and you are off. Everything below assumes a fresh Ghostty window.</p>
+        <p class="hero-sub">Ten minutes of orientation and you are off. Everything below assumes a fresh <span x-show="has('ghostty')">Ghostty</span><span x-show="!has('ghostty')">terminal</span> window.</p>
       </div>
     </section>
 
     <div class="steps">
       <section>
-        <h2>1. Open a fresh terminal</h2>
-        <p>Your shell config only loads in new windows. Open Ghostty (or your terminal of choice) and you should see the Starship prompt: a clean line with your folder and git branch. Try:</p>
-        <pre><code>ls        # pretty file listing with icons (eza)
-z dev     # jump to ~/dev from anywhere (zoxide)
-lt        # tree view of the current folder</code></pre>
+        <h2>Open a fresh terminal</h2>
+        <p>Your shell config only loads in new windows. <span x-show="has('ghostty')">Open Ghostty (or your terminal of choice)</span><span x-show="!has('ghostty')">Open your terminal</span><span x-show="has('starship')"> and you should see the Starship prompt: a clean line with your folder and git branch</span>.<span x-show="has('eza') || has('zoxide')"> Try:</span></p>
+        <pre x-show="has('eza') || has('zoxide')"><code x-html="tryLines()"></code></pre>
       </section>
 
-      <section>
-        <h2>2. Connect your AI agent</h2>
-        <p>The agents you installed need an account to think with. Three routes:</p>
+      <section x-show="has('claude-code', 'codex', 'opencode', 'pi', 'crush')">
+        <h2>Connect your AI agent</h2>
+        <p>The agents you installed need an account to think with.</p>
         <ul>
-          <li><strong>You already have a subscription.</strong> Claude Pro or Max unlocks Claude Code: run <code>claude</code> and sign in. A ChatGPT plan unlocks Codex: run <code>codex</code> and sign in.</li>
-          <li><strong>No subscription, one bill.</strong> OpenCode offers its own plans with model access included: run <code>opencode</code> and follow the sign-up.</li>
-          <li><strong>All models, pay per use.</strong> Create an <a href="https://openrouter.ai" rel="noopener">OpenRouter</a> key. Pi, Crush, and OpenCode all accept it, and you can switch models freely.</li>
+          <li x-show="has('claude-code', 'codex')"><strong>You already have a subscription.</strong> <span x-show="has('claude-code')">Claude Pro or Max unlocks Claude Code: run <code>claude</code> and sign in.</span> <span x-show="has('codex')">A ChatGPT plan unlocks Codex: run <code>codex</code> and sign in.</span></li>
+          <li x-show="has('opencode')"><strong>No subscription, one bill.</strong> OpenCode offers its own plans with model access included: run <code>opencode</code> and follow the sign-up.</li>
+          <li x-show="has('pi', 'crush', 'opencode')"><strong>All models, pay per use.</strong> Create an <a href="https://openrouter.ai" rel="noopener">OpenRouter</a> key. <span x-text="routerSentence()"></span></li>
         </ul>
-        <p>Whichever you picked, the alias <code>c</code> starts Claude Code with sensible permissions when it is installed.</p>
+        <p x-show="has('claude-code')">The alias <code>c</code> starts Claude Code with sensible permissions.</p>
       </section>
 
-      <section>
-        <h2>3. Make your first thing</h2>
-        <pre><code>cd ~/dev
-mkdir my-first-site && cd my-first-site
-c         # or opencode, codex, pi, crush</code></pre>
+      <section x-show="has('claude-code', 'codex', 'opencode', 'pi', 'crush')">
+        <h2>Make your first thing</h2>
+        <pre><code x-html="firstThing()"></code></pre>
         <p>Then just describe what you want: "make me a single-page site about my dog, dark theme, big type." Watch it work. Ask for changes. That loop is the whole game.</p>
       </section>
 
+      <section x-show="has('shottr', 'handy')">
+        <h2>Grant your Mac apps their permissions</h2>
+        <ul>
+          <li x-show="has('shottr')"><strong>Shottr</strong> asks for Screen Recording on your first screenshot. Grant it in System Settings &rarr; Privacy &amp; Security, then take the shot again.</li>
+          <li x-show="has('handy')"><strong>Handy</strong> needs Microphone and Accessibility to turn speech into text. It walks you through both on first launch, then you pick a hotkey.</li>
+        </ul>
+      </section>
+
       <section>
-        <h2>4. Cheatsheet</h2>
+        <h2>Cheatsheet</h2>
         <table>
           <tr><th>Type</th><th>Get</th></tr>
-          <tr><td><code>c</code></td><td>Claude Code, auto permissions</td></tr>
-          <tr><td><code>gs</code> / <code>gaa</code> / <code>gcm "msg"</code> / <code>gp</code></td><td>git status, add all, commit, push</td></tr>
-          <tr><td><code>git ac "msg"</code></td><td>add everything and commit in one go</td></tr>
-          <tr><td><code>git lg</code></td><td>pretty history graph</td></tr>
-          <tr><td><code>lg</code></td><td>lazygit, visual git (if installed)</td></tr>
-          <tr><td><code>ls</code> / <code>lsa</code> / <code>lt</code></td><td>listings and trees via eza</td></tr>
-          <tr><td><code>z somefolder</code></td><td>jump to a folder you have visited</td></tr>
-          <tr><td><code>ff</code></td><td>fuzzy-find files with preview</td></tr>
+          <tr x-show="has('claude-code')"><td><code>c</code></td><td>Claude Code, auto permissions</td></tr>
+          <tr x-show="has('git')"><td><code>gs</code> / <code>gaa</code> / <code>gcm "msg"</code> / <code>gp</code></td><td>git status, add all, commit, push</td></tr>
+          <tr x-show="has('git')"><td><code>git ac "msg"</code></td><td>add everything and commit in one go</td></tr>
+          <tr x-show="has('git')"><td><code>git lg</code></td><td>pretty history graph</td></tr>
+          <tr x-show="has('lazygit')"><td><code>lg</code></td><td>lazygit, visual git</td></tr>
+          <tr x-show="has('eza')"><td><code>ls</code> / <code>lsa</code> / <code>lt</code></td><td>listings and trees via eza</td></tr>
+          <tr x-show="has('zoxide')"><td><code>z somefolder</code></td><td>jump to a folder you have visited</td></tr>
+          <tr x-show="has('fzf')"><td><code>ff</code></td><td>fuzzy-find files with preview</td></tr>
           <tr><td><code>update</code></td><td>run the weekly updater now</td></tr>
           <tr><td><code>zreload</code></td><td>reload shell config</td></tr>
         </table>
       </section>
 
       <section>
-        <h2>5. Good to know</h2>
+        <h2>Good to know</h2>
         <ul>
           <li>Re-run your install command any time. It is a system check that fixes only what is missing.</li>
           <li>Updates run weekly (Mondays, 10:00) in the background. Log: <code>~/.vibetoolbox-update.log</code></li>

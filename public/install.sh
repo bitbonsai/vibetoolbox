@@ -227,11 +227,13 @@ launch_next_steps_and_terminal() {
         sleep 0.5
     fi
 
-    if open "${SITE_URL}/next-steps.html" >/dev/null 2>&1; then
+    # Installed ids in the hash personalize the page to this selection
+    local next_url="${SITE_URL}/next-steps.html#$(selection_csv)"
+    if open "$next_url" >/dev/null 2>&1; then
         print_success "Opened next steps in browser"
     else
         print_warning "Could not open browser automatically"
-        print_item "Open manually: ${SITE_URL}/next-steps.html"
+        print_item "Open manually: $next_url"
     fi
 }
 

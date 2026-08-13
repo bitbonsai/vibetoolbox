@@ -106,6 +106,69 @@
       };
     });
 
+    // next-steps.html: the installer appends the installed ids as a hash
+    // (#bat,bun,...) so the page shows only relevant blocks. No hash (a
+    // direct visit) shows everything.
+    Alpine.data("nextSteps", function () {
+      return {
+        installed: [],
+
+        init() {
+          var hash = location.hash.replace(/^#/, "");
+          if (hash) this.installed = hash.split(",").filter(Boolean);
+        },
+
+        // True when any of the listed tools was installed; no hash = true
+        has() {
+          if (!this.installed.length) return true;
+          for (var i = 0; i < arguments.length; i++) {
+            if (this.installed.indexOf(arguments[i]) !== -1) return true;
+          }
+          return false;
+        },
+
+        tryLines() {
+          var lines = [];
+          if (this.has("eza")) lines.push("ls        # pretty file listing with icons (eza)");
+          if (this.has("zoxide")) lines.push("z dev     # jump to ~/dev from anywhere (zoxide)");
+          if (this.has("eza")) lines.push("lt        # tree view of the current folder");
+          return highlightShell(lines.join("\n"));
+        },
+
+        agentCmds() {
+          var cmds = [];
+          if (this.has("claude-code")) cmds.push("c");
+          if (this.has("opencode")) cmds.push("opencode");
+          if (this.has("codex")) cmds.push("codex");
+          if (this.has("pi")) cmds.push("pi");
+          if (this.has("crush")) cmds.push("crush");
+          return cmds;
+        },
+
+        firstThing() {
+          var cmds = this.agentCmds();
+          if (!cmds.length) return "";
+          var main = cmds.shift();
+          var line = cmds.length
+            ? (main + "          ").slice(0, Math.max(main.length + 2, 10)) + "# or " + cmds.join(", ")
+            : main;
+          return highlightShell("cd ~/dev\nmkdir my-first-site && cd my-first-site\n" + line);
+        },
+
+        routerSentence() {
+          var names = [];
+          if (this.has("pi")) names.push("Pi");
+          if (this.has("crush")) names.push("Crush");
+          if (this.has("opencode")) names.push("OpenCode");
+          if (!names.length) return "";
+          if (names.length === 1) return names[0] + " accepts it, and you can switch models freely.";
+          var last = names.pop();
+          var word = names.length === 1 ? "both" : "all";
+          return names.join(", ") + " and " + last + " " + word + " accept it, and you can switch models freely.";
+        },
+      };
+    });
+
     Alpine.data("picker", function () {
       return {
         catalog: window.VTB_CATALOG || { categories: [], tools: [], presets: {} },

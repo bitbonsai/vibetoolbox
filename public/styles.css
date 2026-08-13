@@ -1386,6 +1386,13 @@ kbd {
     padding: 0 1.5rem;
     position: relative;
     z-index: 1;
+    /* Sections hide per selection; hidden ones skip the counter */
+    counter-reset: step;
+}
+
+.steps h2::before {
+    counter-increment: step;
+    content: counter(step) '. ';
 }
 
 .steps > section {
