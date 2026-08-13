@@ -21,6 +21,9 @@
     --text-3: #70707a;
     --accent: #a78bfa;
     --accent-dim: rgba(167, 139, 250, 0.14);
+    --accent-surface: #221c33;
+    --accent-contrast: #14092b;
+    --surface-solid: #101014;
     --green: #4ade80;
     --mono: ui-monospace, 'SF Mono', Menlo, 'Courier New', monospace;
     --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -287,7 +290,7 @@ main,
     font-weight: 600;
     font-variant-numeric: tabular-nums;
     background: var(--accent);
-    color: #14092b;
+    color: var(--accent-contrast);
     border-radius: 999px;
 }
 
@@ -419,7 +422,7 @@ main,
     transition: background-color 0.15s ease, color 0.15s ease;
     background: var(--accent);
     border: none;
-    color: #14092b;
+    color: var(--accent-contrast);
 }
 
 .copy-btn:hover {
@@ -585,7 +588,7 @@ h1 em {
 .preset-btn.active {
     background: var(--accent);
     border-color: var(--accent);
-    color: #14092b;
+    color: var(--accent-contrast);
     font-weight: 600;
 }
 
@@ -704,8 +707,9 @@ h1 em {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: #14092b;
-    background: var(--accent);
+    color: var(--accent);
+    background: var(--accent-surface);
+    border: 1px solid rgba(167, 139, 250, 0.3);
     border-radius: 999px;
     padding: 1px 0.625rem;
 }
@@ -749,7 +753,7 @@ h1 em {
     transform: translateX(-50%);
     z-index: 400;
     max-width: 16rem;
-    background: #101014;
+    background: var(--surface-solid);
     border: 1px solid var(--border-strong);
     border-radius: 0.5rem;
     padding: 0.375rem 0.625rem;
@@ -777,7 +781,7 @@ h1 em {
 
 .modal {
     width: min(28rem, 100%);
-    background: #101014;
+    background: var(--surface-solid);
     border: 1px solid var(--border-strong);
     border-radius: 1rem;
     padding: 2rem;
@@ -920,7 +924,7 @@ kbd {
     font-size: 0.75rem;
     font-weight: 500;
     color: var(--text);
-    background: #101014;
+    background: var(--surface-solid);
     border: 1px solid var(--border);
     border-radius: 0.375rem;
     padding: 3px 0.625rem;
