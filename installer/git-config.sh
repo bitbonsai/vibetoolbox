@@ -36,4 +36,26 @@ ensure_git_identity() {
     else
         print_success "Git email ${DIM}already configured${NC}"
     fi
+
+    ensure_git_aliases
+}
+
+# Short git aliases (git s, git ac "msg", git lg, ...). Each is written
+# only when unset so existing user aliases are never overwritten.
+ensure_git_aliases() {
+    _git_alias s "status -sb"
+    _git_alias p "push"
+    _git_alias pl "pull"
+    _git_alias b "branch"
+    _git_alias d "diff"
+    _git_alias ds "diff --staged"
+    _git_alias lg "log --oneline --decorate --graph --color"
+    _git_alias amend "commit --amend --no-edit"
+    _git_alias ac '!f() { git add -A && git commit -m "$*"; }; f'
+    print_success "Git aliases ${DIM}(git s, git ac \"msg\", git lg, ...)${NC}"
+}
+
+_git_alias() {
+    git config --global --get "alias.$1" >/dev/null 2>&1 && return 0
+    git config --global "alias.$1" "$2"
 }
