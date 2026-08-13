@@ -22,7 +22,7 @@ const SSH_TARGET = /^(?!-)[A-Za-z0-9_.@:-]+$/;
 const COMMIT = /^[a-f0-9]{40}$/;
 const SERVER_CLI = "~/.local/bin/shibumi-server";
 const LATEST_SOURCE = "https://shibumistack.dev/ship/latest.ts";
-const CURRENT_SOURCE = "https://shibumistack.dev/ship/v16.ts";
+const CURRENT_SOURCE = "https://shibumistack.dev/ship/v17.ts";
 let sshControlDirectory: string | undefined;
 let sshControlTarget: string | undefined;
 const accent = (value: string) => process.stdout.isTTY && !("NO_COLOR" in process.env) && process.env.TERM !== "dumb"
@@ -56,6 +56,7 @@ interface DeployStatus {
   message?: string;
   output?: string;
   url?: string;
+  queuedCommit?: string;
 }
 
 function explain(title: string, message: string): void {
@@ -491,28 +492,43 @@ async function followStatus(config: ClientConfig, target: string, commit: string
   const webhookDeadline = startedAt + 45_000;
   let lastStage = "";
   let lastOutput = "";
+  let sawQueued = false;
   while (Date.now() < deadline) {
     const result = await ssh(target, [
       "env", "SHIBUMI_SKIP_UPDATE_CHECK=1", SERVER_CLI, "status", config.appId, "--commit", commit, "--json",
     ], { allowFailure: true });
     if (result.exitCode === 0 && result.stdout.trim() && result.stdout.trim() !== "null") {
       const status = JSON.parse(result.stdout) as DeployStatus;
-      if (status.stage && (status.stage !== lastStage || (status.output ?? "") !== lastOutput)) {
-        lastStage = status.stage;
+      const queued = status.commit !== commit && status.queuedCommit === commit;
+      sawQueued ||= queued;
+      const displayStage = queued ? `Queued ${commit.slice(0, 7)} next. Current ${status.commit!.slice(0, 7)} ${status.stage}` : status.stage;
+      if (status.stage && (`${status.commit}:${status.stage}` !== lastStage || (status.output ?? "") !== lastOutput)) {
+        lastStage = `${status.commit}:${status.stage}`;
         lastOutput = status.output ?? "";
-        progress.message(status.stage === "shipped"
+        progress.message(status.stage === "shipped" && !queued
           ? "Deployment complete"
-          : status.output ? fit(`${status.stage}: ${status.output}`) : `${status.stage}…`);
+          : status.output ? fit(`${displayStage}: ${status.output}`) : fit(`${displayStage}…`));
       }
-      if (status.state === "succeeded") {
+      if (!queued && status.state === "succeeded") {
         progress.stop(config.cutoverRequired
           ? `New upstream healthy at 127.0.0.1 (Caddy cutover pending)`
           : `Shipped ${status.url ?? `https://${config.domain}`}`);
         return;
       }
-      if (status.state === "failed") {
+      if (!queued && status.state === "failed") {
         progress.stop(`Deployment failed during ${status.stage ?? "unknown"}`, 1);
         throw new Error([status.message ?? "deployment failed", status.output].filter(Boolean).join("\n"));
+      }
+    } else if (sawQueued) {
+      const current = await ssh(target, [
+        "env", "SHIBUMI_SKIP_UPDATE_CHECK=1", SERVER_CLI, "status", config.appId, "--json",
+      ], { allowFailure: true });
+      if (current.exitCode === 0 && current.stdout.trim() && current.stdout.trim() !== "null") {
+        const status = JSON.parse(current.stdout) as DeployStatus;
+        if (status.queuedCommit && status.queuedCommit !== commit) {
+          progress.stop(`Queued commit replaced by ${status.queuedCommit.slice(0, 7)}`, 1);
+          throw new Error(`deployment ${commit.slice(0, 7)} was superseded by newer commit ${status.queuedCommit.slice(0, 7)}.\n\nNext: pull latest changes before shipping again.`);
+        }
       }
     }
     if (!lastStage && Date.now() >= webhookDeadline) {
