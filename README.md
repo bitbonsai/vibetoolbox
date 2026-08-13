@@ -24,11 +24,12 @@ curl -fsSL https://vibetoolbox.dev/install.sh | bash -s -- --all
 | Category | Tools |
 |----------|-------|
 | Terminal | Ghostty, JetBrains Mono Nerd Font, Starship |
-| AI coding | Claude Code, Codex CLI, Pi, OpenCode, Crush, Herdr, Orca, ccpeek, Caveman |
+| AI coding | Claude Code, Codex CLI, Pi, OpenCode, Crush, Herdr, Orca, ccpeek, Caveman, Agent Browser |
 | Editors | Zed, Cursor, Visual Studio Code |
 | Git & GitHub | git, GitHub CLI, lazygit, delta |
-| CLI comforts | eza, bat, zoxide, tree, fzf, ripgrep, jq, trash-cli |
+| CLI comforts | eza, bat, zoxide, tree, fzf, ripgrep, fd, btop, mkcert, jq, trash-cli |
 | Runtimes | Node.js, Bun |
+| Mac apps | Shottr, Handy |
 
 Everything is opt-in. Dependencies resolve automatically (pick trash-cli, get
 Bun). The full catalog lives in [`catalog.json`](catalog.json), which drives
@@ -54,18 +55,26 @@ both the website picker and the installer.
 
 ## Development
 
-Requires [Bun](https://bun.sh) and jq.
+Requires [Bun](https://bun.sh).
 
 ```
 bun install
-bun run build     # generate installer/catalog.sh + concat public/install.sh
+bun run build     # catalog.sh + install.sh + catalog.js + render site/pages -> public/*.html
 bun run test      # build, bash -n, bun test
 bun run dev       # server with watch on http://localhost:8080
 ```
 
-Edit modules in `installer/`, never `public/install.sh` directly. The catalog
-is the single source of truth: add a tool to `catalog.json` and it appears in
-the picker and the installer after a build.
+Edit modules in `installer/` and pages in `site/`, never `public/install.sh`
+or `public/*.html` directly (both are generated). The catalog is the single
+source of truth: add a tool to `catalog.json` and it appears in the picker,
+the tools page, and the installer after a build.
+
+## Credits
+
+- Toolbox icon by [Salman Azzumardi](https://thenounproject.com/creator/salmanazzumardi/)
+  (Noun Project)
+- Tool logos belong to their respective projects; the remaining icons are
+  [Lucide](https://lucide.dev) (ISC)
 
 ## License
 

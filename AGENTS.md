@@ -81,10 +81,34 @@ vibetoolbox/
 - Version source of truth is `package.json`; build injects it into
   `catalog.js` (site pill) and the `VERSION=` line of `install.sh`.
 - New tool = one `catalog.json` entry (id, name, category, kind, target,
-  app/bin as needed, requires, url, desc). Picker and installer pick it up on
-  build.
+  app/bin as needed, requires, url, desc, more, why, try, post). `more` =
+  plain explanation, `why` = opinionated pick rationale (tools-page dialog),
+  `try` = sample command, `post` = shell run once after successful install
+  (e.g. `agent-browser install`). Picker, tools page, and installer pick it
+  up on build. Icon: brand SVG in `public/img/` + ICONS entry in picker.js,
+  else inline Lucide there.
 - No em dashes in user-facing copy. No emojis in headings.
 - Secrets never in files; this project stores none at all.
+
+## Gotchas (this repo)
+
+- URL hash carries tool selection. Never use anchor links on index; dot-nav
+  uses scrollIntoView + click.prevent. Anchor hrefs would clobber selection.
+- Nested backdrop-filter fails: child inside backdrop-filtered parent won't
+  blur page. cart-panel is sibling of .nav-container for this reason.
+- Shared `.modal h2` margin-bottom beat `.tool-modal-head h2` on source
+  order (equal specificity): flex centered the margin box, icon sat 12px
+  low. Dialog head resets it via `.modal .tool-modal-head h2`.
+- Grid `1fr` + `<pre>` = min-content overflow on mobile. Use minmax(0, 1fr).
+- Alpine defer order load-bearing: catalog.js, picker.js (registers on
+  alpine:init), alpine.min.js last.
+- simpleicons CDN lacks openai, visualstudiocode, charm, lazygit, jq,
+  ripgrep, nerdfonts slugs. Most product "logos" online are wide wordmarks,
+  useless as card icons; Lucide fallback stays.
+- Nav cart toolbox icon = Noun Project (Salman Azzumardi); keep the
+  attribution comment next to the SVG.
+- Shell syntax highlighting is one tokenizer implemented twice: build.ts
+  (static pre/code at render) + picker.js `hl()` (Alpine x-html). Change both.
 
 ## Carried gotchas (from the v3 ancestor)
 
