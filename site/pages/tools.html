@@ -59,7 +59,7 @@
             <h2 x-text="detail.name"></h2>
           </div>
           <p class="tool-modal-more" x-text="detail.more || detail.desc"></p>
-          <p class="tool-modal-why" x-show="detail.why"><strong>Why it's in the box.</strong> <span x-text="detail.why"></span></p>
+          <p class="tool-modal-why" x-show="detail.why"><span class="why-pill" aria-label="Why it's in the box">Why</span><span x-text="detail.why"></span></p>
           <pre class="tool-modal-try" x-show="detail.try"><code x-text="detail.try"></code></pre>
           <span class="tool-badge" x-show="detail.requires && detail.requires.length" x-text="'installs with ' + (detail.requires || []).join(', ')"></span>
           <div class="tool-modal-actions">
