@@ -22,7 +22,7 @@ const SSH_TARGET = /^(?!-)[A-Za-z0-9_.@:-]+$/;
 const COMMIT = /^[a-f0-9]{40}$/;
 const SERVER_CLI = "~/.local/bin/shibumi-server";
 const LATEST_SOURCE = "https://shibumistack.dev/ship/latest.ts";
-const CURRENT_SOURCE = "https://shibumistack.dev/ship/v13.ts";
+const CURRENT_SOURCE = "https://shibumistack.dev/ship/v14.ts";
 let sshControlDirectory: string | undefined;
 let sshControlTarget: string | undefined;
 const accent = (value: string) => process.stdout.isTTY && !("NO_COLOR" in process.env) && process.env.TERM !== "dumb"
@@ -473,14 +473,16 @@ async function followStatus(config: ClientConfig, target: string, commit: string
   const deadline = startedAt + 12 * 60_000;
   const webhookDeadline = startedAt + 45_000;
   let lastStage = "";
+  let lastOutput = "";
   while (Date.now() < deadline) {
     const result = await ssh(target, [
       "env", "SHIBUMI_SKIP_UPDATE_CHECK=1", SERVER_CLI, "status", config.appId, "--commit", commit, "--json",
     ], { allowFailure: true });
     if (result.exitCode === 0 && result.stdout.trim() && result.stdout.trim() !== "null") {
       const status = JSON.parse(result.stdout) as { state?: string; stage?: string; message?: string; output?: string; url?: string };
-      if (status.stage && (status.stage !== lastStage || status.output)) {
+      if (status.stage && (status.stage !== lastStage || (status.output ?? "") !== lastOutput)) {
         lastStage = status.stage;
+        lastOutput = status.output ?? "";
         progress.message(status.stage === "shipped"
           ? "Deployment complete"
           : status.output ? `${status.stage}: ${status.output}` : `${status.stage}…`);
@@ -493,7 +495,7 @@ async function followStatus(config: ClientConfig, target: string, commit: string
       }
       if (status.state === "failed") {
         progress.stop(`Deployment failed during ${status.stage ?? "unknown"}`, 1);
-        throw new Error(status.message ?? "deployment failed");
+        throw new Error([status.message ?? "deployment failed", status.output].filter(Boolean).join("\n"));
       }
     }
     if (!lastStage && Date.now() >= webhookDeadline) {
