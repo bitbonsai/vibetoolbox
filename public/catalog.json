@@ -153,7 +153,7 @@
       "desc": "Minimal coding agent by Mario Zechner. Bring any model provider.",
       "more": "A deliberately minimal coding agent by Mario Zechner. Bring any model provider via API key, read all of its code in an afternoon, and know exactly what your agent is doing.",
       "try": "pi",
-      "why": "Most agents are black boxes. Pi is small enough to read in an afternoon, which makes it the best way to understand what agents actually do."
+      "why": "Pi stays out of the model's way: the harness adds almost nothing, so modern models work the way they were trained to. The extension ecosystem is good, and it actively encourages you to build your own. Using Pi is like keeping a lion as a pet: be conscious of what you are doing, because it is seriously powerful."
     },
     {
       "id": "opencode",
