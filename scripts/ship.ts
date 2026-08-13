@@ -12,7 +12,7 @@
  */
 
 import { cancel, confirm, intro, isCancel, log, outro, spinner, text } from "@clack/prompts";
-import { chmod, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { chmod, mkdtemp, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -21,6 +21,8 @@ const DOMAIN = /^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z](?
 const SSH_TARGET = /^(?!-)[A-Za-z0-9_.@:-]+$/;
 const COMMIT = /^[a-f0-9]{40}$/;
 const SERVER_CLI = "~/.local/bin/shibumi-server";
+const LATEST_SOURCE = "https://shibumistack.dev/ship/latest.ts";
+const CURRENT_SOURCE = "https://shibumistack.dev/ship/v13.ts";
 let sshControlDirectory: string | undefined;
 let sshControlTarget: string | undefined;
 const accent = (value: string) => process.stdout.isTTY && !("NO_COLOR" in process.env) && process.env.TERM !== "dumb"
@@ -118,14 +120,23 @@ export function domainFromProject(packageName: unknown, compose: string): string
   return siteUrlDomain && DOMAIN.test(siteUrlDomain) ? siteUrlDomain : undefined;
 }
 
+export function composeFileFromTracked(files: string[]): string {
+  const candidates = files.filter((file) => /(^|\/)(?:compose\.ya?ml|docker-compose\.ya?ml)$/.test(file));
+  for (const preferred of ["compose.yaml", "compose.yml", "docker-compose.yml", "docker-compose.yaml"]) {
+    if (candidates.includes(preferred)) return preferred;
+  }
+  if (candidates.length === 1) return candidates[0];
+  if (candidates.length === 0) throw new Error("no Compose file found\n\nNext: add compose.yaml, or run ship from a branch containing deployment files.");
+  throw new Error(`multiple Compose files found:\n${candidates.map((file) => `  ${file}`).join("\n")}\n\nNext: keep one deployment Compose file or configure the intended path explicitly.`);
+}
+
 async function inferredProject() {
   const packageJson = JSON.parse(await readFile(join(root, "package.json"), "utf8")) as { name?: unknown; scripts?: Record<string, unknown> };
   const repository = repositoryFromRemote(await git("remote", "get-url", "origin"));
   const branch = await git("branch", "--show-current");
   if (!branch) throw new Error("ship requires a named Git branch");
-  const composeFile = await Bun.file(join(root, "compose.yaml")).exists() ? "compose.yaml" : "docker-compose.yml";
-  let compose = "";
-  try { compose = await readFile(join(root, composeFile), "utf8"); } catch {}
+  const composeFile = composeFileFromTracked((await git("ls-files")).split("\n").filter(Boolean));
+  const compose = await readFile(join(root, composeFile), "utf8");
   const domain = domainFromProject(packageJson.name, compose);
   const service = /^services:\s*\n\s{2}([A-Za-z0-9_.-]+):/m.exec(compose)?.[1] ?? "web";
   const healthPath = /https?:\/\/(?:127\.0\.0\.1|localhost):\d+(\/[^\s"'\\]*)/.exec(compose)?.[1] ?? "/healthz";
@@ -294,6 +305,7 @@ async function remoteSetup(target: string, _force: boolean): Promise<ClientConfi
     const setup = await ssh(target, [
       "env", "SHIBUMI_SHIP_SETUP=1", SERVER_CLI, "add", domain,
       "--repository", `github:${project.repository}`,
+      "--ref", `refs/heads/${project.branch}`,
       "--compose-file", project.composeFile,
       "--service", project.service,
       "--health-path", project.healthPath,
@@ -306,6 +318,7 @@ async function remoteSetup(target: string, _force: boolean): Promise<ClientConfi
   if (downloaded.exitCode !== 0) throw new Error("server setup paused before app registration. Complete the printed DNS instructions, then run bun run ship again");
   const config = validateConfig(JSON.parse(downloaded.stdout));
   if (config.repository !== `github:${project.repository}`) throw new Error(`registered domain belongs to ${config.repository}\n\nNext: use the matching project or remove the conflicting server registration.`);
+  if (config.branch !== project.branch) throw new Error(`registered domain deploys ${config.branch}, but current branch is ${project.branch}.\n\nNext: check out ${config.branch}, or register another domain for ${project.branch}.`);
   await writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`);
   log.success(`Found ${domain} on ${serverHostname}`);
   log.success("Wrote shibumi-server.json");
@@ -414,9 +427,9 @@ async function setup(force: boolean): Promise<{ config: ClientConfig; target: st
   return { config, target, changed: !previous || JSON.stringify(previous) !== JSON.stringify(config) };
 }
 
-// Refuse ambiguous deploys: wrong origin, wrong branch, dirty work, remote work
-// not present locally, or no new commit. Run project-owned checks before push.
-async function preflight(config: ClientConfig): Promise<void> {
+// Refuse ambiguous deploys: wrong origin, wrong branch, dirty work, or remote
+// work not present locally. Run project-owned checks before every deployment.
+async function preflight(config: ClientConfig): Promise<number> {
   const project = await inferredProject();
   if (`github:${project.repository}` !== config.repository) throw new Error(`origin does not match ${config.repository}`);
   if (project.branch !== config.branch) throw new Error(`current branch must be ${config.branch}`);
@@ -431,11 +444,9 @@ async function preflight(config: ClientConfig): Promise<void> {
     progress.stop("Branch is behind or diverged", 1);
     throw new Error(`pull origin/${config.branch} before shipping`);
   }
-  if (counts[0] < 1) {
-    progress.stop("Nothing to ship", 1);
-    throw new Error("branch has no unpushed commits");
-  }
-  progress.stop(`${counts[0]} commit${counts[0] === 1 ? "" : "s"} ready`);
+  progress.stop(counts[0] > 0
+    ? `${counts[0]} commit${counts[0] === 1 ? "" : "s"} ready to push`
+    : "Current commit already pushed and ready to deploy");
 
   const scripts = project.packageJson.scripts ?? {};
   for (const name of ["test", "check"]) {
@@ -450,6 +461,7 @@ async function preflight(config: ClientConfig): Promise<void> {
     }
     check.stop(`${name} passed`);
   }
+  return counts[0];
 }
 
 // Follow status for the exact pushed commit. This prevents an older or parallel
@@ -534,15 +546,23 @@ export async function runShip(): Promise<void> {
         : `${accent("Next:")} bun run ship`);
       return;
     }
-    await preflight(result.config);
-    const accepted = await confirm({ message: `Push ${result.config.branch} and deploy ${result.config.domain}?`, initialValue: true });
+    const ahead = await preflight(result.config);
+    const accepted = await confirm({
+      message: ahead > 0
+        ? `Push ${result.config.branch} and deploy ${result.config.domain}?`
+        : `Redeploy current ${result.config.branch} commit to ${result.config.domain}?`,
+      initialValue: true,
+    });
     if (isCancel(accepted) || !accepted) {
       cancel("Ship cancelled");
       return;
     }
-    await run(["git", "push", "origin", result.config.branch], { inherit: true });
     const commit = await git("rev-parse", "HEAD");
     if (!COMMIT.test(commit)) throw new Error("cannot determine shipped commit");
+    if (ahead > 0) await run(["git", "push", "origin", result.config.branch], { inherit: true });
+    else await ssh(result.target, [
+      "env", "SHIBUMI_SKIP_UPDATE_CHECK=1", SERVER_CLI, "redeploy", result.config.appId, commit,
+    ]);
     await followStatus(result.config, result.target, commit);
     const changed = await completeCutover(result.config, result.target);
     outro(changed
@@ -553,8 +573,33 @@ export async function runShip(): Promise<void> {
   }
 }
 
+async function updateShipClient(): Promise<void> {
+  intro("渋み  ship update");
+  const response = await fetch(LATEST_SOURCE, { headers: { accept: "text/plain" } });
+  if (!response.ok) throw new Error(`ship client returned HTTP ${response.status}`);
+  const source = await response.text();
+  if (!source.startsWith("#!/usr/bin/env bun") || !source.includes("export function runShipCli")) {
+    throw new Error("downloaded ship client is invalid");
+  }
+  const current = await readFile(import.meta.path, "utf8");
+  if (source === current) {
+    outro("Ship client is current");
+    return;
+  }
+  const reviewed = await fetch(CURRENT_SOURCE, { headers: { accept: "text/plain" } });
+  if (!reviewed.ok || await reviewed.text() !== current) {
+    throw new Error(`scripts/ship.ts contains owned changes.\n\nNext: review and merge ${LATEST_SOURCE} manually.`);
+  }
+  const temporary = `${import.meta.path}.tmp-${process.pid}`;
+  await writeFile(temporary, source, { mode: 0o644 });
+  await chmod(temporary, 0o644);
+  await rename(temporary, import.meta.path);
+  outro("Ship client updated. Review and commit scripts/ship.ts.");
+}
+
 export function runShipCli(): void {
-  runShip().catch((error) => {
+  const action = process.argv.slice(2).includes("--update") ? updateShipClient() : runShip();
+  action.catch((error) => {
     cancel(error instanceof Error ? error.message : String(error));
     process.exitCode = 1;
   });

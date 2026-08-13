@@ -10,7 +10,8 @@
     "build": "bun scripts/build.ts",
     "test": "bun scripts/build.ts && bash -n public/install.sh && bun test",
     "ship": "bun scripts/ship.ts",
-    "ship:setup": "bun scripts/ship.ts --setup"
+    "ship:setup": "bun scripts/ship.ts --setup",
+    "ship:update": "bun scripts/ship.ts --update"
   },
   "dependencies": {
     "hono": "^4"
