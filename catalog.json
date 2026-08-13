@@ -100,8 +100,8 @@
       "app": "",
       "url": "https://www.nerdfonts.com",
       "desc": "Monospace font with all the icons your prompt and file listings need.",
-      "more": "A monospace font patched with thousands of icons that terminal tools use for file types, git status, and prompts. Without it, modern CLI tools show broken squares instead of symbols.",
-      "why": "Half of all 'my terminal looks broken' reports are a missing patched font. Installing it up front deletes an entire class of confusion."
+      "more": "JetBrains Mono is a font designed for reading code: slim letterforms that scale well at any size, a tall x-height, a dotted zero so 0 and O never blur together, and clear shapes for 1, l, and I. This build is patched with thousands of Nerd Font icons that terminal tools use for file types, git status, and prompts; without it they show broken squares instead of symbols.",
+      "why": "Half of all 'my terminal looks broken' reports are a missing patched font, so installing it up front deletes an entire class of confusion. And of all the coding fonts, JetBrains Mono is the one that stays crisp from tiny terminal sizes to a 4K editor."
     },
     {
       "id": "starship",
