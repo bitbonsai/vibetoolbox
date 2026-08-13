@@ -22,7 +22,7 @@ BULLET="${GRAY}•${NC}"
 SPARKLE="${MAGENTA}✦${NC}"
 
 SITE_URL="${SITE_URL:-https://vibetoolbox.dev}"
-VERSION="1.0"
+VERSION="1.0.0" # overridden at build time from package.json
 PROMPT_FD=0
 VTB_CONFIG="$HOME/.config/vibetoolbox/config"
 VTB_TMPFILES=()

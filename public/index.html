@@ -4,38 +4,86 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vibe Toolbox. Pick your tools, paste one command.</title>
-  <meta name="description" content="Open-source macOS setup for designers and PMs learning to code. Pick your tools, paste one command in the terminal, start building.">
+  <meta name="description" content="Open-source macOS setup. Pick your tools, paste one command in the terminal, start building.">
   <meta property="og:title" content="Vibe Toolbox">
   <meta property="og:description" content="Pick your tools, paste one command, start vibecoding.">
   <meta property="og:url" content="https://vibetoolbox.dev">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fbcc17' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='4 17 10 11 4 5'/><line x1='12' x2='20' y1='19' y2='19'/></svg>">
-  <script>try{document.documentElement.dataset.theme=localStorage.getItem('vtb-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark')}catch(_){}</script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a78bfa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z'/><path d='M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12'/><path d='M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17'/></svg>">
   <link rel="stylesheet" href="styles.css">
+  <script src="catalog.js" defer></script>
+  <script src="picker.js" defer></script>
+  <script src="alpine.min.js" defer></script>
 </head>
-<body>
+<body x-data="picker">
   <div class="ambient"></div>
 
   <header class="site-header">
     <div class="nav-container">
       <a class="brand" href="/">
-        <span class="brand-prompt">❯_</span> vibetoolbox
+        <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>
+        vibetoolbox
       </a>
       <nav class="site-nav">
-        <a href="/" class="active">Picker</a>
-        <a href="next-steps.html">Next steps</a>
-        <a href="https://github.com/bitbonsai/vibetoolbox" rel="noopener">GitHub</a>
-        <button class="theme-toggle" type="button" aria-label="Switch theme">
-          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
-          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <button class="nav-cta" type="button" @click="copy" :disabled="!selected.length" :class="{ copied: copied }" x-text="copied ? 'Copied!' : 'Copy install command'"></button>
+        <button class="cart-btn" type="button" @click="cartOpen = !cartOpen" :aria-expanded="cartOpen" aria-label="Your toolbox">
+          <!-- Toolbox icon by Salman Azzumardi, Noun Project -->
+          <svg viewBox="10 14 80 72" fill="currentColor" aria-hidden="true"><path d="m20.438 28.121c-4.2891 0-7.7422 3.4531-7.7422 7.7422v18.004h9.9414v-2.7461c0-1.375 1.1289-2.5039 2.5039-2.5039h2.1289c1.375 0 2.5039 1.1289 2.5039 2.5039v2.7461h6.4844c0.39844-7.2344 6.4062-12.992 13.738-12.992 7.3359 0 13.34 5.7578 13.742 12.992h6.4922v-2.7461c0-1.375 1.1289-2.5039 2.5039-2.5039h2.1289c1.375 0 2.5039 1.1289 2.5039 2.5039v2.7461h9.9414v-18.004c0-4.2891-3.4492-7.7422-7.7422-7.7422h-15.926c-3.1562 0-3.6641 5.3164-6.8203 5.3164h-13.641c-3.1523-0.082031-3.6641-5.3164-6.8203-5.3164zm17.336 26.512c0 2.3906 0.69531 4.6133 1.8789 6.4961l3.4883-3.4883c0.097656-0.097656 0.12891-0.27344 0.082031-0.39844-0.97266-2.5664-0.42578-5.5742 1.6406-7.6406 1.8945-1.8945 4.6641-2.5664 7.1875-1.793 0.41406 0.125 0.48828 0.52344 0.18359 0.82812l-3.8633 3.8633c-0.21484 0.21484-0.30469 0.51953-0.25 0.81641l0.42578 2.2227c0.054687 0.28906 0.27734 0.50781 0.5625 0.5625l2.2227 0.42578c0.29688 0.058594 0.60156-0.039063 0.8125-0.25l3.8672-3.8672c0.30469-0.30469 0.69922-0.23047 0.82422 0.17969l-0.015626-0.011719c0.76953 2.5195 0.09375 5.293-1.7969 7.1875-2.0664 2.0703-5.0742 2.6172-7.6406 1.6406-0.125-0.046875-0.3125-0.003906-0.40234 0.082031l-3.4883 3.4883c1.8828 1.1836 4.1055 1.8789 6.4961 1.8789 6.7617 0 12.227-5.4648 12.227-12.227 0-6.7617-5.4648-12.227-12.227-12.227s-12.227 5.4648-12.227 12.223zm-12.633-4.4805c-0.55078 0-0.96875 0.41797-0.96875 0.96875v7.0312c0 0.55078 0.41797 0.96875 0.96875 0.96875h2.1289c0.55078 0 0.96875-0.41797 0.96875-0.96875v-7.0312c0-0.55078-0.41797-0.96875-0.96875-0.96875zm47.594 0c-0.55078 0-0.96875 0.41797-0.96875 0.96875v7.0312c0 0.55078 0.41797 0.96875 0.96875 0.96875h2.1289c0.55078 0 0.96875-0.41797 0.96875-0.96875v-7.0312c0-0.55078-0.41797-0.96875-0.96875-0.96875zm-60.039 5.25v18.004c0 4.2891 3.4531 7.7422 7.7422 7.7422h59.129c4.293 0 7.7422-3.4531 7.7422-7.7422v-18.004h-9.9414v2.7461c0 1.375-1.1289 2.5039-2.5039 2.5039h-2.1289c-1.375 0-2.5039-1.1289-2.5039-2.5039v-2.7461h-6.4922c-0.39844 7.2344-6.4062 12.992-13.738 12.992-7.3359 0-13.344-5.7578-13.742-12.992l-6.4844 0.003906v2.7461c0 1.375-1.1289 2.5039-2.5039 2.5039h-2.1289c-1.375 0-2.5039-1.1289-2.5039-2.5039v-2.7461z"/><path d="m39.695 18.844c-1.7422 0-3.0742 1.0234-3.9414 2.1602-0.86719 1.1328-1.4062 2.4648-1.4062 3.918v5.6953c0 0.50781 0.20312 0.99609 0.5625 1.3555 0.35938 0.36328 0.84766 0.5625 1.3594 0.5625 0.50781 0 0.99609-0.19922 1.3555-0.5625 0.35938-0.35938 0.5625-0.84766 0.5625-1.3555v-5.6953c0-0.34375 0.23828-1.0898 0.61719-1.5859 0.37891-0.49609 0.76172-0.65234 0.89062-0.65234h20.609c0.12891 0 0.51172 0.15625 0.89062 0.65234 0.37891 0.49609 0.61719 1.2422 0.61719 1.5859v5.6953c0 0.50781 0.20312 0.99609 0.5625 1.3555 0.35938 0.36328 0.84766 0.5625 1.3594 0.5625 0.50781 0 0.99609-0.19922 1.3555-0.5625 0.35938-0.35938 0.5625-0.84766 0.5625-1.3555v-5.6953c0-1.4531-0.53906-2.7812-1.4062-3.918-0.86719-1.1328-2.1992-2.1602-3.9414-2.1602z"/></svg>
+          <span class="cart-badge" x-cloak x-show="selected.length" x-text="selected.length"></span>
         </button>
       </nav>
     </div>
+
+    <div class="cart-panel" x-cloak x-show="cartOpen" @click.outside="cartOpen = false" @keydown.escape.window="cartOpen = false" x-transition.opacity.duration.150ms>
+        <template x-if="!selected.length">
+          <p class="cart-empty">Your toolbox is empty. Tick tools below or start from a preset.</p>
+        </template>
+        <template x-if="selected.length">
+          <div>
+            <p class="cart-title">Your toolbox <span x-text="'· ' + selected.length + (selected.length === 1 ? ' tool' : ' tools')"></span></p>
+            <div class="cart-items">
+              <template x-for="id in selectedSorted" :key="id">
+                <span class="cart-chip">
+                  <span x-text="nameOf(id)"></span>
+                  <button type="button" @click="remove(id)" :aria-label="'Remove ' + nameOf(id)">&times;</button>
+                </span>
+              </template>
+            </div>
+            <code class="cart-command" x-text="command"></code>
+            <button class="copy-btn" type="button" @click="copy" :class="{ copied: copied }" x-text="copied ? 'Copied. Paste in Terminal and press Enter' : 'Copy install command'"></button>
+          </div>
+        </template>
+    </div>
   </header>
 
+  <nav class="dot-nav" aria-label="Jump to section">
+    <template x-for="s in sections" :key="s.id">
+      <a :href="'#' + s.id" class="dot" :class="{ active: activeSection === s.id }" :aria-current="activeSection === s.id ? 'true' : false" @click.prevent="jump(s.id)">
+        <span class="dot-label" x-text="s.name"></span>
+      </a>
+    </template>
+  </nav>
+
   <main>
-    <section class="hero">
-      <div class="container">
-        <p class="hero-kicker">macOS setup for people learning to code</p>
+    <section class="hero" id="top" data-section>
+      <div class="container hero-inner">
+        <div class="hero-logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
+            <defs>
+              <linearGradient id="vtb-shine" x1="0" y1="0" x2="1" y2="0.25">
+                <stop offset="0" stop-color="rgba(167, 139, 250, 0.03)"/>
+                <stop offset="0.5" stop-color="rgba(221, 214, 254, 0.13)"/>
+                <stop offset="1" stop-color="rgba(167, 139, 250, 0.03)"/>
+                <animateTransform attributeName="gradientTransform" type="translate" from="-1.2 0" to="1.2 0" dur="4.5s" repeatCount="indefinite"/>
+              </linearGradient>
+            </defs>
+            <g stroke="url(#vtb-shine)">
+              <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/>
+              <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/>
+              <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>
+            </g>
+          </svg>
+        </div>
+        <p class="hero-pill"><span class="hero-pill-version" x-text="'v' + (catalog.version || '1.0.0')"></span> Free and open source</p>
         <h1>
           Pick your tools.<br>
           Paste <em>one command.</em>
@@ -43,35 +91,55 @@
         <p class="hero-sub">
           A box of the good stuff: modern terminal, AI coding agents, editors,
           and the small CLI comforts that make the command line feel like home.
-          Built for designers and PMs. Free and open source.
+          Your Mac, ready in minutes.
         </p>
+        <p class="presets-label">Start from a preset</p>
         <div class="hero-presets" role="group" aria-label="Presets">
-          <span class="presets-label">Start from a preset:</span>
-          <button class="preset-btn" data-preset="essentials">Essentials</button>
-          <button class="preset-btn" data-preset="terminal-focus">Terminal focus</button>
-          <button class="preset-btn" data-preset="everything">Everything</button>
-          <button class="preset-btn preset-clear" data-preset="clear">Clear</button>
+          <button class="preset-btn" type="button" :class="{ active: activePreset === 'essentials' }" @click="applyPreset('essentials')">Essentials</button>
+          <button class="preset-btn" type="button" :class="{ active: activePreset === 'terminal-focus' }" @click="applyPreset('terminal-focus')">Terminal focus</button>
+          <button class="preset-btn" type="button" :class="{ active: activePreset === 'everything' }" @click="applyPreset('everything')">Everything</button>
+          <button class="preset-btn preset-clear" type="button" @click="applyPreset('clear')">Clear</button>
         </div>
-        <p class="hero-hint">or pick tool by tool below. Your command updates as you go.</p>
+        <p class="hero-hint">or pick tool by tool below. Your command builds in the toolbox, top right.</p>
       </div>
     </section>
 
     <section class="picker-section">
-      <div class="container picker" id="picker" aria-live="polite">
+      <div class="container picker" id="picker">
         <noscript>
           <p class="noscript-note">
             The picker needs JavaScript. Without it, install with an explicit list:<br>
             <code>curl -fsSL https://vibetoolbox.dev/install.sh | bash -s -- --with ghostty,starship,claude-code</code>
           </p>
         </noscript>
-        <!-- categories rendered by picker.js -->
+        <template x-for="cat in catalog.categories" :key="cat.id">
+          <div class="category" :id="'cat-' + cat.id" data-section x-show="toolsFor(cat.id).length">
+            <div class="category-header">
+              <h2 x-text="cat.name"></h2>
+              <span class="cat-count" x-text="countLabel(cat.id)"></span>
+            </div>
+            <div class="tool-grid">
+              <template x-for="tool in toolsFor(cat.id)" :key="tool.id">
+                <label class="tool-card" :class="{ selected: isSelected(tool.id) }">
+                  <input type="checkbox" :value="tool.id" :checked="isSelected(tool.id)" @change="toggle(tool, $event.target.checked)">
+                  <span class="tool-card-top">
+                    <span class="tool-icon" x-html="iconFor(tool.id)"></span>
+                    <span class="tool-name" x-text="tool.name" :title="tool.name"></span>
+                    <span class="tool-check" aria-hidden="true"></span>
+                  </span>
+                  <p class="tool-desc" x-text="tool.desc"></p>
+                  <span class="tool-badge" x-show="tool.requires && tool.requires.length" x-text="'needs ' + (tool.requires || []).join(', ')"></span>
+                </label>
+              </template>
+            </div>
+          </div>
+        </template>
       </div>
     </section>
 
-    <section class="how">
+    <section class="how" id="how" data-section>
       <div class="container">
         <div class="section-header">
-          <p class="section-eyebrow">How it works</p>
           <h2 class="section-title">Four steps, one paste</h2>
           <p class="section-description">The command encodes your exact selection. The terminal does the rest.</p>
         </div>
@@ -82,7 +150,7 @@
           </li>
           <li class="step-card">
             <span class="how-num">2</span>
-            <p>Copy your command. It encodes your exact selection in a short link.</p>
+            <p>Copy your command from the toolbox. It encodes your exact selection in a short link.</p>
           </li>
           <li class="step-card">
             <span class="how-num">3</span>
@@ -104,35 +172,13 @@
 
   <footer class="site-footer">
     <p>
-      MIT licensed. Made by <a href="https://github.com/bitbonsai" rel="noopener">bitbonsai</a>.
-      Source on <a href="https://github.com/bitbonsai/vibetoolbox" rel="noopener">GitHub</a>.
+      MIT licensed. Made with
+      <svg class="footer-heart" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" role="img"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg><span class="sr-only">love</span>
+      by <a href="https://github.com/bitbonsai" rel="noopener">bitbonsai</a>
+      <a class="footer-github" href="https://github.com/bitbonsai/vibetoolbox" rel="noopener" aria-label="Source on GitHub">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg>
+      </a>
     </p>
   </footer>
-
-  <div class="command-bar" id="command-bar">
-    <div class="command-bar-inner">
-      <div class="command-line">
-        <span class="command-prompt" aria-hidden="true">❯</span>
-        <code id="command-text">Pick at least one tool to get your command</code>
-      </div>
-      <div class="command-meta">
-        <span class="command-count" id="command-count">0 tools</span>
-        <button class="copy-btn" id="copy-btn" disabled>Copy</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="picker.js"></script>
-  <script>
-    (function () {
-      var btn = document.querySelector(".theme-toggle");
-      if (!btn) return;
-      btn.addEventListener("click", function () {
-        var next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
-        document.documentElement.dataset.theme = next;
-        try { localStorage.setItem("vtb-theme", next); } catch (_) {}
-      });
-    })();
-  </script>
 </body>
 </html>

@@ -10,6 +10,10 @@ const OUTPUT = join(ROOT, "public", "install.sh");
 
 const catalog = await Bun.file(join(ROOT, "catalog.json")).json(); // throws on invalid JSON
 
+// Version lives in package.json; the site reads it via catalog.js
+const pkg = await Bun.file(join(ROOT, "package.json")).json();
+catalog.version = pkg.version;
+
 // --- Generate installer/catalog.sh from catalog.json ---
 const rows = catalog.tools.map(
   (t: { id: string; kind: string; target: string; app?: string; bin?: string; name: string; requires?: string[] }) =>
@@ -31,6 +35,12 @@ await Bun.write(join(INSTALLER_DIR, "catalog.sh"), catalogSh);
 await Bun.write(
   join(ROOT, "public", "catalog.json"),
   Bun.file(join(ROOT, "catalog.json")),
+);
+
+// Emit catalog.js so the picker renders synchronously (no fetch pop-in)
+await Bun.write(
+  join(ROOT, "public", "catalog.js"),
+  `window.VTB_CATALOG = ${JSON.stringify(catalog)};\n`,
 );
 
 // Module order matters — functions must be defined before use in main.sh
@@ -58,7 +68,12 @@ for (const module of MODULES) {
     console.error(`ERROR: Missing module: ${join(INSTALLER_DIR, module)}`);
     process.exit(1);
   }
-  parts.push(await file.text());
+  let text = await file.text();
+  // package.json is the version source of truth; update.sh greps ^VERSION=
+  if (module === "common.sh") {
+    text = text.replace(/^VERSION="[^"]*"/m, `VERSION="${pkg.version}"`);
+  }
+  parts.push(text);
 }
 await Bun.write(OUTPUT, parts.join("\n"));
 

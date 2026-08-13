@@ -33,10 +33,13 @@ vibetoolbox/
 │   ├── shell.sh          # env.zsh + aliases.zsh, ALL runtime-guarded
 │   └── main.sh           # arg parsing, status scan, linear flow
 ├── scripts/build.ts      # bun: catalog.json → catalog.sh; concat → public/install.sh
-├── public/               # static site + built install.sh + catalog.json copy
-│   ├── index.html        # hero + picker + sticky command bar
-│   ├── picker.js         # renders catalog, URL hash sync, POST /api/select
-│   ├── styles.css        # glassmorphic dark/light theme, purple ambient (system-ui + SF Mono)
+├── public/               # static site + built install.sh + catalog copies
+│   ├── index.html        # hero + Alpine picker + nav cart (toolbox panel)
+│   ├── picker.js         # Alpine component: catalog render, hash sync, cart, POST /api/select
+│   ├── catalog.js        # GENERATED window.VTB_CATALOG (no fetch pop-in) - do not edit
+│   ├── alpine.min.js     # vendored Alpine 3
+│   ├── img/              # tool brand SVGs (rest use inline Lucide in picker.js)
+│   ├── styles.css        # dark glassy theme, rem typescale, 8pt grid (system-ui + mono)
 │   └── next-steps.html   # post-install landing page
 ├── src/server.ts         # Bun + Hono + bun:sqlite
 └── tests/install.test.ts # bun test: script behavior + server API
