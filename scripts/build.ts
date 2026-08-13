@@ -147,12 +147,19 @@ function highlightPage(html: string): string {
   );
 }
 
+// Version query param so CDN-cached CSS/JS can't outlive the HTML that expects them
+const bustAssets = (html: string) =>
+  html.replace(
+    /((?:href|src)=")(styles\.css|catalog\.js|picker\.js|alpine\.min\.js)(")/g,
+    `$1$2?v=${pkg.version}$3`,
+  );
+
 const pageNames = (await readdir(PAGES_DIR)).filter((n) => n.endsWith(".html"));
 for (const name of pageNames) {
   const source = await Bun.file(join(PAGES_DIR, name)).text();
   const rendered =
     "<!-- GENERATED from site/pages/" + name + " by scripts/build.ts - do not edit -->\n" +
-    highlightPage(await renderPage(source));
+    bustAssets(highlightPage(await renderPage(source)));
   await Bun.write(join(ROOT, "public", name), rendered);
 }
 
