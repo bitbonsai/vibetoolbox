@@ -108,7 +108,7 @@ function siteUrl(reqUrl: string): string {
 }
 
 if (import.meta.main) {
-  const port = Number(process.env.PORT ?? 8080);
+  const port = Number(process.env.PORT ?? 9100);
   Bun.serve({ port, fetch: app.fetch });
   console.log(`vibetoolbox.dev server on http://localhost:${port}`);
 }

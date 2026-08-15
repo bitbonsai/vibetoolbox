@@ -61,7 +61,7 @@ Requires [Bun](https://bun.sh).
 bun install
 bun run build     # catalog.sh + install.sh + catalog.js + render site/pages -> public/*.html
 bun run test      # build, bash -n, bun test
-bun run dev       # server with watch on http://localhost:8080
+bun run dev       # server with watch on http://localhost:9100
 ```
 
 Edit modules in `installer/` and pages in `site/`, never `public/install.sh`
