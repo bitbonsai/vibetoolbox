@@ -42,7 +42,6 @@
       "eza",
       "bat",
       "zoxide",
-      "tree",
       "fzf",
       "ripgrep",
       "jq",
@@ -67,7 +66,6 @@
       "eza",
       "bat",
       "zoxide",
-      "tree",
       "fzf",
       "ripgrep",
       "jq",
@@ -351,10 +349,10 @@
       "kind": "brew",
       "target": "eza",
       "url": "https://eza.rocks",
-      "desc": "Modern ls: colors, icons, git status in file listings.",
-      "more": "A modern replacement for ls with colors, icons, and a tree view. The aliases ls, lsa, and lt come preconfigured.",
-      "try": "lsa",
-      "why": "You list files hundreds of times a day. Colors and icons compound into real speed at that frequency."
+      "desc": "Modern ls with icons, trees, Git status, and code stats.",
+      "more": "A modern replacement for both ls and tree. The aliases ls, lsa, and lt come preconfigured, while eza --code summarizes lines of code by language.",
+      "try": "eza --code",
+      "why": "One fast tool now covers everyday listings, directory trees, and codebase size. That makes separate file-listing utilities redundant."
     },
     {
       "id": "bat",
@@ -379,18 +377,6 @@
       "more": "A smarter cd that learns the folders you visit. After a day, z proj jumps you to ~/dev/my-project from anywhere.",
       "try": "z dev",
       "why": "cd ../../../projects/thing is a tax. zoxide refunds it on every jump."
-    },
-    {
-      "id": "tree",
-      "name": "tree",
-      "category": "cli",
-      "kind": "brew",
-      "target": "tree",
-      "url": "https://oldmanprogrammer.net/source.php?dir=projects/tree",
-      "desc": "Print directory structures as a tree.",
-      "more": "Prints a folder as an indented tree, the fastest way to show an agent (or a human) how a project is laid out.",
-      "try": "tree -L 2",
-      "why": "Agents ask for project structure constantly. tree -L 2 answers in one line."
     },
     {
       "id": "fzf",

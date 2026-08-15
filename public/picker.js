@@ -47,7 +47,6 @@
     "eza": lucide("#4ade80", '<line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/>'),
     "bat": lucide("#a78bfa", '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>'),
     "zoxide": lucide("#fbcc17", '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>'),
-    "tree": lucide("#4ade80", '<path d="M20 10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2.5a1 1 0 0 1-.8-.4l-.9-1.2A1 1 0 0 0 15 3h-2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z"/><path d="M20 21a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-2.9a1 1 0 0 1-.88-.55l-.42-.85a1 1 0 0 0-.92-.6H13a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z"/><path d="M3 5a2 2 0 0 0 2 2h3"/><path d="M3 3v13a2 2 0 0 0 2 2h3"/>'),
     "fzf": lucide("#fbcc17", '<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>'),
     "ripgrep": lucide("#0ea5e9", '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'),
     "fd": lucide("#fb923c", '<path d="M10.7 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v4.1"/><circle cx="17" cy="17" r="3"/><path d="m21 21-1.5-1.5"/>'),
@@ -132,6 +131,7 @@
           if (this.has("eza")) lines.push("ls        # pretty file listing with icons (eza)");
           if (this.has("zoxide")) lines.push("z dev     # jump to ~/dev from anywhere (zoxide)");
           if (this.has("eza")) lines.push("lt        # tree view of the current folder");
+          if (this.has("eza")) lines.push("eza --code # summarize lines of code by language");
           return highlightShell(lines.join("\n"));
         },
 

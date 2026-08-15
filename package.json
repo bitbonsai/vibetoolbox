@@ -1,6 +1,6 @@
 {
   "name": "vibetoolbox",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Pick your tools, paste one command, start vibecoding. macOS setup for designers and PMs learning to code.",
   "license": "MIT",
   "type": "module",

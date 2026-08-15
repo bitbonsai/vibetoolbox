@@ -34,7 +34,7 @@ BULLET="${GRAY}•${NC}"
 SPARKLE="${MAGENTA}✦${NC}"
 
 SITE_URL="${SITE_URL:-https://vibetoolbox.dev}"
-VERSION="1.0.0" # overridden at build time from package.json
+VERSION="1.1.0" # overridden at build time from package.json
 PROMPT_FD=0
 VTB_CONFIG="$HOME/.config/vibetoolbox/config"
 VTB_TMPFILES=()
@@ -352,7 +352,6 @@ CATALOG=(
     "eza|brew|eza|||eza||"
     "bat|brew|bat|||bat||"
     "zoxide|brew|zoxide|||zoxide||"
-    "tree|brew|tree|||tree||"
     "fzf|brew|fzf|||fzf||"
     "ripgrep|brew|ripgrep||rg|ripgrep||"
     "fd|brew|fd|||fd||"

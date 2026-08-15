@@ -442,7 +442,6 @@ main,
 
 @media (max-width: 640px) {
     .brand-name,
-    .brand-version,
     .site-nav a span {
         display: none;
     }
@@ -1265,15 +1264,20 @@ kbd {
 
 @media (max-width: 560px) {
     .footer-nav {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        display: block;
         max-width: 20rem;
         margin-left: auto;
         margin-right: auto;
     }
 
     .footer-nav a {
+        display: block;
+        margin-bottom: 0.5rem;
         text-align: center;
+    }
+
+    .footer-nav a:last-child {
+        margin-bottom: 0;
     }
 }
 

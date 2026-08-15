@@ -27,7 +27,7 @@ curl -fsSL https://vibetoolbox.dev/install.sh | bash -s -- --all
 | AI coding | Claude Code, Codex CLI, Pi, OpenCode, Crush, Herdr, Orca, ccpeek, Caveman, Agent Browser |
 | Editors | Zed, Cursor, Visual Studio Code |
 | Git & GitHub | git, GitHub CLI, lazygit, delta |
-| CLI comforts | eza, bat, zoxide, tree, fzf, ripgrep, fd, btop, mkcert, jq, trash-cli |
+| CLI comforts | eza, bat, zoxide, fzf, ripgrep, fd, btop, mkcert, jq, trash-cli |
 | Runtimes | Node.js, Bun |
 | Mac apps | Shottr, Handy |
 

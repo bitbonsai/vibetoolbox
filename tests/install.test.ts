@@ -55,6 +55,14 @@ describe("built script", () => {
     }
   });
 
+  test("eza replaces tree and documents code stats", () => {
+    const catalog = JSON.parse(readFileSync(join(ROOT, "catalog.json"), "utf8"));
+    expect(catalog.tools.some((tool: { id: string }) => tool.id === "tree")).toBe(false);
+    expect(catalog.presets.essentials).not.toContain("tree");
+    expect(catalog.presets.recommended).not.toContain("tree");
+    expect(catalog.tools.find((tool: { id: string }) => tool.id === "eza").try).toBe("eza --code");
+  });
+
   test("site assets use content hashes", () => {
     const html = readFileSync(join(ROOT, "public", "index.html"), "utf8");
     for (const asset of ["styles.css", "catalog.js", "picker.js", "alpine.min.js"]) {

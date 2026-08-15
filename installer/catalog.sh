@@ -27,7 +27,6 @@ CATALOG=(
     "eza|brew|eza|||eza||"
     "bat|brew|bat|||bat||"
     "zoxide|brew|zoxide|||zoxide||"
-    "tree|brew|tree|||tree||"
     "fzf|brew|fzf|||fzf||"
     "ripgrep|brew|ripgrep||rg|ripgrep||"
     "fd|brew|fd|||fd||"
