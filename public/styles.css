@@ -1553,9 +1553,9 @@ kbd {
 .how-steps {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem 3rem;
-    max-width: 50rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+    max-width: 63rem;
     margin: 0 auto;
 }
 
