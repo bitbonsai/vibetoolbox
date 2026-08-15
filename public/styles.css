@@ -441,6 +441,8 @@ main,
 }
 
 @media (max-width: 640px) {
+    .brand-name,
+    .brand-version,
     .site-nav a span {
         display: none;
     }
