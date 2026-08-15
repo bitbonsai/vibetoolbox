@@ -7,8 +7,20 @@
 
   /* Tool icons: brand SVGs (public/img) where the product has one,
      Lucide strokes elsewhere. */
+  var ICON_COLORS = {
+    "#f5f5f7": "var(--icon-foreground)",
+    "#86868b": "var(--icon-neutral)",
+    "#fb923c": "var(--icon-orange)",
+    "#c084fc": "var(--icon-purple)",
+    "#f472b6": "var(--icon-pink)",
+    "#0ea5e9": "var(--icon-blue)",
+    "#fbcc17": "var(--icon-yellow)",
+    "#4ade80": "var(--icon-green)",
+    "#a78bfa": "var(--icon-purple)",
+  };
+
   function lucide(color, inner) {
-    return '<svg viewBox="0 0 24 24" fill="none" stroke="' + color +
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="' + (ICON_COLORS[color] || color) +
       '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
       inner + "</svg>";
   }
@@ -22,15 +34,15 @@
     "ghostty": brand("ghostty.svg"),
     "starship": brand("starship.svg"),
     "claude-code": brand("claude-color.svg"),
-    "herdr": brand("herdr.svg"),
+    "herdr": brand("herdr.svg?v=2"),
     "zed": brand("zed.svg"),
-    "cursor": brand("cursor.svg"),
-    "opencode": brand("opencode.svg"),
+    "cursor": brand("cursor.svg", "theme-invert"),
+    "opencode": brand("opencode.svg", "theme-invert"),
     "vscode": brand("vscode.svg"),
     "git": brand("git.svg"),
-    "gh": brand("github.svg"),
+    "gh": brand("github.svg", "theme-invert"),
     "node": brand("node.svg"),
-    "bun": brand("bun.svg"),
+    "bun": brand("bun.svg", "theme-invert"),
     "nerd-font": lucide("#fb923c", '<polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/>'),
     "codex": lucide("#f5f5f7", '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>'),
     "pi": lucide("#c084fc", '<line x1="9" x2="9" y1="4" y2="20"/><path d="M4 7c0-1.7 1.3-3 3-3h13"/><path d="M18 20c-1.7 0-3-1.3-3-3V4"/>'),
@@ -93,8 +105,51 @@
       return {
         catalog: window.VTB_CATALOG || { categories: [], tools: [] },
         detail: null,
+        query: "",
+        init() {
+          var id = new URLSearchParams(window.location.search).get("tool");
+          if (id) this.detail = this.catalog.tools.find(function (tool) { return tool.id === id; }) || null;
+        },
+        searchTerm() {
+          return this.query.trim().toLowerCase();
+        },
+        isFiltering() {
+          return this.searchTerm().length >= 2;
+        },
+        matches(tool) {
+          if (!this.isFiltering()) return true;
+          var category = this.catalog.categories.find(function (cat) { return cat.id === tool.category; });
+          return [tool.name, tool.id, tool.desc, category && category.name]
+            .filter(Boolean).join(" ").toLowerCase().includes(this.searchTerm());
+        },
         toolsFor(catId) {
-          return this.catalog.tools.filter(function (t) { return t.category === catId; });
+          var self = this;
+          return this.catalog.tools.filter(function (tool) {
+            return tool.category === catId && self.matches(tool);
+          });
+        },
+        resultCount() {
+          var self = this;
+          return this.catalog.tools.filter(function (tool) { return self.matches(tool); }).length;
+        },
+        searchStatus() {
+          var length = this.searchTerm().length;
+          if (!length) return this.catalog.tools.length + " tools";
+          if (length < 2) return "Type one more character to search";
+          var count = this.resultCount();
+          return count + (count === 1 ? " tool found" : " tools found");
+        },
+        openDetail(tool) {
+          this.detail = tool;
+          var url = new URL(window.location.href);
+          url.searchParams.set("tool", tool.id);
+          history.replaceState(null, "", url.pathname + url.search + url.hash);
+        },
+        closeDetail() {
+          this.detail = null;
+          var url = new URL(window.location.href);
+          url.searchParams.delete("tool");
+          history.replaceState(null, "", url.pathname + url.search + url.hash);
         },
         iconFor(id) {
           return ICONS[id] || FALLBACK_ICON;
@@ -174,6 +229,8 @@
         catalog: window.VTB_CATALOG || { categories: [], tools: [], presets: {} },
         selected: [],
         cartOpen: false,
+        mobilePagesOpen: false,
+        mobilePagesTimer: null,
         copied: false,
         command: "",
         activePreset: "",
@@ -215,6 +272,22 @@
               observer.observe(el);
             });
           });
+        },
+
+        toggleMobilePages() {
+          if (this.mobilePagesOpen) {
+            this.closeMobilePages();
+            return;
+          }
+          this.mobilePagesOpen = true;
+          clearTimeout(this.mobilePagesTimer);
+          var self = this;
+          this.mobilePagesTimer = setTimeout(function () { self.mobilePagesOpen = false; }, 5000);
+        },
+
+        closeMobilePages() {
+          this.mobilePagesOpen = false;
+          clearTimeout(this.mobilePagesTimer);
         },
 
         get sections() {

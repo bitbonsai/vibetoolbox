@@ -42,7 +42,7 @@ vibetoolbox/
 │   ├── catalog.js        # GENERATED window.VTB_CATALOG + version (no fetch pop-in)
 │   ├── alpine.min.js     # vendored Alpine 3
 │   ├── img/              # tool brand SVGs (rest use inline Lucide in picker.js)
-│   └── styles.css        # dark glassy theme, rem typescale, 8pt grid (system-ui + mono)
+│   └── styles.css        # system light/dark glassy theme, rem typescale, 8pt grid
 ├── src/server.ts         # Bun + Hono + bun:sqlite
 └── tests/install.test.ts # bun test: script behavior + server API
 ```
@@ -72,6 +72,8 @@ vibetoolbox/
   Only Xcode CLT and Homebrew are fatal.
 - **Piped install:** prompts via fd 3 on /dev/tty (`init_prompt_input`).
   `VTB_TEST=1` keeps PROMPT_FD=0 for tests.
+- **Theme follows `prefers-color-scheme`.** UI, syntax tokens, and Lucide icons
+  use CSS variables; white brand SVGs use `.theme-invert` in light mode.
 
 ## Patterns
 

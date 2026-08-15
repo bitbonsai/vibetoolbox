@@ -12,33 +12,40 @@
   <main>
     <section class="hero">
       <div class="container">
-        <p class="hero-pill">The full catalog</p>
         <h1>Every tool <em>in the box.</em></h1>
         <p class="hero-sub">
-          What each one does and where it comes from. Pick the ones you want
-          in the <a href="/">picker</a>, and your command installs exactly that set.
+          See what each tool does, then choose yours in the <a href="/">picker</a>.
         </p>
       </div>
     </section>
 
     <section>
       <div class="container picker">
+        <div class="tools-search">
+          <label class="tools-search-field">
+            <span class="sr-only">Search tools</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="search" x-model="query" @keydown.escape="query = ''" placeholder="Search tools" autocomplete="off" spellcheck="false" aria-describedby="tools-search-status">
+            <button type="button" x-show="query" @click="query = ''" aria-label="Clear search">&times;</button>
+          </label>
+          <p id="tools-search-status" class="tools-search-status" x-text="searchStatus()" aria-live="polite"></p>
+        </div>
         <template x-for="cat in catalog.categories" :key="cat.id">
           <div class="category" x-show="toolsFor(cat.id).length">
             <div class="category-header">
               <h2 x-text="cat.name"></h2>
-              <span class="cat-count" x-text="toolsFor(cat.id).length + ' tools'"></span>
+              <span class="cat-count" x-text="toolsFor(cat.id).length + (toolsFor(cat.id).length === 1 ? ' tool' : ' tools')"></span>
             </div>
             <div class="tool-grid">
               <template x-for="tool in toolsFor(cat.id)" :key="tool.id">
-                <div class="tool-card tool-card-static" @click="detail = tool" @keydown.enter="detail = tool" tabindex="0" role="button" :aria-label="'About ' + tool.name">
+                <div class="tool-card tool-card-static" @click="openDetail(tool)" @keydown.enter="openDetail(tool)" tabindex="0" role="button" :aria-label="'About ' + tool.name">
                   <span class="tool-card-top">
                     <span class="tool-icon" x-html="iconFor(tool.id)"></span>
                     <span class="tool-name" x-text="tool.name" :title="tool.name"></span>
                   </span>
                   <p class="tool-desc" x-text="tool.desc"></p>
                   <span class="tool-actions">
-                    <button class="tool-action" type="button" @click.stop="detail = tool">Details</button>
+                    <button class="tool-action" type="button" @click.stop="openDetail(tool)">Details</button>
                     <a class="tool-action" :href="tool.url" rel="noopener" target="_blank" @click.stop>Website &#8599;</a>
                   </span>
                 </div>
@@ -46,11 +53,12 @@
             </div>
           </div>
         </template>
+        <p class="tools-empty" x-cloak x-show="isFiltering() && resultCount() === 0">No tools match that search.</p>
       </div>
     </section>
   </main>
 
-  <div class="modal-backdrop" x-cloak x-show="detail" @click.self="detail = null" @keydown.escape.window="detail = null" x-transition.opacity.duration.150ms>
+  <div class="modal-backdrop" x-cloak x-show="detail" @click.self="closeDetail()" @keydown.escape.window="detail && closeDetail()" x-transition.opacity.duration.150ms>
     <div class="modal tool-modal" role="dialog" aria-modal="true" :aria-label="detail && detail.name">
       <template x-if="detail">
         <div>
@@ -64,7 +72,7 @@
           <span class="tool-badge" x-show="detail.requires && detail.requires.length" x-text="'installs with ' + (detail.requires || []).join(', ')"></span>
           <div class="tool-modal-actions">
             <a class="copy-btn" :href="detail.url" rel="noopener" target="_blank">Visit website &#8599;</a>
-            <button class="preset-btn" type="button" @click="detail = null">Close</button>
+            <button class="preset-btn" type="button" @click="closeDetail()">Close</button>
           </div>
         </div>
       </template>

@@ -73,6 +73,38 @@ describe("built script", () => {
       expect(html).toContain(`${asset}?v=${hash}`);
     }
   });
+
+  test("tools search starts filtering at two characters", () => {
+    const html = readFileSync(join(ROOT, "public", "tools.html"), "utf8");
+    const picker = readFileSync(join(ROOT, "public", "picker.js"), "utf8");
+    expect(html).toContain('x-model="query"');
+    expect(html).toContain("No tools match that search");
+    expect(picker).toContain("this.searchTerm().length >= 2");
+  });
+
+  test("picker cards link to tool details", () => {
+    const html = readFileSync(join(ROOT, "public", "index.html"), "utf8");
+    expect(html).toContain("'/tools?tool=' + encodeURIComponent(tool.id)");
+    expect(html).toContain("More info");
+  });
+
+  test("page menu auto-closes", () => {
+    const html = readFileSync(join(ROOT, "public", "index.html"), "utf8");
+    const picker = readFileSync(join(ROOT, "public", "picker.js"), "utf8");
+    expect(html).toContain("mobile-menu-toggle");
+    for (const path of ["/tools", "/about", "/docs", "/next-steps"]) expect(html).toContain(`href="${path}"`);
+    expect(picker).toContain("mobilePagesTimer = setTimeout");
+    expect(picker).toContain("}, 5000)");
+  });
+
+  test("site follows system color scheme including syntax colors", () => {
+    const styles = readFileSync(join(ROOT, "public", "styles.css"), "utf8");
+    expect(styles).toContain("@media (prefers-color-scheme: light)");
+    expect(styles).toContain("--green: #16763f");
+    expect(styles).toContain(".tok-cmd { color: var(--green); }");
+    expect(styles).toContain(".tok-flag { color: var(--orange); }");
+    expect(styles).toContain(".tok-url { color: var(--blue); }");
+  });
 });
 
 describe("selection", () => {

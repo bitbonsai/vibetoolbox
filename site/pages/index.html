@@ -108,7 +108,10 @@
                     <span class="tool-check" aria-hidden="true"></span>
                   </span>
                   <p class="tool-desc" x-text="tool.desc"></p>
-                  <span class="tool-badge" x-show="tool.requires && tool.requires.length" x-text="'needs ' + (tool.requires || []).join(', ')"></span>
+                  <span class="tool-card-meta">
+                    <span class="tool-badge" x-show="tool.requires && tool.requires.length" x-text="'needs ' + (tool.requires || []).join(', ')"></span>
+                    <a class="tool-action tool-card-info" :href="'/tools?tool=' + encodeURIComponent(tool.id)" @click.stop>More info</a>
+                  </span>
                 </label>
               </template>
             </div>
