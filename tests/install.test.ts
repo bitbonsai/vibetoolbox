@@ -1,4 +1,5 @@
 import { describe, expect, test, beforeAll, afterAll } from "bun:test";
+import { createHash } from "node:crypto";
 import { mkdtempSync, rmSync, mkdirSync, writeFileSync, existsSync, readFileSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
@@ -51,6 +52,17 @@ describe("built script", () => {
     const catalog = JSON.parse(readFileSync(join(ROOT, "catalog.json"), "utf8"));
     for (const tool of catalog.tools) {
       expect(script()).toContain(`"${tool.id}|`);
+    }
+  });
+
+  test("site assets use content hashes", () => {
+    const html = readFileSync(join(ROOT, "public", "index.html"), "utf8");
+    for (const asset of ["styles.css", "catalog.js", "picker.js", "alpine.min.js"]) {
+      const hash = createHash("sha256")
+        .update(readFileSync(join(ROOT, "public", asset)))
+        .digest("hex")
+        .slice(0, 12);
+      expect(html).toContain(`${asset}?v=${hash}`);
     }
   });
 });

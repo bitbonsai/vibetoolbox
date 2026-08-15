@@ -3,6 +3,7 @@
 // site/pages/*.html (with site/partials includes) into public/*.html
 // Usage: bun scripts/build.ts
 
+import { createHash } from "node:crypto";
 import { join } from "path";
 import { readdir } from "node:fs/promises";
 
@@ -147,11 +148,16 @@ function highlightPage(html: string): string {
   );
 }
 
-// Version query param so CDN-cached CSS/JS can't outlive the HTML that expects them
+// Content hashes keep CDN-cached assets immutable without requiring a release bump.
+const assets = ["styles.css", "catalog.js", "picker.js", "alpine.min.js"];
+const assetHashes = Object.fromEntries(await Promise.all(assets.map(async (asset) => [
+  asset,
+  createHash("sha256").update(await Bun.file(join(ROOT, "public", asset)).bytes()).digest("hex").slice(0, 12),
+])));
 const bustAssets = (html: string) =>
   html.replace(
     /((?:href|src)=")(styles\.css|catalog\.js|picker\.js|alpine\.min\.js)(")/g,
-    `$1$2?v=${pkg.version}$3`,
+    (_, open, asset, close) => `${open}${asset}?v=${assetHashes[asset]}${close}`,
   );
 
 const pageNames = (await readdir(PAGES_DIR)).filter((n) => n.endsWith(".html"));
