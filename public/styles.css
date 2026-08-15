@@ -644,6 +644,10 @@ main,
 }
 
 @media (max-width: 640px) {
+    .site-header {
+        padding-inline: 0.75rem;
+    }
+
     .brand-name,
     .site-nav a span,
     .nav-cta-label-full {
@@ -654,8 +658,33 @@ main,
         display: inline;
     }
 
-    .nav-container.mobile-pages-open .brand-version {
-        display: none;
+    .site-nav .cart-btn {
+        max-width: 3rem;
+        opacity: 1;
+        visibility: visible;
+        transition:
+            color 0.15s ease,
+            max-width 0.25s ease 0.65s,
+            padding 0.25s ease 0.65s,
+            margin 0.25s ease 0.65s,
+            opacity 0.15s ease 0.72s,
+            visibility 0s linear 0.65s;
+    }
+
+    .site-nav.mobile-pages-open .cart-btn {
+        max-width: 0;
+        overflow: hidden;
+        padding-inline: 0;
+        margin-left: 0;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+            color 0.15s ease,
+            max-width 0.18s ease,
+            padding 0.18s ease,
+            margin 0.18s ease,
+            opacity 0.08s ease,
+            visibility 0s linear 0.18s;
     }
 
     .site-nav a {
@@ -669,13 +698,30 @@ main,
 }
 
 @media (max-width: 360px) {
-    .site-header {
-        padding-inline: 0.75rem;
+    .nav-container {
+        gap: 0.25rem;
+        padding-inline: 0.5rem;
     }
 
-    .brand-version,
-    .nav-container.mobile-pages-open .brand-group {
-        display: none;
+    .brand-group {
+        gap: 0.25rem;
+    }
+
+    .brand-version {
+        padding-inline: 0.375rem;
+    }
+
+    .mobile-menu-toggle {
+        width: 2rem;
+    }
+
+    .mobile-page-links {
+        gap: 0.125rem;
+    }
+
+    .site-nav .mobile-page-links a {
+        min-width: 2.25rem;
+        padding-inline: 0.5rem;
     }
 }
 

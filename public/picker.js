@@ -279,6 +279,7 @@
             this.closeMobilePages();
             return;
           }
+          this.cartOpen = false;
           this.mobilePagesOpen = true;
           clearTimeout(this.mobilePagesTimer);
           var self = this;
