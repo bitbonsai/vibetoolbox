@@ -10,6 +10,9 @@
   "branch": "main",
   "webhookUrl": "https://vibetoolbox.dev/hooks/github/vibetoolbox-dev",
   "service": "web",
+  "port": 9100,
   "healthPath": "/healthz",
+  "deploymentMode": "prebuilt",
+  "platform": "linux/arm64",
   "cutoverRequired": false
 }
