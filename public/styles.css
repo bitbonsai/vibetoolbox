@@ -19,7 +19,7 @@
     --border-strong: rgba(255, 255, 255, 0.16);
     --text: #f5f5f7;
     --text-2: #a5a5ad;
-    --text-3: #70707a;
+    --text-3: #7a7a84;
     --accent: #a78bfa;
     --accent-button: #8b5cf6;
     --accent-button-hover: #9d74f8;
@@ -79,7 +79,7 @@
         --border-strong: rgba(45, 31, 63, 0.22);
         --text: #1b1721;
         --text-2: #5f5868;
-        --text-3: #756d80;
+        --text-3: #6f687a;
         --accent: #6d28d9;
         --accent-button: #7c3aed;
         --accent-button-hover: #6d28d9;
@@ -1809,7 +1809,7 @@ kbd {
 .steps p,
 .steps li {
     color: var(--text-2);
-    font-size: 0.9375rem;
+    font-size: 1rem;
     line-height: 1.7;
 }
 
