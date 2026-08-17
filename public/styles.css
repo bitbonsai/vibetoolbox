@@ -1844,6 +1844,10 @@ kbd {
     content: counter(step) '. ';
 }
 
+.about-page .steps h2::before {
+    content: none;
+}
+
 .steps > section {
     margin-bottom: 4rem;
 }
@@ -1914,6 +1918,30 @@ kbd {
     padding: 1rem 1.25rem;
     overflow-x: auto;
     margin: 1rem 0;
+    scrollbar-color: transparent transparent;
+    scrollbar-width: thin;
+}
+
+.steps pre:hover {
+    scrollbar-color: var(--border-strong) transparent;
+}
+
+.steps pre::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+.steps pre::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 999rem;
+}
+
+.steps pre:hover::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+}
+
+.steps pre::-webkit-scrollbar-track {
+    background: transparent;
 }
 
 .steps pre code {
