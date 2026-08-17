@@ -105,6 +105,13 @@ describe("built script", () => {
     expect(styles).toContain(".tok-flag { color: var(--orange); }");
     expect(styles).toContain(".tok-url { color: var(--blue); }");
   });
+
+  test("site uses rem units with a 0.75rem minimum font size", () => {
+    const styles = readFileSync(join(ROOT, "public", "styles.css"), "utf8");
+    expect(styles).not.toMatch(/-?\d*\.?\d+px\b/);
+    const sizes = [...styles.matchAll(/font-size:\s*([\d.]+)rem/g)].map((match) => Number(match[1]));
+    expect(Math.min(...sizes)).toBeGreaterThanOrEqual(0.75);
+  });
 });
 
 describe("selection", () => {

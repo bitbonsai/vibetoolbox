@@ -1,6 +1,6 @@
 /* Vibe Toolbox — dark, quiet, glassy.
    Type scale 1.25 in rem: 0.75 / 0.8125 / 0.9375 / 1.0625 / 1.3125 / 1.625 /
-   2.0625 + fluid hero. Nothing below 0.75rem (12px).
+   2.0625 + fluid hero. Nothing below 0.75rem.
    Spacing on an 8pt grid. No divider lines; hierarchy from type + space. */
 
 * {
@@ -133,10 +133,10 @@
 
 .sr-only {
     position: absolute;
-    width: 1px;
-    height: 1px;
+    width: 0.0625rem;
+    height: 0.0625rem;
     padding: 0;
-    margin: -1px;
+    margin: -0.0625rem;
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
@@ -284,8 +284,8 @@ main,
 .brand:focus-visible,
 .mobile-menu-toggle:focus-visible,
 .cart-btn:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline: 0.125rem solid var(--accent);
+    outline-offset: 0.125rem;
 }
 
 /* Nav CTA */
@@ -340,8 +340,8 @@ main,
 }
 
 .nav-cta:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline: 0.125rem solid var(--accent);
+    outline-offset: 0.125rem;
 }
 
 .nav-cta-label-mobile {
@@ -433,7 +433,7 @@ main,
     transition-delay: 0s;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 30rem) {
     .nav-cta {
         padding: 0.5rem 0.75rem;
     }
@@ -482,7 +482,7 @@ main,
     color: var(--text-3);
     padding: 0.75rem 0.875rem;
     background: var(--code-bg);
-    border: 1px solid var(--border);
+    border: 0.0625rem solid var(--border);
     border-radius: 0.625rem;
 }
 
@@ -501,7 +501,7 @@ main,
     font-variant-numeric: tabular-nums;
     background: var(--accent);
     color: var(--accent-contrast);
-    border-radius: 999px;
+    border-radius: 62.4375rem;
 }
 
 /* Cart panel (sibling of .nav-container so backdrop-filter blurs the page) */
@@ -513,7 +513,7 @@ main,
     background: var(--panel-bg);
     backdrop-filter: blur(1.25rem);
     -webkit-backdrop-filter: blur(1.25rem);
-    border: 1px solid var(--border-strong);
+    border: 0.0625rem solid var(--border-strong);
     border-radius: 1rem;
     padding: 1.25rem;
     box-shadow: 0 1rem 3rem var(--shadow);
@@ -554,9 +554,9 @@ main,
     font-weight: 500;
     color: var(--text-2);
     background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 3px 0.375rem 3px 0.625rem;
+    border: 0.0625rem solid var(--border);
+    border-radius: 62.4375rem;
+    padding: 0.1875rem 0.375rem 0.1875rem 0.625rem;
     cursor: default;
     user-select: none;
     transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
@@ -596,7 +596,7 @@ main,
     line-height: 1.6;
     color: var(--text);
     background: var(--code-bg);
-    border: 1px solid var(--border);
+    border: 0.0625rem solid var(--border);
     border-radius: 0.625rem;
     padding: 0.75rem 0.875rem;
     word-break: break-all;
@@ -614,8 +614,8 @@ main,
 }
 
 .cart-command:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline: 0.125rem solid var(--accent);
+    outline-offset: 0.125rem;
 }
 
 .copy-btn {
@@ -645,11 +645,11 @@ main,
 }
 
 .copy-btn:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline: 0.125rem solid var(--accent);
+    outline-offset: 0.125rem;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 40rem) {
     .site-header {
         padding-inline: 0.75rem;
     }
@@ -703,7 +703,7 @@ main,
     }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 22.5rem) {
     .nav-container {
         gap: 0.25rem;
         padding-inline: 0.5rem;
@@ -775,8 +775,8 @@ h1,
     font-weight: 500;
     color: var(--green);
     background: var(--green-subtle);
-    border: 1px solid var(--green-border);
-    border-radius: 999px;
+    border: 0.0625rem solid var(--green-border);
+    border-radius: 62.4375rem;
     padding: 0.3125rem 0.875rem;
     margin-bottom: 2rem;
 }
@@ -793,9 +793,9 @@ h1,
     font-weight: 500;
     color: var(--accent);
     background: var(--accent-soft);
-    border: 1px solid var(--accent-border);
-    border-radius: 999px;
-    padding: 2px 0.5rem;
+    border: 0.0625rem solid var(--accent-border);
+    border-radius: 62.4375rem;
+    padding: 0.125rem 0.5rem;
 }
 
 h1 {
@@ -821,7 +821,7 @@ h1 em {
     text-wrap: pretty;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 45rem) {
     .hero {
         padding: 7.5rem 0 3rem;
     }
@@ -846,13 +846,13 @@ h1 em {
 
 .preset-btn {
     padding: 0.625rem 1.25rem;
-    border-radius: 999px;
+    border-radius: 62.4375rem;
     font-size: 0.9375rem;
     font-weight: 500;
     font-family: inherit;
     cursor: pointer;
     background: var(--surface);
-    border: 1px solid var(--border);
+    border: 0.0625rem solid var(--border);
     color: var(--text);
     transition: background-color 0.15s ease, border-color 0.15s ease;
 }
@@ -879,8 +879,8 @@ h1 em {
 }
 
 .preset-btn:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline: 0.125rem solid var(--accent);
+    outline-offset: 0.125rem;
 }
 
 .hero-hint {
@@ -893,7 +893,7 @@ h1 em {
     color: var(--text);
     text-decoration: underline;
     text-decoration-color: var(--text-3);
-    text-underline-offset: 3px;
+    text-underline-offset: 0.1875rem;
 }
 
 .hero-sub a:hover {
@@ -914,7 +914,7 @@ h1 em {
     padding: 0 1rem;
     color: var(--text-3);
     background: var(--surface-solid);
-    border: 1px solid var(--border-strong);
+    border: 0.0625rem solid var(--border-strong);
     border-radius: 1rem;
     box-shadow: 0 0.75rem 2rem var(--shadow);
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -922,7 +922,7 @@ h1 em {
 
 .tools-search-field:focus-within {
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-dim), 0 0.75rem 2rem var(--shadow);
+    box-shadow: 0 0 0 0.1875rem var(--accent-dim), 0 0.75rem 2rem var(--shadow);
 }
 
 .tools-search-field svg {
@@ -971,8 +971,8 @@ h1 em {
 }
 
 .tools-search-field button:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline: 0.125rem solid var(--accent);
+    outline-offset: 0.125rem;
 }
 
 .tools-search-status {
@@ -989,7 +989,7 @@ h1 em {
     color: var(--text-2);
     text-align: center;
     background: var(--surface);
-    border: 1px dashed var(--border-strong);
+    border: 0.0625rem dashed var(--border-strong);
     border-radius: 1rem;
 }
 
@@ -1013,8 +1013,8 @@ h1 em {
     font-family: inherit;
     color: var(--text-2);
     background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 999px;
+    border: 0.0625rem solid var(--border);
+    border-radius: 62.4375rem;
     text-decoration: none;
     cursor: pointer;
     transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
@@ -1027,8 +1027,8 @@ h1 em {
 }
 
 .tool-action:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline: 0.125rem solid var(--accent);
+    outline-offset: 0.125rem;
 }
 
 /* Tool detail dialog */
@@ -1045,13 +1045,13 @@ h1 em {
     font-weight: 700;
     letter-spacing: -0.02em;
     margin: 0;
-    line-height: 28px;
+    line-height: 1.75rem;
 }
 
 .tool-modal-head .tool-icon svg,
 .tool-modal-head .tool-icon img {
-    width: 28px;
-    height: 28px;
+    width: 1.75rem;
+    height: 1.75rem;
 }
 
 .tool-modal-more {
@@ -1082,9 +1082,9 @@ h1 em {
     letter-spacing: 0.08em;
     color: var(--accent);
     background: var(--accent-surface);
-    border: 1px solid var(--accent-border);
-    border-radius: 999px;
-    padding: 1px 0.625rem;
+    border: 0.0625rem solid var(--accent-border);
+    border-radius: 62.4375rem;
+    padding: 0.0625rem 0.625rem;
 }
 
 .tool-modal-try {
@@ -1092,7 +1092,7 @@ h1 em {
     font-size: 0.8125rem;
     color: var(--text);
     background: var(--code-bg);
-    border: 1px solid var(--border);
+    border: 0.0625rem solid var(--border);
     border-radius: 0.625rem;
     padding: 0.75rem 0.875rem;
     margin-bottom: 1rem;
@@ -1127,7 +1127,7 @@ h1 em {
     z-index: 400;
     max-width: 16rem;
     background: var(--surface-solid);
-    border: 1px solid var(--border-strong);
+    border: 0.0625rem solid var(--border-strong);
     border-radius: 0.5rem;
     padding: 0.375rem 0.625rem;
     font-size: 0.75rem;
@@ -1155,7 +1155,7 @@ h1 em {
 .modal {
     width: min(28rem, 100%);
     background: var(--surface-solid);
-    border: 1px solid var(--border-strong);
+    border: 0.0625rem solid var(--border-strong);
     border-radius: 1rem;
     padding: 2rem;
     box-shadow: 0 1.5rem 4rem var(--shadow-strong);
@@ -1222,10 +1222,10 @@ kbd {
     font-size: 0.75rem;
     color: var(--text);
     background: var(--surface-2);
-    border: 1px solid var(--border-strong);
+    border: 0.0625rem solid var(--border-strong);
     border-radius: 0.375rem;
-    padding: 1px 0.375rem;
-    margin: 0 1px;
+    padding: 0.0625rem 0.375rem;
+    margin: 0 0.0625rem;
 }
 
 .guide-dismiss {
@@ -1269,7 +1269,7 @@ kbd {
     height: 0.5rem;
     border-radius: 50%;
     background: transparent;
-    border: 1.5px solid var(--border-strong);
+    border: 0.09375rem solid var(--border-strong);
     transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
 
@@ -1284,8 +1284,8 @@ kbd {
 }
 
 .dot:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline: 0.125rem solid var(--accent);
+    outline-offset: 0.125rem;
     border-radius: 50%;
 }
 
@@ -1298,9 +1298,9 @@ kbd {
     font-weight: 500;
     color: var(--text);
     background: var(--surface-solid);
-    border: 1px solid var(--border);
+    border: 0.0625rem solid var(--border);
     border-radius: 0.375rem;
-    padding: 3px 0.625rem;
+    padding: 0.1875rem 0.625rem;
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
@@ -1312,7 +1312,7 @@ kbd {
     opacity: 1;
 }
 
-@media (max-width: 1140px) {
+@media (max-width: 71.25rem) {
     .dot-nav {
         display: none;
     }
@@ -1359,13 +1359,13 @@ kbd {
     gap: 1rem;
 }
 
-@media (max-width: 880px) {
+@media (max-width: 55rem) {
     .tool-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 35rem) {
     .tool-grid {
         grid-template-columns: 1fr;
     }
@@ -1376,8 +1376,8 @@ kbd {
     flex-direction: column;
     position: relative;
     background: var(--surface);
-    border: 1px solid var(--border);
-    box-shadow: inset 0 1px var(--card-inset);
+    border: 0.0625rem solid var(--border);
+    box-shadow: inset 0 0.0625rem var(--card-inset);
     border-radius: 1rem;
     padding: 1.5rem;
     cursor: pointer;
@@ -1396,8 +1396,8 @@ kbd {
 }
 
 .tool-card:has(input:focus-visible) {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline: 0.125rem solid var(--accent);
+    outline-offset: 0.125rem;
 }
 
 .tool-card.selected {
@@ -1450,7 +1450,7 @@ kbd {
     flex-shrink: 0;
     margin-left: auto;
     border-radius: 50%;
-    border: 1.5px solid var(--border-strong);
+    border: 0.09375rem solid var(--border-strong);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1511,14 +1511,14 @@ kbd {
     font-size: 0.75rem;
     color: var(--text-3);
     background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 2px 0.5rem;
-    border-radius: 999px;
+    border: 0.0625rem solid var(--border);
+    padding: 0.125rem 0.5rem;
+    border-radius: 62.4375rem;
 }
 
 .noscript-note {
     background: var(--surface);
-    border: 1px solid var(--border);
+    border: 0.0625rem solid var(--border);
     border-radius: 1rem;
     padding: 1.5rem;
     font-size: 0.875rem;
@@ -1565,7 +1565,7 @@ kbd {
     margin: 0 auto;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 45rem) {
     .how-steps {
         grid-template-columns: 1fr;
     }
@@ -1590,7 +1590,7 @@ kbd {
     justify-content: center;
     background: var(--accent-dim);
     border-radius: 50%;
-    margin-top: 1px;
+    margin-top: 0.0625rem;
 }
 
 .step-card p {
@@ -1613,8 +1613,8 @@ kbd {
     font-family: var(--mono);
     font-size: 0.75rem;
     background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 1px 0.375rem;
+    border: 0.0625rem solid var(--border);
+    padding: 0.0625rem 0.375rem;
     border-radius: 0.375rem;
     color: var(--text-2);
 }
@@ -1640,9 +1640,9 @@ kbd {
     color: var(--text);
     text-decoration: none;
     padding: 0.625rem 1.25rem;
-    border-radius: 999px;
+    border-radius: 62.4375rem;
     background: var(--surface);
-    border: 1px solid var(--border);
+    border: 0.0625rem solid var(--border);
     transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
@@ -1652,11 +1652,11 @@ kbd {
 }
 
 .footer-nav a:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline: 0.125rem solid var(--accent);
+    outline-offset: 0.125rem;
 }
 
-@media (max-width: 560px) {
+@media (max-width: 35rem) {
     .footer-nav {
         display: block;
         max-width: 20rem;
@@ -1730,8 +1730,8 @@ kbd {
 }
 
 .site-footer a:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline: 0.125rem solid var(--accent);
+    outline-offset: 0.125rem;
     border-radius: 0.25rem;
 }
 
@@ -1751,7 +1751,7 @@ kbd {
     justify-content: center;
     color: var(--green);
     background: linear-gradient(135deg, var(--green-soft), var(--green-faint));
-    border: 1px solid var(--green-glow);
+    border: 0.0625rem solid var(--green-glow);
     border-radius: 50%;
 }
 
@@ -1830,7 +1830,7 @@ kbd {
     color: var(--accent);
     font-family: var(--mono);
     font-size: 0.8125rem;
-    top: 3px;
+    top: 0.1875rem;
 }
 
 .steps li strong {
@@ -1842,7 +1842,7 @@ kbd {
     color: var(--text);
     text-decoration: underline;
     text-decoration-color: var(--text-3);
-    text-underline-offset: 3px;
+    text-underline-offset: 0.1875rem;
     transition: text-decoration-color 0.15s ease;
 }
 
@@ -1852,7 +1852,7 @@ kbd {
 
 .steps pre {
     background: var(--surface);
-    border: 1px solid var(--border);
+    border: 0.0625rem solid var(--border);
     border-radius: 0.75rem;
     padding: 1rem 1.25rem;
     overflow-x: auto;
@@ -1873,8 +1873,8 @@ kbd {
     font-family: var(--mono);
     font-size: 0.8125rem;
     background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 1px 0.375rem;
+    border: 0.0625rem solid var(--border);
+    padding: 0.0625rem 0.375rem;
     border-radius: 0.375rem;
     color: var(--text);
 }
@@ -1941,8 +1941,8 @@ kbd {
 }
 
 .docs-sidebar a:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline: 0.125rem solid var(--accent);
+    outline-offset: 0.125rem;
 }
 
 .docs-content {
@@ -1955,7 +1955,7 @@ kbd {
     scroll-margin-top: 6rem;
 }
 
-@media (max-width: 880px) {
+@media (max-width: 55rem) {
     .docs-layout {
         grid-template-columns: minmax(0, 1fr);
         gap: 2rem;
@@ -1970,8 +1970,8 @@ kbd {
 
     .docs-sidebar a {
         background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 999px;
+        border: 0.0625rem solid var(--border);
+        border-radius: 62.4375rem;
         font-size: 0.8125rem;
     }
 }
