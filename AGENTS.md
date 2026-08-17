@@ -109,6 +109,10 @@ vibetoolbox/
   useless as card icons; Lucide fallback stays.
 - Nav cart toolbox icon = Noun Project (Salman Azzumardi); keep the
   attribution comment next to the SVG.
+- Mobile page-strip collapse cannot use `display: none` for `.cart-btn`: cart
+  returns before delayed CTA and escapes nav. Delay size/visibility with CTA.
+- 320px page strip has tight width budget. Keep compact `max-width: 360px`
+  spacing so brand version stays visible without horizontal overflow.
 - Shell syntax highlighting is one tokenizer implemented twice: build.ts
   (static pre/code at render) + picker.js `hl()` (Alpine x-html). Change both.
 

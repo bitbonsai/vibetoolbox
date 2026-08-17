@@ -12,8 +12,8 @@
 
 ## Recently shipped
 
-- Site redesign v3: Alpine picker, nav cart + guide dialog, partials build (site/pages + site/partials -> public), clean URLs in Hono
-- Tools page with per-tool Details dialog (more/why/try from catalog), Docs page (sidebar), About rewrite
-- Catalog: fd, btop, mkcert, agent-browser (post hook), Shottr + Handy (Mac apps); recommended preset
-- Shell syntax highlighting (build.ts static + picker.js dynamic)
-- Installer: Handy right-cmd seed, Zed font defaults, git aliases (only-when-unset)
+- Tools search, card detail links, and deep-linked `/tools?tool=<id>` dialogs
+- Automatic light/dark theme with adaptive syntax colors and brand icons
+- Animated page-menu strip with desktop labels and mobile-safe cart timing
+- Three-column desktop setup steps and local server default on port 9100
+- Site redesign v3: Alpine picker, nav cart + guide dialog, partials build, clean URLs
