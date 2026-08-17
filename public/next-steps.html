@@ -19,7 +19,7 @@
 <meta name="twitter:title" content="Next steps. Vibe Toolbox">
 <meta name="twitter:description" content="Your Mac is set up. Here is what to do in your first ten minutes.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a78bfa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z'/><path d='M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12'/><path d='M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17'/></svg>">
-<link rel="stylesheet" href="styles.css?v=7886c8aed76f">
+<link rel="stylesheet" href="styles.css?v=0e5fc78dacd8">
   <script src="catalog.js?v=9a8f261676d1" defer></script>
 <script src="picker.js?v=99de163d4469" defer></script>
 <script src="alpine.min.js?v=04656d770039" defer></script>
@@ -70,6 +70,11 @@
         <p class="hero-sub">Ten minutes of orientation and you are off. Everything below assumes a fresh <span x-show="has('ghostty')">Ghostty</span><span x-show="!has('ghostty')">terminal</span> window.</p>
       </div>
     </section>
+
+    <aside class="next-steps-callout" x-show="!installed.length" x-cloak aria-label="About this guide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      <p><strong>This is the post-install guide.</strong> It opens automatically when setup finishes and is tailored to the tools you picked. From the site menu, it shows the complete version.</p>
+    </aside>
 
     <div class="steps">
       <section>

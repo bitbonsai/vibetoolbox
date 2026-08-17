@@ -1,6 +1,5 @@
-/* Vibe Toolbox — dark, quiet, glassy.
-   Type scale 1.25 in rem: 0.75 / 0.8125 / 0.9375 / 1.0625 / 1.3125 / 1.625 /
-   2.0625 + fluid hero. Nothing below 0.75rem.
+/* Vibe Toolbox: dark, quiet, glassy.
+   Minor-third type scale (1.2), with 0.75rem minimum.
    Spacing on an 8pt grid. No divider lines; hierarchy from type + space. */
 
 * {
@@ -64,6 +63,17 @@
     --icon-blue: #0ea5e9;
     --icon-yellow: #fbcc17;
     --icon-green: #4ade80;
+    --type-xs: 0.75rem;
+    --type-sm: 0.8333rem;
+    --type-base: 1rem;
+    --type-md: 1.2rem;
+    --type-lg: 1.44rem;
+    --type-xl: 1.728rem;
+    --type-2xl: 2.0736rem;
+    --type-3xl: 2.4883rem;
+    --type-4xl: 2.986rem;
+    --type-5xl: 3.5832rem;
+    --type-6xl: 4.2998rem;
     --mono: ui-monospace, 'SF Mono', Menlo, 'Courier New', monospace;
     --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
@@ -151,11 +161,17 @@ body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg);
     color: var(--text);
-    font-size: 0.9375rem;
-    line-height: 1.5;
+    font-size: var(--type-base);
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
     padding-bottom: 3rem;
+}
+
+h1,
+h2,
+h3 {
+    line-height: 1.2;
 }
 
 /* Ambient: one soft violet field, no blur filter, no animation */
@@ -222,7 +238,7 @@ main,
     display: flex;
     align-items: center;
     gap: 0.625rem;
-    font-size: 1.0625rem;
+    font-size: var(--type-md);
     font-weight: 700;
     letter-spacing: -0.02em;
     color: var(--text);
@@ -234,6 +250,11 @@ main,
     width: 1.5rem;
     height: 1.5rem;
     color: var(--accent);
+}
+
+.brand-inline {
+    color: var(--text);
+    font-weight: 700;
 }
 
 .site-nav {
@@ -248,7 +269,7 @@ main,
     align-items: center;
     gap: 0.375rem;
     padding: 0.5rem 0.75rem;
-    font-size: 0.8125rem;
+    font-size: var(--type-sm);
     font-weight: 500;
     color: var(--text-2);
     text-decoration: none;
@@ -295,7 +316,7 @@ main,
     overflow: hidden;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
-    font-size: 0.8125rem;
+    font-size: var(--type-sm);
     font-weight: 700;
     font-family: inherit;
     white-space: nowrap;
@@ -478,7 +499,7 @@ main,
 
 .cart-pending {
     font-family: var(--mono);
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     color: var(--text-3);
     padding: 0.75rem 0.875rem;
     background: var(--code-bg);
@@ -496,7 +517,7 @@ main,
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     font-weight: 600;
     font-variant-numeric: tabular-nums;
     background: var(--accent);
@@ -520,14 +541,14 @@ main,
 }
 
 .cart-empty {
-    font-size: 0.8125rem;
+    font-size: var(--type-sm);
     color: var(--text-2);
     text-align: center;
     padding: 0.5rem 0;
 }
 
 .cart-title {
-    font-size: 0.8125rem;
+    font-size: var(--type-sm);
     font-weight: 600;
     margin-bottom: 0.75rem;
 }
@@ -550,7 +571,7 @@ main,
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     font-weight: 500;
     color: var(--text-2);
     background: var(--surface);
@@ -574,7 +595,7 @@ main,
     justify-content: center;
     width: 1rem;
     height: 1rem;
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     line-height: 1;
     background: none;
     border: none;
@@ -592,7 +613,7 @@ main,
 .cart-command {
     display: block;
     font-family: var(--mono);
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     line-height: 1.6;
     color: var(--text);
     background: var(--code-bg);
@@ -625,7 +646,7 @@ main,
     width: 100%;
     padding: 0.625rem 1.25rem;
     border-radius: 0.625rem;
-    font-size: 0.8125rem;
+    font-size: var(--type-sm);
     font-weight: 600;
     font-family: inherit;
     cursor: pointer;
@@ -771,7 +792,7 @@ h1,
     display: inline-flex;
     align-items: center;
     gap: 0.375rem;
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     font-weight: 500;
     color: var(--green);
     background: var(--green-subtle);
@@ -789,7 +810,7 @@ h1,
 
 .brand-version {
     font-family: var(--mono);
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     font-weight: 500;
     color: var(--accent);
     background: var(--accent-soft);
@@ -799,10 +820,10 @@ h1,
 }
 
 h1 {
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-size: clamp(var(--type-3xl), 6vw, var(--type-6xl));
     font-weight: 700;
     letter-spacing: -0.03em;
-    line-height: 1.04;
+    line-height: 1.08;
     margin-bottom: 1.5rem;
     text-wrap: balance;
 }
@@ -813,7 +834,7 @@ h1 em {
 }
 
 .hero-sub {
-    font-size: 1.0625rem;
+    font-size: var(--type-md);
     line-height: 1.6;
     color: var(--text-2);
     max-width: 35rem;
@@ -839,7 +860,7 @@ h1 em {
 .presets-label {
     position: relative;
     z-index: 1;
-    font-size: 0.8125rem;
+    font-size: var(--type-sm);
     color: var(--text-3);
     margin-bottom: 1rem;
 }
@@ -847,7 +868,7 @@ h1 em {
 .preset-btn {
     padding: 0.625rem 1.25rem;
     border-radius: 62.4375rem;
-    font-size: 0.9375rem;
+    font-size: var(--type-base);
     font-weight: 500;
     font-family: inherit;
     cursor: pointer;
@@ -885,7 +906,7 @@ h1 em {
 
 .hero-hint {
     margin-top: 1rem;
-    font-size: 0.8125rem;
+    font-size: var(--type-sm);
     color: var(--text-3);
 }
 
@@ -936,7 +957,7 @@ h1 em {
     flex: 1;
     padding: 0.875rem 0;
     font: inherit;
-    font-size: 1rem;
+    font-size: var(--type-base);
     color: var(--text);
     background: transparent;
     border: 0;
@@ -956,7 +977,7 @@ h1 em {
     height: 1.75rem;
     flex-shrink: 0;
     font: inherit;
-    font-size: 1.25rem;
+    font-size: var(--type-md);
     line-height: 1;
     color: var(--text-3);
     background: var(--surface);
@@ -980,7 +1001,7 @@ h1 em {
     margin-top: 0.625rem;
     padding-left: 0.25rem;
     font-family: var(--mono);
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     color: var(--text-3);
 }
 
@@ -1008,7 +1029,7 @@ h1 em {
     display: inline-flex;
     align-items: center;
     padding: 0.375rem 0.75rem;
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     font-weight: 500;
     font-family: inherit;
     color: var(--text-2);
@@ -1041,7 +1062,7 @@ h1 em {
 /* .modal h2 sets margin-bottom and wins on order; reset it here with a
    more specific selector so the icon and title align */
 .modal .tool-modal-head h2 {
-    font-size: 1.3125rem;
+    font-size: var(--type-lg);
     font-weight: 700;
     letter-spacing: -0.02em;
     margin: 0;
@@ -1055,7 +1076,7 @@ h1 em {
 }
 
 .tool-modal-more {
-    font-size: 0.9375rem;
+    font-size: var(--type-base);
     line-height: 1.6;
     color: var(--text-2);
     margin-bottom: 1rem;
@@ -1063,7 +1084,7 @@ h1 em {
 
 .tool-modal-why {
     position: relative;
-    font-size: 0.875rem;
+    font-size: var(--type-sm);
     line-height: 1.6;
     color: var(--text-2);
     background: var(--accent-dim);
@@ -1076,7 +1097,7 @@ h1 em {
     position: absolute;
     top: -0.625rem;
     right: 0.75rem;
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -1089,7 +1110,7 @@ h1 em {
 
 .tool-modal-try {
     font-family: var(--mono);
-    font-size: 0.8125rem;
+    font-size: var(--type-sm);
     color: var(--text);
     background: var(--code-bg);
     border: 0.0625rem solid var(--border);
@@ -1130,7 +1151,7 @@ h1 em {
     border: 0.0625rem solid var(--border-strong);
     border-radius: 0.5rem;
     padding: 0.375rem 0.625rem;
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     line-height: 1.5;
     color: var(--tooltip-text);
     text-align: center;
@@ -1162,7 +1183,7 @@ h1 em {
 }
 
 .modal h2 {
-    font-size: 1.3125rem;
+    font-size: var(--type-lg);
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.2;
@@ -1183,7 +1204,7 @@ h1 em {
     counter-increment: guide;
     position: relative;
     padding-left: 2.25rem;
-    font-size: 0.875rem;
+    font-size: var(--type-sm);
     line-height: 1.6;
     color: var(--text-2);
 }
@@ -1199,7 +1220,7 @@ h1 em {
     align-items: center;
     justify-content: center;
     font-family: var(--mono);
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     font-weight: 500;
     color: var(--accent);
     background: var(--accent-dim);
@@ -1219,7 +1240,7 @@ h1 em {
 
 kbd {
     font-family: var(--mono);
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     color: var(--text);
     background: var(--surface-2);
     border: 0.0625rem solid var(--border-strong);
@@ -1232,7 +1253,7 @@ kbd {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.8125rem;
+    font-size: var(--type-sm);
     color: var(--text-3);
     margin-bottom: 1rem;
     cursor: pointer;
@@ -1294,7 +1315,7 @@ kbd {
     left: 1.75rem;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     font-weight: 500;
     color: var(--text);
     background: var(--surface-solid);
@@ -1342,14 +1363,14 @@ kbd {
 }
 
 .category-header h2 {
-    font-size: 1.3125rem;
+    font-size: var(--type-lg);
     font-weight: 600;
     letter-spacing: -0.02em;
 }
 
 .cat-count {
     font-family: var(--mono);
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     color: var(--text-3);
 }
 
@@ -1454,7 +1475,7 @@ kbd {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     color: transparent;
     transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
@@ -1470,7 +1491,7 @@ kbd {
 }
 
 .tool-name {
-    font-size: 1.1875rem;
+    font-size: var(--type-md);
     font-weight: 600;
     letter-spacing: -0.01em;
     min-width: 0;
@@ -1480,8 +1501,8 @@ kbd {
 }
 
 .tool-desc {
-    font-size: 0.8125rem;
-    line-height: 1.5;
+    font-size: var(--type-sm);
+    line-height: 1.6;
     color: var(--text-2);
 }
 
@@ -1508,7 +1529,7 @@ kbd {
     display: inline-block;
     margin-top: 1rem;
     font-family: var(--mono);
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     color: var(--text-3);
     background: var(--surface);
     border: 0.0625rem solid var(--border);
@@ -1521,13 +1542,13 @@ kbd {
     border: 0.0625rem solid var(--border);
     border-radius: 1rem;
     padding: 1.5rem;
-    font-size: 0.875rem;
+    font-size: var(--type-sm);
     color: var(--text-2);
 }
 
 .noscript-note code {
     font-family: var(--mono);
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     color: var(--green);
 }
 
@@ -1543,7 +1564,7 @@ kbd {
 }
 
 .section-title {
-    font-size: 2.0625rem;
+    font-size: var(--type-2xl);
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.15;
@@ -1551,7 +1572,7 @@ kbd {
 }
 
 .section-description {
-    font-size: 0.9375rem;
+    font-size: var(--type-base);
     line-height: 1.6;
     color: var(--text-2);
 }
@@ -1579,7 +1600,7 @@ kbd {
 
 .how-num {
     font-family: var(--mono);
-    font-size: 0.8125rem;
+    font-size: var(--type-sm);
     font-weight: 500;
     color: var(--accent);
     flex-shrink: 0;
@@ -1594,7 +1615,7 @@ kbd {
 }
 
 .step-card p {
-    font-size: 0.875rem;
+    font-size: var(--type-sm);
     line-height: 1.6;
     color: var(--text-2);
 }
@@ -1603,7 +1624,7 @@ kbd {
     margin: 3rem auto 0;
     max-width: 35rem;
     text-align: center;
-    font-size: 0.8125rem;
+    font-size: var(--type-sm);
     line-height: 1.7;
     color: var(--text-3);
 }
@@ -1611,7 +1632,7 @@ kbd {
 .how-note code,
 .step-card code {
     font-family: var(--mono);
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     background: var(--surface);
     border: 0.0625rem solid var(--border);
     padding: 0.0625rem 0.375rem;
@@ -1635,7 +1656,7 @@ kbd {
 }
 
 .footer-nav a {
-    font-size: 0.9375rem;
+    font-size: var(--type-base);
     font-weight: 600;
     color: var(--text);
     text-decoration: none;
@@ -1681,7 +1702,7 @@ kbd {
     justify-content: center;
     flex-wrap: wrap;
     gap: 0.25rem;
-    font-size: 0.8125rem;
+    font-size: var(--type-sm);
     color: var(--text-3);
 }
 
@@ -1749,7 +1770,7 @@ kbd {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--green);
+    color: var(--cta-green);
     background: linear-gradient(135deg, var(--green-soft), var(--green-faint));
     border: 0.0625rem solid var(--green-glow);
     border-radius: 50%;
@@ -1777,7 +1798,35 @@ kbd {
 }
 
 .steps-page h1 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: clamp(var(--type-2xl), 5vw, var(--type-5xl));
+}
+
+.next-steps-callout {
+    width: calc(100% - 3rem);
+    max-width: 42.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin: -1rem auto 3rem;
+    padding: 1rem 1.25rem;
+    color: var(--text-2);
+    font-size: var(--type-base);
+    line-height: 1.6;
+    background: var(--accent-soft);
+    border: 0.0625rem solid var(--accent-border);
+    border-radius: 0.75rem;
+}
+
+.next-steps-callout svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: 0 0 auto;
+    margin-top: 0.1875rem;
+    color: var(--accent);
+}
+
+.next-steps-callout strong {
+    color: var(--text);
 }
 
 .steps {
@@ -1800,7 +1849,7 @@ kbd {
 }
 
 .steps h2 {
-    font-size: 1.3125rem;
+    font-size: var(--type-lg);
     font-weight: 600;
     letter-spacing: -0.02em;
     margin-bottom: 1rem;
@@ -1809,8 +1858,16 @@ kbd {
 .steps p,
 .steps li {
     color: var(--text-2);
-    font-size: 1rem;
+    font-size: var(--type-base);
     line-height: 1.7;
+}
+
+.steps p {
+    margin-bottom: 1rem;
+}
+
+.steps p:last-child {
+    margin-bottom: 0;
 }
 
 .steps ul {
@@ -1829,7 +1886,7 @@ kbd {
     left: 0;
     color: var(--accent);
     font-family: var(--mono);
-    font-size: 0.8125rem;
+    font-size: var(--type-sm);
     top: 0.1875rem;
 }
 
@@ -1861,7 +1918,7 @@ kbd {
 
 .steps pre code {
     font-family: var(--mono);
-    font-size: 0.8125rem;
+    font-size: var(--type-sm);
     line-height: 1.7;
     color: var(--text);
     background: none;
@@ -1871,7 +1928,7 @@ kbd {
 
 .steps code {
     font-family: var(--mono);
-    font-size: 0.8125rem;
+    font-size: var(--type-sm);
     background: var(--surface);
     border: 0.0625rem solid var(--border);
     padding: 0.0625rem 0.375rem;
@@ -1882,7 +1939,7 @@ kbd {
 .steps table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.875rem;
+    font-size: var(--type-sm);
     margin: 1rem 0;
 }
 
@@ -1895,7 +1952,7 @@ kbd {
 .steps th {
     color: var(--text-3);
     font-family: var(--mono);
-    font-size: 0.75rem;
+    font-size: var(--type-xs);
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -1926,7 +1983,7 @@ kbd {
 }
 
 .docs-sidebar a {
-    font-size: 0.875rem;
+    font-size: var(--type-sm);
     font-weight: 500;
     color: var(--text-2);
     text-decoration: none;
@@ -1972,7 +2029,7 @@ kbd {
         background: var(--surface);
         border: 0.0625rem solid var(--border);
         border-radius: 62.4375rem;
-        font-size: 0.8125rem;
+        font-size: var(--type-sm);
     }
 }
 

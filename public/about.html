@@ -19,7 +19,7 @@
 <meta name="twitter:title" content="About. Vibe Toolbox">
 <meta name="twitter:description" content="Why Vibe Toolbox exists: one command that sets up a Mac for building with AI coding agents, with nothing installed that you did not pick.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a78bfa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z'/><path d='M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12'/><path d='M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17'/></svg>">
-<link rel="stylesheet" href="styles.css?v=7886c8aed76f">
+<link rel="stylesheet" href="styles.css?v=0e5fc78dacd8">
 </head>
 <body class="steps-page">
   <div class="ambient"></div>
@@ -62,8 +62,7 @@
       <div class="container">
         <h1>Hours of setup, <em>gone.</em></h1>
         <p class="hero-sub">
-          Setting up a Mac for agentic coding by hand takes hours, and you will
-          forget something. This bootstraps you in minutes.
+          Setting up a Mac for agentic coding takes hours. This gets it done in minutes.
         </p>
       </div>
     </section>
@@ -71,36 +70,37 @@
     <div class="steps">
       <section>
         <h2>The problem</h2>
-        <p>A working setup means a terminal, Homebrew, runtimes, git, an agent, editors, and a dozen small tools, each with its own install steps and config. Do it manually and it eats your afternoon; miss one PATH line and half of it silently breaks. That is true whether you are a designer, a PM, or a developer unboxing a new machine.</p>
-        <p>Vibe Toolbox compresses all of it into one pasted command. Pick what you want on the website, paste, and start working right away.</p>
+        <p>A useful coding setup needs a terminal, Homebrew, runtimes, git, an agent, an editor, and a handful of smaller tools. Installing each piece by hand can take an afternoon, and one missed PATH line can leave half the setup broken.</p>
+        <p><strong class="brand-inline">vibetoolbox</strong> turns your choices into one command, so you can spend that time building instead.</p>
       </section>
 
       <section>
         <h2>You choose everything</h2>
-        <p>Nothing installs behind your back. The picker builds a command that encodes your exact selection in a short link. The same selection always produces the same link, so you can share it with a teammate and they get the same setup.</p>
-        <p>Dependencies come along automatically. Pick a tool that needs Bun and Bun joins the list, visible in your toolbox before you copy anything.</p>
+        <p>You choose every tool on the site. <strong class="brand-inline">vibetoolbox</strong> encodes that selection in a short link, and the same selection always produces the same link, making setups easy to save or share.</p>
+        <p>Required dependencies stay visible. If a tool needs Bun, Bun appears in your toolbox before you copy the command.</p>
       </section>
 
       <section>
         <h2>Idempotent by design</h2>
-        <p>Re-running your command is always safe. Anything already installed is detected and skipped, never reinstalled or overwritten. It fixes what is missing and touches nothing else, which makes the same command your installer, your repair tool, and your onboarding link for the next machine.</p>
-        <p>Defaults stay safe too: shell aliases are guarded so any subset produces a working terminal, and the <code>c</code> shortcut starts Claude Code with its safer auto permission mode rather than full bypass.</p>
+        <p>Re-running the command is safe. Installed tools are skipped, missing pieces are repaired, and your existing setup stays in place.</p>
+        <p>Shell aliases activate only when their command exists. The <code>c</code> shortcut starts Claude Code with its safer auto permission mode.</p>
       </section>
 
       <section>
         <h2>Easy to undo</h2>
-        <p>Run your command with <code>--uninstall</code> and the toolbox removes only its configuration, its update job, and its shell additions. The tools themselves and your projects stay where they are.</p>
+        <p><code>--uninstall</code> removes the <strong class="brand-inline">vibetoolbox</strong> config, scheduled update job, and shell additions. Your installed tools and projects stay where they are.</p>
       </section>
 
       <section>
         <h2>Why purple and green</h2>
-        <p>The purple is a nod to Gentoo Linux. I ran Gentoo in 2004 and have liked its visual identity ever since. It made a technical system feel considered and recognizable, and that mood fits a toolbox built for people learning their way around a terminal.</p>
-        <p>The interface keeps purple for navigation, selection, and emphasis. Bright green belongs to the install command, giving the page one obvious primary action. Everything else stays neutral and follows your system’s light or dark appearance.</p>
+        <p>The purple is a small nod to <a href="https://www.gentoo.org/" rel="noopener">Gentoo Linux</a>. I used Gentoo in 2004 and have always liked its distinct visual identity.</p>
+        <p>Purple has since become the default color of the vibecoded era, which is a bit of a pity. A purple <strong class="brand-inline">vibetoolbox</strong> is also too funny to resist.</p>
+        <p>Purple carries navigation, selection, and emphasis, while bright green is reserved for the install command. The site follows your Mac's light or dark setting.</p>
       </section>
 
       <section>
         <h2>Practical over clever</h2>
-        <p>The whole point is removing obstacles between you and agentic coding tools. No framework, no account, no daemon watching you. Plain bash you can read before you run it, MIT licensed, in <a href="https://github.com/bitbonsai/vibetoolbox" rel="noopener">one repository on GitHub</a>. Simple to start, easy to keep, fun to use.</p>
+        <p><strong class="brand-inline">vibetoolbox</strong> removes setup work and stays easy to inspect. The installer is plain Bash, works without an account or daemon, and is MIT licensed in <a href="https://github.com/bitbonsai/vibetoolbox" rel="noopener">one repository on GitHub</a>.</p>
       </section>
     </div>
   </main>

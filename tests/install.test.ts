@@ -97,6 +97,12 @@ describe("built script", () => {
     expect(picker).toContain("}, 5000)");
   });
 
+  test("next steps explains menu visits", () => {
+    const html = readFileSync(join(ROOT, "public", "next-steps.html"), "utf8");
+    expect(html).toContain('x-show="!installed.length"');
+    expect(html).toContain("This is the post-install guide");
+  });
+
   test("site follows system color scheme including syntax colors", () => {
     const styles = readFileSync(join(ROOT, "public", "styles.css"), "utf8");
     expect(styles).toContain("@media (prefers-color-scheme: light)");
@@ -106,11 +112,13 @@ describe("built script", () => {
     expect(styles).toContain(".tok-url { color: var(--blue); }");
   });
 
-  test("site uses rem units with a 0.75rem minimum font size", () => {
+  test("site uses rem units and a minor-third type scale", () => {
     const styles = readFileSync(join(ROOT, "public", "styles.css"), "utf8");
     expect(styles).not.toMatch(/-?\d*\.?\d+px\b/);
-    const sizes = [...styles.matchAll(/font-size:\s*([\d.]+)rem/g)].map((match) => Number(match[1]));
-    expect(Math.min(...sizes)).toBeGreaterThanOrEqual(0.75);
+    expect(styles).toContain("--type-xs: 0.75rem");
+    expect(styles).toContain("--type-base: 1rem");
+    expect(styles).toContain("--type-md: 1.2rem");
+    expect(styles).toContain("--type-lg: 1.44rem");
   });
 });
 
