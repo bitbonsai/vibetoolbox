@@ -115,6 +115,8 @@ vibetoolbox/
   spacing so brand version stays visible without horizontal overflow.
 - Shell syntax highlighting is one tokenizer implemented twice: build.ts
   (static pre/code at render) + picker.js `hl()` (Alpine x-html). Change both.
+- `scripts/ship.ts` ignores `-y`; `yes | bun run ship` floods Clack and hangs.
+  Use TTY automation; send Enter after `test passed`.
 
 ## Carried gotchas (from the v3 ancestor)
 

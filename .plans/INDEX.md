@@ -12,8 +12,8 @@
 
 ## Recently shipped
 
+- Original purple theme with vivid green install CTA
+- Minor-third rem type scale, stronger contrast, and improved prose spacing
+- About-page rewrite with Gentoo rationale and branded `vibetoolbox` mentions
+- Menu-only Next Steps context callout; installer links stay personalized
 - Tools search, card detail links, and deep-linked `/tools?tool=<id>` dialogs
-- Automatic light/dark theme with adaptive syntax colors and brand icons
-- Animated page-menu strip with desktop labels and mobile-safe cart timing
-- Three-column desktop setup steps and local server default on port 9100
-- Site redesign v3: Alpine picker, nav cart + guide dialog, partials build, clean URLs
