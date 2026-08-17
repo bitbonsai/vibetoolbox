@@ -30,6 +30,9 @@
     --accent-border: rgba(167, 139, 250, 0.3);
     --accent-selected-border: rgba(167, 139, 250, 0.5);
     --accent-contrast: #14092b;
+    --cta-green: #25ef79;
+    --cta-green-hover: #4af38f;
+    --cta-green-contrast: #05140b;
     --green: #4ade80;
     --green-subtle: rgba(74, 222, 128, 0.08);
     --green-soft: rgba(74, 222, 128, 0.15);
@@ -87,6 +90,9 @@
         --accent-border: rgba(109, 40, 217, 0.24);
         --accent-selected-border: rgba(109, 40, 217, 0.38);
         --accent-contrast: #ffffff;
+        --cta-green: #10c968;
+        --cta-green-hover: #0bb75b;
+        --cta-green-contrast: #052012;
         --green: #16763f;
         --green-subtle: rgba(22, 118, 63, 0.07);
         --green-soft: rgba(22, 118, 63, 0.12);
@@ -300,13 +306,13 @@ main,
         opacity 0.15s ease 0.72s,
         max-width 0.25s ease 0.65s,
         padding 0.25s ease 0.65s;
-    background: var(--accent-button);
+    background: var(--cta-green);
     border: none;
-    color: var(--cta-text);
+    color: var(--cta-green-contrast);
 }
 
 .nav-cta:hover:not(:disabled) {
-    background: var(--accent-button-hover);
+    background: var(--cta-green-hover);
 }
 
 .nav-cta.menu-hidden {
