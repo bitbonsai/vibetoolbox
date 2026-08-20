@@ -11,7 +11,7 @@
  * Shibumi config. Webhook secrets stay on the server and pass directly to GitHub CLI.
  */
 
-import { cancel, confirm, intro, isCancel, log, outro, select, spinner, text } from "@clack/prompts";
+import { cancel, confirm, intro, isCancel, log, outro, select, spinner as animatedSpinner, text } from "@clack/prompts";
 import { chmod, copyFile, mkdir, mkdtemp, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { createConnection } from "node:net";
@@ -25,7 +25,7 @@ const SERVER_HOSTNAME = /^[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?$/;
 const COMMIT = /^[a-f0-9]{40}$/;
 const SERVER_CLI = "~/.local/bin/shibumi-server";
 const LATEST_SOURCE = "https://shibumistack.dev/ship/latest.ts";
-const CURRENT_SOURCE = "https://shibumistack.dev/ship/v35.ts";
+const CURRENT_SOURCE = "https://shibumistack.dev/ship/v36.ts";
 let sshControlDirectory: string | undefined;
 let sshControlTarget: string | undefined;
 const accent = (value: string) => process.stdout.isTTY && !("NO_COLOR" in process.env) && process.env.TERM !== "dumb"
@@ -93,6 +93,22 @@ let agentRun = false;
 export function isAgentExecution(env: NodeJS.ProcessEnv = process.env, stdinTTY = Boolean(process.stdin.isTTY), stdoutTTY = Boolean(process.stdout.isTTY)): boolean {
   return !stdinTTY || !stdoutTTY || env.PI_CODING_AGENT === "true" || env.CLAUDECODE === "1"
     || Object.keys(env).some((key) => /^(?:CODEX_|CURSOR_AGENT|AIDER_)/.test(key));
+}
+
+export function shouldAnimateProgress(agentExecution: boolean, stdoutTTY: boolean): boolean {
+  return !agentExecution && stdoutTTY;
+}
+
+function spinner(): ReturnType<typeof animatedSpinner> {
+  if (shouldAnimateProgress(agentRun, Boolean(process.stdout.isTTY))) return animatedSpinner();
+  const write = (message?: string, error = false) => {
+    if (message) (error ? process.stderr : process.stdout).write(`${message}\n`);
+  };
+  return {
+    start: (message) => write(message),
+    message: (message) => write(message),
+    stop: (message, code) => write(message, Boolean(code)),
+  };
 }
 
 export function parseShipArgs(args: string[]): ShipOptions {
