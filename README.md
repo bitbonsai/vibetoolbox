@@ -26,9 +26,9 @@ curl -fsSL https://vibetoolbox.dev/install.sh | bash -s -- --all
 | Terminal | Ghostty, JetBrains Mono Nerd Font, Starship |
 | AI coding | Claude Code, Codex CLI, Pi, OpenCode, Crush, Herdr, Orca, ccpeek, Caveman, Agent Browser |
 | Editors | Zed, Cursor, Visual Studio Code |
-| Git & GitHub | git, GitHub CLI, lazygit, delta |
+| Git & GitHub | git, GitHub CLI, lazygit, Worktrunk, delta |
 | CLI comforts | eza, bat, zoxide, fzf, ripgrep, fd, btop, mkcert, jq, trash-cli |
-| Runtimes | Node.js, Bun |
+| Runtimes | Node.js, Bun, uv |
 | Mac apps | Shottr, Handy |
 
 Everything is opt-in. Dependencies resolve automatically (pick trash-cli, get

@@ -54,10 +54,11 @@ vibetoolbox/
 - **Selection priority:** baked `VTB_SELECTION` (from /i/<slug>) > `--with`/
   `--all` > saved `VTB_SELECTED` from last run. Unknown ids warn and drop.
 - **Dependency expansion** in both picker.js and selection.sh (requires field):
-  pi/opencode/crush/trash-cli need bun; caveman needs claude-code.
+  pi/opencode/crush/trash-cli/caveman need bun.
 - **Install kinds:** brew, cask (app field for detection), curl (Claude Code
-  official installer), bun (`bun i -g`), plugin (Claude Code marketplace).
-  Phase order matters: brew (incl. runtimes) → cask → curl → bun → plugin.
+  official installer), bun (`bun i -g`), plugin. Caveman installs as Claude
+  plugin when Claude Code is selected, otherwise as agent skill. Phase order:
+  brew (incl. runtimes) → cask → curl → bun → plugin.
 - **Taps:** targets like `user/tap/formula` auto-tap + `brew trust` (Homebrew 6,
   guarded for older). Used by orca (stablyai/orca) and ccpeek (ahmedelgabri/tap).
 - **Slugs are content-addressed:** sha256 of the sorted id list, first 10 hex
@@ -115,8 +116,8 @@ vibetoolbox/
   spacing so brand version stays visible without horizontal overflow.
 - Shell syntax highlighting is one tokenizer implemented twice: build.ts
   (static pre/code at render) + picker.js `hl()` (Alpine x-html). Change both.
-- `scripts/ship.ts` ignores `-y`; `yes | bun run ship` floods Clack and hangs.
-  Use TTY automation; send Enter after `test passed`.
+- Stale `scripts/ship.ts` can omit prebuilt identity labels and fail with `prebuilt image app identity does not match`. Run `bun run ship:update`, commit, retry.
+- `yes | bun run ship` floods Clack. Current ship client detects agent runs and auto-approves; run command directly.
 
 ## Carried gotchas (from the v3 ancestor)
 
