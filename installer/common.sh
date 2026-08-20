@@ -306,6 +306,10 @@ check_claude_plugin() {
     claude plugin list 2>/dev/null | grep -qi "$plugin"
 }
 
+check_agent_skill() {
+    [[ -f "$HOME/.agents/skills/$1/SKILL.md" ]]
+}
+
 check_autoupdate_agent() {
     [[ -f "$HOME/Library/LaunchAgents/dev.vibetoolbox.update.plist" ]] \
         && [[ -f "$HOME/.config/vibetoolbox/update.sh" ]]

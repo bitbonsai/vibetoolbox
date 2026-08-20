@@ -53,15 +53,15 @@
       "ghostty",
       "nerd-font",
       "starship",
-      "claude-code",
       "pi",
-      "opencode",
-      "herdr",
       "caveman",
+      "herdr",
+      "agent-browser",
       "zed",
       "git",
       "gh",
       "lazygit",
+      "worktrunk",
       "git-delta",
       "eza",
       "bat",
@@ -73,7 +73,9 @@
       "fd",
       "btop",
       "node",
-      "bun"
+      "bun",
+      "uv",
+      "shottr"
     ]
   },
   "tools": [
@@ -86,7 +88,7 @@
       "app": "Ghostty",
       "url": "https://ghostty.org",
       "desc": "Fast, GPU-accelerated terminal. The home for everything else here.",
-      "more": "A terminal is where you talk to your Mac and where coding agents live. Ghostty is fast, native, and arrives preconfigured with a good theme, font, and keybindings, so it feels friendly from the first launch.",
+      "more": "A terminal is where you talk to your Mac and where coding agents live. On a fresh setup, Ghostty gets a good theme, font, keybindings, and ~/dev as its starting folder. Starting agents there focuses them on projects and reduces accidental exposure to personal files in your home folder. Existing Ghostty configs stay untouched.",
       "why": "Terminals all look alike until you use a good one. Ghostty is the first in years that feels genuinely native on a Mac, built by Mitchell Hashimoto, who has taste."
     },
     {
@@ -231,11 +233,11 @@
       "kind": "plugin",
       "target": "JuliusBrussee/caveman",
       "requires": [
-        "claude-code"
+        "bun"
       ],
       "url": "https://github.com/JuliusBrussee/caveman",
-      "desc": "Claude Code plugin: ultra-compressed replies, ~75% fewer tokens.",
-      "more": "A Claude Code plugin that compresses replies to caveman-speak, cutting roughly 75% of output tokens. Same technical content, far fewer words, lower bills.",
+      "desc": "Agent add-on: ultra-compressed replies, ~75% fewer tokens.",
+      "more": "Compresses replies to caveman-speak, cutting roughly 75% of output tokens. Vibe Toolbox installs the Claude Code plugin when Claude Code is selected, or the agent skill for Pi and other agents otherwise.",
       "why": "Cutting three quarters of output tokens is a free lunch for your bill. The terser replies are also quicker to read, so working with the agent feels more direct."
     },
     {
@@ -329,6 +331,23 @@
       "more": "A visual git interface in your terminal: stage, commit, branch, and undo with single keys. Git without memorizing git.",
       "try": "lg",
       "why": "The fastest way to build git intuition: you watch the state change as you press keys. The undo key alone justifies it."
+    },
+    {
+      "id": "worktrunk",
+      "name": "Worktrunk",
+      "category": "git",
+      "kind": "brew",
+      "target": "worktrunk",
+      "bin": "wt",
+      "requires": [
+        "bun"
+      ],
+      "post": "wt config shell install && bunx skills add max-sixty/worktrunk@worktrunk -g -y",
+      "url": "https://worktrunk.dev",
+      "desc": "Git worktrees made practical for running coding agents in parallel.",
+      "more": "Work on several branches at once without stashing or cloning the repo again. Worktrunk creates, switches, lists, merges, and removes git worktrees with short commands built for parallel agent workflows. Its official agent skill and shell integration are installed automatically.",
+      "try": "wt switch -c my-feature",
+      "why": "Git worktrees are ideal for parallel agents, but raw worktree commands are awkward. Worktrunk turns the whole workflow into a few commands you can remember."
     },
     {
       "id": "git-delta",
@@ -488,6 +507,18 @@
       "desc": "Fast JavaScript runtime and package manager.",
       "more": "A fast all-in-one JavaScript runtime and package manager. Several tools in this box install through it, and bun i is npm install at double speed.",
       "why": "Dramatically faster installs, and it replaces three separate JavaScript tools. This toolbox uses it for its own installs."
+    },
+    {
+      "id": "uv",
+      "name": "uv",
+      "category": "runtimes",
+      "kind": "brew",
+      "target": "uv",
+      "url": "https://docs.astral.sh/uv/",
+      "desc": "Fast Python package, project, and runtime manager.",
+      "more": "Installs Python versions, manages project dependencies, and runs Python tools without the usual setup maze. One fast command replaces pip, pipx, virtualenv, and pyenv for most everyday work.",
+      "try": "uv init my-python-project",
+      "why": "Modern Python tooling in one command. It is dramatically faster than pip and removes several overlapping tools beginners would otherwise need to learn."
     },
     {
       "id": "shottr",

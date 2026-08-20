@@ -18,7 +18,13 @@ _tool_installed() {
         cask)   check_cask_app "$target" "$app" ;;
         bun)    check_bin "${bin:-$target}" ;;
         curl)   [[ -n "$bin" ]] && check_bin "$bin" ;;
-        plugin) check_claude_plugin "$id" ;;
+        plugin)
+            if [[ "$id" == "caveman" ]] && ! selection_has "claude-code"; then
+                check_agent_skill "$id"
+            else
+                check_claude_plugin "$id"
+            fi
+            ;;
         *)      return 1 ;;
     esac
 }
@@ -36,12 +42,11 @@ _ensure_tap() {
 
 _install_tool() {
     local id="$1"
-    local kind target bin name post
+    local kind target bin name
     kind="$(catalog_field "$id" 2)"
     target="$(catalog_field "$id" 3)"
     bin="$(catalog_field "$id" 5)"
     name="$(catalog_field "$id" 6)"
-    post="$(catalog_field "$id" 8)"
 
     print_step "Installing ${name}..."
 
@@ -68,17 +73,14 @@ _install_tool() {
             export PATH="$HOME/.local/bin:$PATH"
             ;;
         plugin)
-            if check_claude_code; then
+            if [[ "$id" == "caveman" ]] && ! selection_has "claude-code"; then
+                bunx skills add "$target" -g -y -s "$id" </dev/null &>/dev/null || true
+            elif check_claude_code; then
                 claude plugin marketplace add "$target" </dev/null &>/dev/null || true
                 claude plugin install "${id}@${id}" </dev/null &>/dev/null || true
             fi
             ;;
     esac
-
-    # Optional post-install step from the catalog (e.g. agent-browser install)
-    if [[ -n "$post" ]] && _tool_installed "$id"; then
-        bash -c "$post" </dev/null &>/dev/null || true
-    fi
 
     if _tool_installed "$id"; then
         print_success "$name"
@@ -92,7 +94,13 @@ _install_tool() {
             cask)   track_warn "$name" "run: brew install --cask $target" ;;
             bun)    track_warn "$name" "run: bun install -g $target" ;;
             curl)   track_warn "$name" "run: curl -fsSL $target | bash" ;;
-            plugin) track_warn "$name" "run: claude plugin install ${id}@${id}" ;;
+            plugin)
+                if [[ "$id" == "caveman" ]] && ! selection_has "claude-code"; then
+                    track_warn "$name" "run: bunx skills add $target -g -y -s $id"
+                else
+                    track_warn "$name" "run: claude plugin install ${id}@${id}"
+                fi
+                ;;
         esac
     fi
 }
@@ -138,6 +146,13 @@ do_install_tools() {
                 _install_tool "$id"
             done
         done
+
+        # Run optional setup only after every dependency is installed.
+        local post
+        for id in "${_needs[@]}"; do
+            post="$(catalog_field "$id" 8)"
+            [[ -n "$post" ]] && _tool_installed "$id" && bash -c "$post" </dev/null &>/dev/null || true
+        done
         echo ""
     fi
 
@@ -148,13 +163,15 @@ do_write_configs() {
     echo -e "${BOLD}Configuration${NC}"
     echo ""
 
-    # Ghostty config (only when Ghostty is part of the selection; always
-    # rewritten, 1 rolling backup)
+    # Seed Ghostty only on fresh setups. Existing config belongs to user.
     if selection_has "ghostty"; then
-        print_step "Configuring Ghostty..."
         mkdir -p ~/.config/ghostty
-        [[ -f ~/.config/ghostty/config ]] && cp ~/.config/ghostty/config ~/.config/ghostty/config.backup
-        cat > ~/.config/ghostty/config << 'GHOSTTY_EOF'
+        if [[ -f ~/.config/ghostty/config ]]; then
+            print_success "Ghostty config ${DIM}(existing, unchanged)${NC}"
+            log "OK: Existing Ghostty config left unchanged"
+        else
+            print_step "Configuring Ghostty..."
+            cat > ~/.config/ghostty/config << 'GHOSTTY_EOF'
 theme = light:catppuccin latte,dark:catppuccin mocha
 background-opacity = 0.9
 macos-titlebar-style = transparent
@@ -169,13 +186,13 @@ keybind = global:cmd+grave_accent=toggle_quick_terminal
 font-family = "JetBrainsMono Nerd Font"
 font-size = 16
 keybind = shift+enter=text:\x1b\r
+
+# Keep agent sessions focused on project files, away from personal files in ~/
+working-directory = ~/dev
 GHOSTTY_EOF
-        # Append working-directory setting
-        echo '' >> ~/.config/ghostty/config
-        echo '# Default working directory' >> ~/.config/ghostty/config
-        echo "working-directory = $HOME/dev" >> ~/.config/ghostty/config
-        print_success "Ghostty config"
-        log "OK: Ghostty config written"
+            print_success "Ghostty config"
+            log "OK: Ghostty config written"
+        fi
         track_ok "Ghostty config"
     fi
 

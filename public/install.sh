@@ -318,6 +318,10 @@ check_claude_plugin() {
     claude plugin list 2>/dev/null | grep -qi "$plugin"
 }
 
+check_agent_skill() {
+    [[ -f "$HOME/.agents/skills/$1/SKILL.md" ]]
+}
+
 check_autoupdate_agent() {
     [[ -f "$HOME/Library/LaunchAgents/dev.vibetoolbox.update.plist" ]] \
         && [[ -f "$HOME/.config/vibetoolbox/update.sh" ]]
@@ -340,7 +344,7 @@ CATALOG=(
     "herdr|brew|herdr|||Herdr||"
     "orca|cask|stablyai/orca/orca|Orca||Orca||"
     "ccpeek|brew|ahmedelgabri/tap/ccpeek||ccpeek|ccpeek||"
-    "caveman|plugin|JuliusBrussee/caveman|||Caveman|claude-code|"
+    "caveman|plugin|JuliusBrussee/caveman|||Caveman|bun|"
     "agent-browser|bun|agent-browser||agent-browser|Agent Browser|bun|agent-browser install"
     "zed|cask|zed|Zed||Zed||"
     "cursor|cask|cursor|Cursor||Cursor||"
@@ -348,6 +352,7 @@ CATALOG=(
     "git|brew|git|||Git||"
     "gh|brew|gh|||GitHub CLI||"
     "lazygit|brew|lazygit|||lazygit||"
+    "worktrunk|brew|worktrunk||wt|Worktrunk|bun|wt config shell install && bunx skills add max-sixty/worktrunk@worktrunk -g -y"
     "git-delta|brew|git-delta||delta|delta||"
     "eza|brew|eza|||eza||"
     "bat|brew|bat|||bat||"
@@ -361,6 +366,7 @@ CATALOG=(
     "trash-cli|bun|trash-cli||trash|trash-cli|bun|"
     "node|brew|node|||Node.js||"
     "bun|brew|bun|||Bun||"
+    "uv|brew|uv|||uv||"
     "shottr|cask|shottr|Shottr.app||Shottr||"
     "handy|cask|handy|Handy.app||Handy||"
 )
@@ -369,7 +375,7 @@ CATALOG=(
 # SELECTION
 # =============================================================================
 # CATALOG is generated from catalog.json by scripts/build.ts (catalog.sh).
-# Each entry: "id|kind|target|app|bin|name|requires"
+# Each entry: "id|kind|target|app|bin|name|requires|post"
 # Selection sources, in priority order:
 #   1. VTB_SELECTION  — baked in by the vibetoolbox.dev server (/i/<slug> URLs)
 #   2. --with a,b,c   — CLI flag (also --all)
@@ -379,7 +385,7 @@ CATALOG=(
 SELECTED_IDS=()
 
 catalog_field() {
-    # catalog_field <id> <field-number>  (1=id 2=kind 3=target 4=app 5=bin 6=name 7=requires)
+    # Fields: 1=id 2=kind 3=target 4=app 5=bin 6=name 7=requires 8=post
     local id="$1"
     local n="$2"
     local entry
@@ -677,7 +683,13 @@ _tool_installed() {
         cask)   check_cask_app "$target" "$app" ;;
         bun)    check_bin "${bin:-$target}" ;;
         curl)   [[ -n "$bin" ]] && check_bin "$bin" ;;
-        plugin) check_claude_plugin "$id" ;;
+        plugin)
+            if [[ "$id" == "caveman" ]] && ! selection_has "claude-code"; then
+                check_agent_skill "$id"
+            else
+                check_claude_plugin "$id"
+            fi
+            ;;
         *)      return 1 ;;
     esac
 }
@@ -695,12 +707,11 @@ _ensure_tap() {
 
 _install_tool() {
     local id="$1"
-    local kind target bin name post
+    local kind target bin name
     kind="$(catalog_field "$id" 2)"
     target="$(catalog_field "$id" 3)"
     bin="$(catalog_field "$id" 5)"
     name="$(catalog_field "$id" 6)"
-    post="$(catalog_field "$id" 8)"
 
     print_step "Installing ${name}..."
 
@@ -727,17 +738,14 @@ _install_tool() {
             export PATH="$HOME/.local/bin:$PATH"
             ;;
         plugin)
-            if check_claude_code; then
+            if [[ "$id" == "caveman" ]] && ! selection_has "claude-code"; then
+                bunx skills add "$target" -g -y -s "$id" </dev/null &>/dev/null || true
+            elif check_claude_code; then
                 claude plugin marketplace add "$target" </dev/null &>/dev/null || true
                 claude plugin install "${id}@${id}" </dev/null &>/dev/null || true
             fi
             ;;
     esac
-
-    # Optional post-install step from the catalog (e.g. agent-browser install)
-    if [[ -n "$post" ]] && _tool_installed "$id"; then
-        bash -c "$post" </dev/null &>/dev/null || true
-    fi
 
     if _tool_installed "$id"; then
         print_success "$name"
@@ -751,7 +759,13 @@ _install_tool() {
             cask)   track_warn "$name" "run: brew install --cask $target" ;;
             bun)    track_warn "$name" "run: bun install -g $target" ;;
             curl)   track_warn "$name" "run: curl -fsSL $target | bash" ;;
-            plugin) track_warn "$name" "run: claude plugin install ${id}@${id}" ;;
+            plugin)
+                if [[ "$id" == "caveman" ]] && ! selection_has "claude-code"; then
+                    track_warn "$name" "run: bunx skills add $target -g -y -s $id"
+                else
+                    track_warn "$name" "run: claude plugin install ${id}@${id}"
+                fi
+                ;;
         esac
     fi
 }
@@ -797,6 +811,13 @@ do_install_tools() {
                 _install_tool "$id"
             done
         done
+
+        # Run optional setup only after every dependency is installed.
+        local post
+        for id in "${_needs[@]}"; do
+            post="$(catalog_field "$id" 8)"
+            [[ -n "$post" ]] && _tool_installed "$id" && bash -c "$post" </dev/null &>/dev/null || true
+        done
         echo ""
     fi
 
@@ -807,13 +828,15 @@ do_write_configs() {
     echo -e "${BOLD}Configuration${NC}"
     echo ""
 
-    # Ghostty config (only when Ghostty is part of the selection; always
-    # rewritten, 1 rolling backup)
+    # Seed Ghostty only on fresh setups. Existing config belongs to user.
     if selection_has "ghostty"; then
-        print_step "Configuring Ghostty..."
         mkdir -p ~/.config/ghostty
-        [[ -f ~/.config/ghostty/config ]] && cp ~/.config/ghostty/config ~/.config/ghostty/config.backup
-        cat > ~/.config/ghostty/config << 'GHOSTTY_EOF'
+        if [[ -f ~/.config/ghostty/config ]]; then
+            print_success "Ghostty config ${DIM}(existing, unchanged)${NC}"
+            log "OK: Existing Ghostty config left unchanged"
+        else
+            print_step "Configuring Ghostty..."
+            cat > ~/.config/ghostty/config << 'GHOSTTY_EOF'
 theme = light:catppuccin latte,dark:catppuccin mocha
 background-opacity = 0.9
 macos-titlebar-style = transparent
@@ -828,13 +851,13 @@ keybind = global:cmd+grave_accent=toggle_quick_terminal
 font-family = "JetBrainsMono Nerd Font"
 font-size = 16
 keybind = shift+enter=text:\x1b\r
+
+# Keep agent sessions focused on project files, away from personal files in ~/
+working-directory = ~/dev
 GHOSTTY_EOF
-        # Append working-directory setting
-        echo '' >> ~/.config/ghostty/config
-        echo '# Default working directory' >> ~/.config/ghostty/config
-        echo "working-directory = $HOME/dev" >> ~/.config/ghostty/config
-        print_success "Ghostty config"
-        log "OK: Ghostty config written"
+            print_success "Ghostty config"
+            log "OK: Ghostty config written"
+        fi
         track_ok "Ghostty config"
     fi
 
@@ -1282,6 +1305,19 @@ alias gco="git checkout"
 alias gcm="git commit -m"
 alias gaa="git add -A"
 alias zreload="source ~/.zshrc"
+zconf() {
+    if command -v zed >/dev/null 2>&1; then
+        zed "$HOME/.zshrc"
+    elif command -v cursor >/dev/null 2>&1; then
+        cursor "$HOME/.zshrc"
+    elif command -v code >/dev/null 2>&1; then
+        code "$HOME/.zshrc"
+    elif command -v nvim >/dev/null 2>&1; then
+        nvim "$HOME/.zshrc"
+    else
+        nano "$HOME/.zshrc"
+    fi
+}
 alias ..="cd .."
 alias ...="cd ../.."
 

@@ -2,7 +2,7 @@
 # SELECTION
 # =============================================================================
 # CATALOG is generated from catalog.json by scripts/build.ts (catalog.sh).
-# Each entry: "id|kind|target|app|bin|name|requires"
+# Each entry: "id|kind|target|app|bin|name|requires|post"
 # Selection sources, in priority order:
 #   1. VTB_SELECTION  — baked in by the vibetoolbox.dev server (/i/<slug> URLs)
 #   2. --with a,b,c   — CLI flag (also --all)
@@ -12,7 +12,7 @@
 SELECTED_IDS=()
 
 catalog_field() {
-    # catalog_field <id> <field-number>  (1=id 2=kind 3=target 4=app 5=bin 6=name 7=requires)
+    # Fields: 1=id 2=kind 3=target 4=app 5=bin 6=name 7=requires 8=post
     local id="$1"
     local n="$2"
     local entry

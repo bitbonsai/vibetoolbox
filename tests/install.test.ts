@@ -63,6 +63,26 @@ describe("built script", () => {
     expect(catalog.tools.find((tool: { id: string }) => tool.id === "eza").try).toBe("eza --code");
   });
 
+  test("recommended uses Pi and includes Worktrunk setup", () => {
+    const catalog = JSON.parse(readFileSync(join(ROOT, "catalog.json"), "utf8"));
+    const worktrunk = catalog.tools.find((tool: { id: string }) => tool.id === "worktrunk");
+    const caveman = catalog.tools.find((tool: { id: string }) => tool.id === "caveman");
+    expect(catalog.presets.recommended).toContain("pi");
+    expect(catalog.presets.recommended).not.toContain("claude-code");
+    expect(catalog.presets.recommended).not.toContain("opencode");
+    expect(catalog.presets.recommended).toContain("caveman");
+    expect(caveman.requires).toContain("bun");
+    expect(caveman.requires).not.toContain("claude-code");
+    expect(script()).toContain('bunx skills add "$target" -g -y -s "$id"');
+    expect(catalog.presets.recommended).toContain("worktrunk");
+    expect(catalog.presets.recommended).toContain("agent-browser");
+    expect(catalog.presets.recommended).toContain("shottr");
+    expect(catalog.presets.recommended).toContain("uv");
+    expect(catalog.tools.find((tool: { id: string }) => tool.id === "uv").target).toBe("uv");
+    expect(worktrunk.requires).toContain("bun");
+    expect(worktrunk.post).toContain("max-sixty/worktrunk@worktrunk");
+  });
+
   test("site assets use content hashes", () => {
     const html = readFileSync(join(ROOT, "public", "index.html"), "utf8");
     for (const asset of ["styles.css", "catalog.js", "picker.js", "alpine.min.js"]) {
@@ -101,6 +121,9 @@ describe("built script", () => {
     const html = readFileSync(join(ROOT, "public", "next-steps.html"), "utf8");
     expect(html).toContain('x-show="!installed.length"');
     expect(html).toContain("This is the post-install guide");
+    expect(html).toContain("Ghostty opens in <code>~/dev</code> instead of your home folder");
+    const source = readFileSync(join(ROOT, "site", "pages", "next-steps.html"), "utf8");
+    expect(source).toContain("working-directory = ~/dev");
   });
 
   test("site follows system color scheme including syntax colors", () => {
@@ -136,7 +159,7 @@ describe("selection", () => {
     expect(r.stdout).toContain("Unknown tool 'bogus'");
   });
 
-  test("resolve_selection pulls in dependencies transitively", () => {
+  test("resolve_selection pulls in and deduplicates dependencies", () => {
     const home = mkdtempSync(join(tmpdir(), "vtb-test-"));
     writeFileSync(join(home, "prelude.sh"), scriptPrelude());
     const r = runBash(
@@ -147,7 +170,8 @@ describe("selection", () => {
     expect(ids).toContain("trash-cli");
     expect(ids).toContain("bun");
     expect(ids).toContain("caveman");
-    expect(ids).toContain("claude-code");
+    expect(ids).not.toContain("claude-code");
+    expect(ids.filter((id) => id === "bun")).toHaveLength(1);
   });
 
   test("--all selects the whole catalog", () => {
@@ -196,12 +220,46 @@ describe("prefs", () => {
   });
 });
 
+describe("generated app config", () => {
+  test("Cursor selection installs its CLI", () => {
+    const s = script();
+    expect(s).toContain("/Applications/Cursor.app/Contents/Resources/app/bin/cursor");
+    expect(s).toContain('ln -sf "$cursor_cli" "$bin_dir/cursor"');
+  });
+
+  test("Ghostty starts fresh setups in ~/dev and preserves existing config", () => {
+    const home = mkdtempSync(join(tmpdir(), "vtb-test-"));
+    writeFileSync(join(home, "prelude.sh"), scriptPrelude());
+
+    const fresh = runBash(
+      `source "$HOME/prelude.sh"; resolve_selection "ghostty"; do_write_configs >/dev/null`,
+      { home },
+    );
+    expect(fresh.exitCode).toBe(0);
+    const configPath = join(home, ".config", "ghostty", "config");
+    expect(readFileSync(configPath, "utf8")).toContain("working-directory = ~/dev");
+
+    writeFileSync(configPath, "theme = custom\n");
+    const existing = runBash(
+      `source "$HOME/prelude.sh"; resolve_selection "ghostty"; do_write_configs >/dev/null`,
+      { home },
+    );
+    expect(existing.exitCode).toBe(0);
+    expect(readFileSync(configPath, "utf8")).toBe("theme = custom\n");
+  });
+});
+
 describe("generated shell config", () => {
   test("aliases are runtime-guarded and c never bypasses permissions", () => {
     const s = script();
     expect(s).toContain('command -v eza >/dev/null');
     expect(s).toContain('command -v rg >/dev/null');
     expect(s).toContain('alias c="claude --permission-mode auto"');
+    expect(s).toContain("zconf() {");
+    expect(s).toContain('zed "$HOME/.zshrc"');
+    expect(s).toContain('nvim "$HOME/.zshrc"');
+    expect(s).toContain('nano "$HOME/.zshrc"');
+    expect(s).not.toContain('open -t "$HOME/.zshrc"');
     expect(s).not.toContain("bypassPermissions");
     expect(s).not.toContain("dangerously-skip-permissions");
   });

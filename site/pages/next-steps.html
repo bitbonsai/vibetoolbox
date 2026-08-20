@@ -32,6 +32,14 @@
         <pre x-show="has('eza') || has('zoxide')"><code x-html="tryLines()"></code></pre>
       </section>
 
+      <section x-show="has('ghostty')">
+        <h2>Your projects start in ~/dev</h2>
+        <p>On a fresh setup, Ghostty opens in <code>~/dev</code> instead of your home folder. This keeps agent sessions focused on project files and reduces accidental exposure to personal files in <code>~/</code>.</p>
+        <p>If you already had a Ghostty config, Vibe Toolbox left it unchanged. To choose another starting folder, edit <code>~/.config/ghostty/config</code> and replace this line:</p>
+        <pre><code>working-directory = ~/dev</code></pre>
+        <p>Use another <code>~/...</code> path, use <code>home</code> to start in your home folder, or remove the line to restore Ghostty's default. Restart Ghostty after saving.</p>
+      </section>
+
       <section x-show="has('claude-code', 'codex', 'opencode', 'pi', 'crush')">
         <h2>Connect your AI agent</h2>
         <p>The agents you installed need an account to think with.</p>
@@ -71,6 +79,7 @@
           <tr x-show="has('zoxide')"><td><code>z somefolder</code></td><td>jump to a folder you have visited</td></tr>
           <tr x-show="has('fzf')"><td><code>ff</code></td><td>fuzzy-find files with preview</td></tr>
           <tr><td><code>update</code></td><td>run the weekly updater now</td></tr>
+          <tr><td><code>zconf</code></td><td>open ~/.zshrc in your editor</td></tr>
           <tr><td><code>zreload</code></td><td>reload shell config</td></tr>
         </table>
       </section>

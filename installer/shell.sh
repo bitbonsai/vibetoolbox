@@ -69,6 +69,19 @@ alias gco="git checkout"
 alias gcm="git commit -m"
 alias gaa="git add -A"
 alias zreload="source ~/.zshrc"
+zconf() {
+    if command -v zed >/dev/null 2>&1; then
+        zed "$HOME/.zshrc"
+    elif command -v cursor >/dev/null 2>&1; then
+        cursor "$HOME/.zshrc"
+    elif command -v code >/dev/null 2>&1; then
+        code "$HOME/.zshrc"
+    elif command -v nvim >/dev/null 2>&1; then
+        nvim "$HOME/.zshrc"
+    else
+        nano "$HOME/.zshrc"
+    fi
+}
 alias ..="cd .."
 alias ...="cd ../.."
 
