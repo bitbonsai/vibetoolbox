@@ -1,0 +1,27 @@
+# Vibe Toolbox
+
+> Open-source macOS environment installer for designers and PMs learning to code. Pick tools on the website, get a short content-addressed URL, paste one command in the terminal. Installs exactly that set, nothing else.
+
+- Selection is mandatory; all tools default off. Bare install prints a pointer to the picker and exits 0.
+- Slugs are content-addressed: sha256 of the sorted tool id list, first 10 hex chars. Same selection = same URL.
+- Install kinds: Homebrew formulae, casks, official curl installers, bun globals, agent plugins/skills. Dependencies auto-expand (e.g. pi, opencode, crush need bun).
+- Safe to re-run: only fixes what is missing. Soft-fail per tool; only Xcode CLT and Homebrew are fatal. Weekly self-update via launchd.
+- Aliases are runtime-guarded so any selection produces a working shell.
+
+## Pages
+
+- [Home / picker](https://vibetoolbox.dev/index.md): tool picker, presets, install command generator
+- [Tools](https://vibetoolbox.dev/tools.md): full catalog with per-tool rationale
+- [Docs](https://vibetoolbox.dev/docs.md): requirements, flags, uninstall, update behavior
+- [About](https://vibetoolbox.dev/about.md): why it exists
+- [Next steps](https://vibetoolbox.dev/next-steps.md): what to do in the first ten minutes after install
+
+## Machine-readable
+
+- [catalog.json](https://vibetoolbox.dev/catalog.json): single source of truth for tools, categories, presets
+- [install.sh](https://vibetoolbox.dev/install.sh): installer script (bash 3.2 compatible)
+
+## Source
+
+- [GitHub](https://github.com/bitbonsai/vibetoolbox)
+- [README.md](https://raw.githubusercontent.com/bitbonsai/vibetoolbox/main/README.md)

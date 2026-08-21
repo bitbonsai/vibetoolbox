@@ -172,3 +172,28 @@ for (const name of pageNames) {
 console.log(
   `Built public/install.sh from ${MODULES.length} modules (${catalog.tools.length} tools in catalog); rendered ${pageNames.length} pages`,
 );
+
+// --- Generate public/tools.md (llms.txt-friendly catalog dump) ---
+const mdLines: string[] = [
+  "# Vibe Toolbox tool catalog",
+  "",
+  `${catalog.tools.length} tools across ${catalog.categories.length} categories. Each lists what it is, why it is in the catalog, and how it installs.`,
+  "",
+];
+for (const cat of catalog.categories) {
+  const catTools = catalog.tools.filter((t: { category: string }) => t.category === cat.id);
+  if (!catTools.length) continue;
+  mdLines.push(`## ${cat.name}`, "");
+  for (const t of catTools) {
+    mdLines.push(`### ${t.name} (\`${t.id}\`)`, "", t.desc, "");
+    if (t.why) mdLines.push(`**Why:** ${t.why}`, "");
+    const req = t.requires?.length ? ` (requires ${t.requires.join(", ")})` : "";
+    mdLines.push(`- Install: ${t.kind} \`${t.target}\`${req}`, `- Homepage: ${t.url}`, "");
+  }
+}
+mdLines.push("## Presets", "");
+for (const [id, ids] of Object.entries(catalog.presets)) {
+  mdLines.push(`- **${id}**: ${(ids as string[]).join(", ")}`);
+}
+mdLines.push("");
+await Bun.write(join(ROOT, "public", "tools.md"), mdLines.join("\n"));
