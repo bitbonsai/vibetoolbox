@@ -837,7 +837,6 @@ h1 em {
     font-size: var(--type-md);
     line-height: 1.6;
     color: var(--text-2);
-    max-width: 35rem;
     margin: 0 auto 2.5rem;
     text-wrap: pretty;
 }

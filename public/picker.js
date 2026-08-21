@@ -229,6 +229,8 @@
     Alpine.data("picker", function () {
       return {
         catalog: window.VTB_CATALOG || { categories: [], tools: [], presets: {} },
+        isApple: /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent),
+        appleGlyph: "\uF8FF",
         selected: [],
         cartOpen: false,
         mobilePagesOpen: false,
